@@ -16,36 +16,63 @@
 package FroggerMVC;
 
 import javafx.application.Application;
+import javafx.event.EventHandler;
 import javafx.scene.Scene;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
 import javafx.stage.Stage;
 
 /**
  *
  * @author sms063
  */
-public class FroggerMain extends Application {
+public class FroggerMain extends Application implements EventHandler<KeyEvent> {
 
     private FroggerView theView;
+    private FroggerModel theModel;
 
     private FroggerController theController;
 
     @Override
     public void init() throws Exception {
         super.init();
-        theView = new FroggerView();
+        this.theModel = new FroggerModel();
+        this.theView = new FroggerView(this.theModel);
+
     }
 
     @Override
     public void start(Stage primaryStage) {
 
-        theController = new FroggerController(theView);
+        theController = new FroggerController(this.theView, this.theModel);
 
         Scene scene = new Scene(theView.getRootNode());
+        scene.setOnKeyPressed(this);
 
         primaryStage.setTitle("Frogger");
         primaryStage.setScene(scene);
         primaryStage.sizeToScene();
         primaryStage.show();
+    }
+
+    @Override
+    /**
+     * Handles the Key Pressed Event
+     */
+    public void handle(KeyEvent event) {
+        // TO DO for Grace -- in here call theController.updatefrogPosition or something like that
+        if (event.getCode() == KeyCode.UP) {
+            System.out.println("up arrow pressed");
+        } else if (event.getCode() == KeyCode.RIGHT) {
+            System.out.println("right arrow pressed");
+        } else if (event.getCode() == KeyCode.LEFT) {
+            System.out.println("left arrow pressed");
+        } else if (event.getCode() == KeyCode.DOWN) {
+            System.out.println("down arrow pressed");
+        } else {
+            System.out.println("not a valid key pressed");
+        }
+
     }
 
     /**

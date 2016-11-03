@@ -15,23 +15,43 @@
  */
 package FroggerMVC;
 
-import java.util.ArrayList;
+import javafx.geometry.Insets;
 import javafx.scene.layout.Pane;
-import javafx.scene.shape.Circle;
+import javafx.scene.paint.Color;
+import javafx.scene.shape.Rectangle;
 
 /**
  *
  * @author jeo008
  */
 class FroggerView {
-    private Pane root;
-    private ArrayList<Circle> lights;
 
-    public FroggerView() {
+    private FroggerModel theModel;
+    private Pane root;
+    private Rectangle theFrog;
+
+    public FroggerView(FroggerModel theModel) {
+        this.theModel = theModel;
         root = new Pane();
+
+        root.setPrefWidth(500);
+        root.setPrefHeight(500);
+        root.setPadding(new Insets(15, 15, 15, 15));
+
+        this.theFrog = new Rectangle(20, 20, Color.GREEN);
+        this.theFrog.setTranslateX(250);
+        this.theFrog.setTranslateY(475);
+
+        root.getChildren().add(theFrog);
+
     }
 
     public Pane getRootNode() {
         return root;
     }
+
+    public Rectangle getTheFrog() {
+        return theFrog;
+    }
+
 }

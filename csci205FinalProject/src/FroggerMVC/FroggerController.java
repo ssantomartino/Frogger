@@ -21,10 +21,13 @@ package FroggerMVC;
  */
 class FroggerController {
 
-    private final FroggerView theView;
+    private FroggerView theView;
+    private FroggerModel theModel;
 
-    FroggerController(FroggerView theView) {
+    FroggerController(FroggerView theView, FroggerModel theModel) {
         this.theView = theView;
+        this.theModel = theModel;
+
     }
 
 }
