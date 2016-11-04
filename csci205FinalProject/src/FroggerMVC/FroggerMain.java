@@ -48,7 +48,7 @@ public class FroggerMain extends Application implements EventHandler<KeyEvent> {
 
         Scene scene = new Scene(theView.getRootNode());
         scene.setOnKeyPressed(this);
-
+        System.out.println("Started");
         primaryStage.setTitle("Frogger");
         primaryStage.setScene(scene);
         primaryStage.sizeToScene();
@@ -63,12 +63,20 @@ public class FroggerMain extends Application implements EventHandler<KeyEvent> {
         // TO DO for Grace -- in here call theController.updatefrogPosition or something like that
         if (event.getCode() == KeyCode.UP) {
             System.out.println("up arrow pressed");
+            this.theView.getTheFrog().setTranslateY(
+                    this.theView.getTheFrog().getTranslateY() - 13);
         } else if (event.getCode() == KeyCode.RIGHT) {
             System.out.println("right arrow pressed");
+            this.theView.getTheFrog().setTranslateX(
+                    this.theView.getTheFrog().getTranslateX() + 13);
         } else if (event.getCode() == KeyCode.LEFT) {
+            this.theView.getTheFrog().setTranslateX(
+                    this.theView.getTheFrog().getTranslateX() - 13);
             System.out.println("left arrow pressed");
         } else if (event.getCode() == KeyCode.DOWN) {
             System.out.println("down arrow pressed");
+            this.theView.getTheFrog().setTranslateY(
+                    this.theView.getTheFrog().getTranslateY() + 13);
         } else {
             System.out.println("not a valid key pressed");
         }
