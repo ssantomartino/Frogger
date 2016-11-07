@@ -17,8 +17,6 @@ package FroggerMVC;
 
 import javafx.geometry.Insets;
 import javafx.scene.layout.Pane;
-import javafx.scene.paint.Color;
-import javafx.scene.shape.Rectangle;
 
 /**
  *
@@ -28,7 +26,7 @@ class FroggerView {
 
     private FroggerModel theModel;
     private Pane root;
-    private Rectangle theFrog;
+    private Frog theFrog;
 
     public FroggerView(FroggerModel theModel) {
         this.theModel = theModel;
@@ -38,9 +36,9 @@ class FroggerView {
         root.setPrefHeight(500);
         root.setPadding(new Insets(15, 15, 15, 15));
 
-        this.theFrog = new Rectangle(20, 20, Color.GREEN);
-        this.theFrog.setTranslateX(250);
-        this.theFrog.setTranslateY(475);
+        this.theFrog = new Frog(20, 20, "basicFrog.png", 250, 475);
+        //this.theFrog.setTranslateX(250);
+        //this.theFrog.setTranslateY(475);
 
         root.getChildren().add(theFrog);
 
@@ -50,7 +48,7 @@ class FroggerView {
         return root;
     }
 
-    public Rectangle getTheFrog() {
+    public Frog getTheFrog() {
         return theFrog;
     }
 
