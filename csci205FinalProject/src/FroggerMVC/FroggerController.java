@@ -15,6 +15,8 @@
  */
 package FroggerMVC;
 
+import javafx.geometry.Bounds;
+
 /**
  *
  * @author jeo008
@@ -24,10 +26,80 @@ class FroggerController {
     private FroggerView theView;
     private FroggerModel theModel;
 
+    private static final double stepSize = 10;
+
     FroggerController(FroggerView theView, FroggerModel theModel) {
         this.theView = theView;
         this.theModel = theModel;
 
+    }
+
+    public void updateFrogUpPosition() {
+        this.theView.getTheFrog().setTranslateY(
+                this.theView.getTheFrog().getTranslateY() - stepSize);
+    }
+
+    public void updateFrogDownPosition() {
+        this.theView.getTheFrog().setTranslateY(
+                this.theView.getTheFrog().getTranslateY() + stepSize);
+    }
+
+    public void updateFrogRightPosition() {
+        this.theView.getTheFrog().setTranslateX(
+                this.theView.getTheFrog().getTranslateX() + stepSize);
+    }
+
+    public void updateFrogLeftPosition() {
+        this.theView.getTheFrog().setTranslateX(
+                this.theView.getTheFrog().getTranslateX() - stepSize);
+    }
+
+    public boolean checkBottomBound() {
+        int yMax = theView.getRootYMax();
+        Bounds frogBounds = theView.getTheFrog().localToScene(
+                theView.getTheFrog().getBoundsInLocal());
+        int frogYMax = (int) frogBounds.getMaxY();
+        if (yMax - frogYMax < 10) {
+            return false;
+        } else {
+            return true;
+        }
+    }
+
+    public boolean checkTopBound() {
+        int yMin = theView.getRootYMin();
+        Bounds frogBounds = theView.getTheFrog().localToScene(
+                theView.getTheFrog().getBoundsInLocal());
+        int frogYMin = (int) frogBounds.getMinY();
+        if (frogYMin - yMin < 10) {
+            return false;
+        } else {
+            return true;
+        }
+    }
+
+    public boolean checkRightBound() {
+        int xMax = theView.getRootXMax();
+        Bounds frogBounds = theView.getTheFrog().localToScene(
+                theView.getTheFrog().getBoundsInLocal());
+        int frogXMax = (int) frogBounds.getMaxX();
+        if (xMax - frogXMax < 10) {
+            return false;
+        } else {
+            return true;
+        }
+    }
+
+    public boolean checkLeftBound() {
+        int xMin = theView.getRootXMin();
+        Bounds frogBounds = theView.getTheFrog().localToScene(
+                theView.getTheFrog().getBoundsInLocal());
+        int frogXMin = (int) frogBounds.getMinX();
+        if (frogXMin - xMin < 10) {
+            return false;
+        } else {
+            return true;
+        }
     }
 
 }

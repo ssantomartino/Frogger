@@ -48,6 +48,22 @@ class FroggerView {
         return root;
     }
 
+    public int getRootXMin() {
+        return (int) this.root.getBoundsInLocal().getMinX();
+    }
+
+    public int getRootXMax() {
+        return (int) this.root.getBoundsInLocal().getMaxX();
+    }
+
+    public int getRootYMin() {
+        return (int) this.root.getBoundsInLocal().getMinY();
+    }
+
+    public int getRootYMax() {
+        return (int) this.root.getBoundsInLocal().getMaxY();
+    }
+
     public Frog getTheFrog() {
         return theFrog;
     }
