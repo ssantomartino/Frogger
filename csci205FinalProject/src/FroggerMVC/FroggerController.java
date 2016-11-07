@@ -37,21 +37,26 @@ class FroggerController {
     public void updateFrogUpPosition() {
         this.theView.getTheFrog().setTranslateY(
                 this.theView.getTheFrog().getTranslateY() - stepSize);
+        this.theView.getTheFrog().setRotate(0);
     }
 
     public void updateFrogDownPosition() {
         this.theView.getTheFrog().setTranslateY(
                 this.theView.getTheFrog().getTranslateY() + stepSize);
+        this.theView.getTheFrog().setRotate(180);
     }
 
     public void updateFrogRightPosition() {
         this.theView.getTheFrog().setTranslateX(
                 this.theView.getTheFrog().getTranslateX() + stepSize);
+
+        this.theView.getTheFrog().setRotate(90);
     }
 
     public void updateFrogLeftPosition() {
         this.theView.getTheFrog().setTranslateX(
                 this.theView.getTheFrog().getTranslateX() - stepSize);
+        this.theView.getTheFrog().setRotate(270);
     }
 
     public boolean checkBottomBound() {
