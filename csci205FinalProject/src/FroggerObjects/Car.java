@@ -15,9 +15,13 @@
  */
 package FroggerObjects;
 
+import javafx.animation.PathTransition;
 import javafx.scene.paint.Color;
+import javafx.scene.shape.HLineTo;
+import javafx.scene.shape.MoveTo;
 import javafx.scene.shape.Path;
 import javafx.scene.shape.Rectangle;
+import javafx.util.Duration;
 
 /**
  *
@@ -26,12 +30,41 @@ import javafx.scene.shape.Rectangle;
 public class Car {
 
     private Rectangle theCar;
-    private Path carPath;
+    private Path thePath;
+    private PathTransition pathTransition;
 
-    public Car() {
+    public Car(int startX, int startY, int endX) {
         this.theCar = new Rectangle(30, 15, Color.RED);
-        this.carPath = new Path();
 
+        this.thePath = new Path();
+        this.thePath.getElements().add(new MoveTo(startX, startY));
+        this.thePath.getElements().add(new HLineTo(endX));
+        this.thePath.setOpacity(0.0);
+
+        this.pathTransition = new PathTransition();
+        pathTransition.setPath(thePath);
+        pathTransition.setNode(theCar);
+
+    }
+
+    public void setDuration(int seconds) {
+        pathTransition.setDuration(Duration.seconds(seconds));
+    }
+
+    public void setDelay(int seconds) {
+        pathTransition.setDelay(Duration.seconds(seconds));
+    }
+
+    public void moveCar() {
+        pathTransition.play();
+    }
+
+    public Rectangle getTheCar() {
+        return theCar;
+    }
+
+    public Path getThePath() {
+        return thePath;
     }
 
 }

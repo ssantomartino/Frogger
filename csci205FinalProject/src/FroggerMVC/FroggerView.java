@@ -15,6 +15,7 @@
  */
 package FroggerMVC;
 
+import FroggerObjects.Car;
 import javafx.geometry.Insets;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
@@ -43,6 +44,14 @@ class FroggerView {
         this.theFrog.setTranslateY(480);
 
         root.getChildren().add(theFrog);
+
+        Car aCar = new Car(0, 200, 600);
+        root.getChildren().add(aCar.getTheCar());
+        root.getChildren().add(aCar.getThePath());
+
+        // JOHN -- YOURE NOT GOING TO BE DOING THIS HERE, I was just testing out my code
+        aCar.setDuration(4);
+        aCar.moveCar();
 
     }
 
