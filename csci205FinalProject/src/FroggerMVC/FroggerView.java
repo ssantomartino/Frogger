@@ -38,19 +38,15 @@ class FroggerView {
         root.setPadding(new Insets(15, 15, 15, 15));
 
         this.theFrog = new Frog(20, 20, "basicFrog.png", 250, 475);
-        //this.theFrog.setTranslateX(250);
-        //this.theFrog.setTranslateY(475);
 
         root.getChildren().add(theFrog);
 
-        Car aCar = new Car(0, 200, 600);
-        root.getChildren().add(aCar.getTheCar());
-        root.getChildren().add(aCar.getThePath());
-
-        // JOHN -- YOURE NOT GOING TO BE DOING THIS HERE, I was just testing out my code
-        aCar.setDuration(4);
-        aCar.moveCar();
-
+        Car[] cars = theModel.generateCars();
+        for (Car car : cars) {
+            root.getChildren().add(car.getTheCar());
+            root.getChildren().add(car.getThePath());
+//            car.moveCar();
+        }
     }
 
     public Pane getRootNode() {

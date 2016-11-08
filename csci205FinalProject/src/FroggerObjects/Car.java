@@ -15,6 +15,7 @@
  */
 package FroggerObjects;
 
+import javafx.animation.Animation;
 import javafx.animation.PathTransition;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.HLineTo;
@@ -36,15 +37,26 @@ public class Car {
     public Car(int startX, int startY, int endX) {
         this.theCar = new Rectangle(30, 15, Color.RED);
 
+        createPath(startX, startY, endX);
+
+        createPathTransition();
+    }
+
+    private void createPath(int startX, int startY, int endX) {
         this.thePath = new Path();
         this.thePath.getElements().add(new MoveTo(startX, startY));
         this.thePath.getElements().add(new HLineTo(endX));
         this.thePath.setOpacity(0.0);
+    }
 
+    private void createPathTransition() {
         this.pathTransition = new PathTransition();
         pathTransition.setPath(thePath);
         pathTransition.setNode(theCar);
-
+        pathTransition.setCycleCount(Animation.INDEFINITE);
+        pathTransition.setDelay(Duration.seconds(10 * Math.random()));
+        pathTransition.setDuration(Duration.seconds(5));
+        pathTransition.play();
     }
 
     public void setDuration(int seconds) {
