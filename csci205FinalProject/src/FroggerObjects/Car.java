@@ -55,7 +55,7 @@ public class Car {
         pathTransition.setNode(theCar);
         pathTransition.setCycleCount(Animation.INDEFINITE);
         pathTransition.setDelay(Duration.seconds(10 * Math.random()));
-        pathTransition.setDuration(Duration.seconds(5));
+        pathTransition.setDuration(Duration.seconds(4));
         pathTransition.play();
     }
 

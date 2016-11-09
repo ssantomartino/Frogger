@@ -15,8 +15,8 @@
  */
 package FroggerMVC;
 
-import FroggerObjects.Frog;
 import FroggerObjects.Car;
+import FroggerObjects.Frog;
 import javafx.geometry.Insets;
 import javafx.scene.layout.Pane;
 
@@ -29,6 +29,7 @@ class FroggerView {
     private FroggerModel theModel;
     private Pane root;
     private Frog theFrog;
+    private Car[] theCars;
 
     public FroggerView(FroggerModel theModel) {
         this.theModel = theModel;
@@ -42,8 +43,8 @@ class FroggerView {
 
         root.getChildren().add(theFrog);
 
-        Car[] cars = theModel.generateCars();
-        for (Car car : cars) {
+        this.theCars = theModel.generateCars();
+        for (Car car : theCars) {
             root.getChildren().add(car.getTheCar());
             root.getChildren().add(car.getThePath());
 //            car.moveCar();
@@ -71,7 +72,11 @@ class FroggerView {
     }
 
     public Frog getTheFrog() {
-        return theFrog;
+        return this.theFrog;
+    }
+
+    public Car[] getTheCars() {
+        return this.theCars;
     }
 
 }

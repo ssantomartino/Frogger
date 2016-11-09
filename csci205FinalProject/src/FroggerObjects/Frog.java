@@ -23,6 +23,8 @@ import javafx.scene.image.ImageView;
  */
 public class Frog extends ImageView {
 
+    private static final int STARTING_X_POS = 250;
+    private static final int STARTING_Y_POS = 475;
     private double XLocation;
     private double YLocation;
 
@@ -53,6 +55,11 @@ public class Frog extends ImageView {
 
     public void setYLocation(double YLocation) {
         this.YLocation = YLocation;
+    }
+
+    public void restartFrog() {
+        setTranslateX(STARTING_X_POS);
+        setTranslateY(STARTING_Y_POS);
     }
 
 }

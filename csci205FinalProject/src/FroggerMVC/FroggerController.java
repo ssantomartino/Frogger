@@ -15,6 +15,7 @@
  */
 package FroggerMVC;
 
+import FroggerObjects.Car;
 import javafx.geometry.Bounds;
 
 /**
@@ -104,6 +105,16 @@ class FroggerController {
             return false;
         } else {
             return true;
+        }
+    }
+
+    public void checkCollisions() {
+        Car[] cars = theView.getTheCars();
+        Bounds frogBounds = theView.getTheFrog().getBoundsInParent();
+        for (Car car : cars) {
+            if (car.getTheCar().getBoundsInParent().intersects(frogBounds)) {
+                theView.getTheFrog().restartFrog();
+            }
         }
     }
 

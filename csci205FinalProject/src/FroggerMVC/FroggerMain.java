@@ -15,6 +15,7 @@
  */
 package FroggerMVC;
 
+import javafx.animation.AnimationTimer;
 import javafx.application.Application;
 import javafx.event.EventHandler;
 import javafx.scene.Scene;
@@ -30,9 +31,9 @@ public class FroggerMain extends Application implements EventHandler<KeyEvent> {
 
     private FroggerView theView;
     private FroggerModel theModel;
-
     private FroggerController theController;
 
+    //private AnimationTimer timer;
     @Override
     public void init() throws Exception {
         super.init();
@@ -44,7 +45,7 @@ public class FroggerMain extends Application implements EventHandler<KeyEvent> {
     @Override
     public void start(Stage primaryStage) {
 
-        theController = new FroggerController(this.theView, this.theModel);
+        this.theController = new FroggerController(this.theView, this.theModel);
 
         Scene scene = new Scene(theView.getRootNode());
         scene.setOnKeyPressed(this);
@@ -53,6 +54,19 @@ public class FroggerMain extends Application implements EventHandler<KeyEvent> {
         primaryStage.setScene(scene);
         primaryStage.sizeToScene();
         primaryStage.show();
+
+        new AnimationTimer() {
+            @Override
+            public void handle(long now) {
+                update();
+            }
+
+        }.start();
+
+    }
+
+    private void update() {
+        this.theController.checkCollisions();
     }
 
     @Override
