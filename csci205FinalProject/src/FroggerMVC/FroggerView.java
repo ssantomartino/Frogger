@@ -18,6 +18,7 @@ package FroggerMVC;
 import FroggerObjects.Car;
 import FroggerObjects.Frog;
 import javafx.geometry.Insets;
+import javafx.scene.Group;
 import javafx.scene.layout.Pane;
 
 /**
@@ -30,6 +31,7 @@ class FroggerView {
     private Pane root;
     private Frog theFrog;
     private Car[] theCars;
+    private Group carGroup;
 
     public FroggerView(FroggerModel theModel) {
         this.theModel = theModel;
@@ -42,13 +44,29 @@ class FroggerView {
         this.theFrog = new Frog(20, 20, "basicFrog.png", 250, 475);
 
         root.getChildren().add(theFrog);
+        addCars();
+    }
 
+    private void addCars() {
         this.theCars = theModel.generateCars();
+        this.carGroup = new Group();
         for (Car car : theCars) {
-            root.getChildren().add(car.getTheCar());
-            root.getChildren().add(car.getThePath());
+            //root.getChildren().add(car);
+            //root.getChildren().add(car.getThePath());
 //            car.moveCar();
+            carGroup.getChildren().add(car);
+            carGroup.getChildren().add(car.getThePath());
         }
+        root.getChildren().add(carGroup);
+    }
+
+    private void removeCars() {
+        this.root.getChildren().remove(this.carGroup);
+    }
+
+    public void resetRoad() {
+        this.removeCars();
+        this.addCars();
     }
 
     public Pane getRootNode() {
@@ -56,11 +74,11 @@ class FroggerView {
     }
 
     public int getRootXMin() {
-        return (int) this.root.getBoundsInLocal().getMinX();
+        return 0;
     }
 
     public int getRootXMax() {
-        return (int) this.root.getBoundsInLocal().getMaxX();
+        return (int) this.root.getPrefWidth();
     }
 
     public int getRootYMin() {

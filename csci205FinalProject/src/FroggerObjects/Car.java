@@ -17,28 +17,28 @@ package FroggerObjects;
 
 import javafx.animation.Animation;
 import javafx.animation.PathTransition;
-import javafx.scene.paint.Color;
+import javafx.scene.image.ImageView;
 import javafx.scene.shape.HLineTo;
 import javafx.scene.shape.MoveTo;
 import javafx.scene.shape.Path;
-import javafx.scene.shape.Rectangle;
 import javafx.util.Duration;
 
 /**
  *
  * @author sms063
  */
-public class Car {
+public class Car extends ImageView {
 
-    private Rectangle theCar;
+    //private Rectangle theCar;
     private Path thePath;
     private PathTransition pathTransition;
 
-    public Car(int startX, int startY, int endX) {
-        this.theCar = new Rectangle(30, 15, Color.RED);
-
+    public Car(String fileName, int startX, int startY, int endX) {
+        //this.theCar = new Rectangle(30, 15, Color.RED);
+        super(fileName);
+        setFitHeight(40);
+        setFitWidth(50);
         createPath(startX, startY, endX);
-
         createPathTransition();
     }
 
@@ -52,7 +52,7 @@ public class Car {
     private void createPathTransition() {
         this.pathTransition = new PathTransition();
         pathTransition.setPath(thePath);
-        pathTransition.setNode(theCar);
+        pathTransition.setNode(this);
         pathTransition.setCycleCount(Animation.INDEFINITE);
         pathTransition.setDelay(Duration.seconds(10 * Math.random()));
         pathTransition.setDuration(Duration.seconds(4));
@@ -71,10 +71,9 @@ public class Car {
         pathTransition.play();
     }
 
-    public Rectangle getTheCar() {
-        return theCar;
-    }
-
+//    public Rectangle getTheCar() {
+//        return theCar;
+//    }
     public Path getThePath() {
         return thePath;
     }

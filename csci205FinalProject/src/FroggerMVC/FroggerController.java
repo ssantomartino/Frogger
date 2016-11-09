@@ -89,6 +89,7 @@ class FroggerController {
         Bounds frogBounds = theView.getTheFrog().localToScene(
                 theView.getTheFrog().getBoundsInLocal());
         int frogXMax = (int) frogBounds.getMaxX();
+        //System.out.println(xMax + "," + frogXMax);
         if (xMax - frogXMax < 10) {
             return false;
         } else {
@@ -112,8 +113,9 @@ class FroggerController {
         Car[] cars = theView.getTheCars();
         Bounds frogBounds = theView.getTheFrog().getBoundsInParent();
         for (Car car : cars) {
-            if (car.getTheCar().getBoundsInParent().intersects(frogBounds)) {
+            if (car.getBoundsInParent().intersects(frogBounds)) {
                 theView.getTheFrog().restartFrog();
+                //theView.resetRoad();
             }
         }
     }
