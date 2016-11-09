@@ -13,7 +13,7 @@
 *
 * ****************************************
  */
-package FroggerMVC;
+package FroggerObjects;
 
 import javafx.scene.image.ImageView;
 
@@ -40,11 +40,11 @@ public class Frog extends ImageView {
     }
 
     public double getXLocation() {
-        return XLocation;
+        return this.XLocation;
     }
 
     public double getYLocation() {
-        return YLocation;
+        return this.YLocation;
     }
 
     public void setXLocation(double XLocation) {

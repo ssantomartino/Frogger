@@ -15,6 +15,7 @@
  */
 package FroggerMVC;
 
+import FroggerObjects.Frog;
 import FroggerObjects.Car;
 import javafx.geometry.Insets;
 import javafx.scene.layout.Pane;
