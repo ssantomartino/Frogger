@@ -53,6 +53,7 @@ public class FroggerMain extends Application implements EventHandler<KeyEvent> {
         primaryStage.setTitle("Frogger");
         primaryStage.setScene(scene);
         primaryStage.sizeToScene();
+        primaryStage.setResizable(false);
         primaryStage.show();
 
         new AnimationTimer() {

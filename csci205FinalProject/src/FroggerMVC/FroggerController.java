@@ -27,7 +27,7 @@ class FroggerController {
     private FroggerView theView;
     private FroggerModel theModel;
 
-    private static final double stepSize = 10;
+    private static final double STEP_SIZE = 25;
 
     FroggerController(FroggerView theView, FroggerModel theModel) {
         this.theView = theView;
@@ -37,26 +37,26 @@ class FroggerController {
 
     public void updateFrogUpPosition() {
         this.theView.getTheFrog().setTranslateY(
-                this.theView.getTheFrog().getTranslateY() - stepSize);
+                this.theView.getTheFrog().getTranslateY() - STEP_SIZE);
         this.theView.getTheFrog().setRotate(0);
     }
 
     public void updateFrogDownPosition() {
         this.theView.getTheFrog().setTranslateY(
-                this.theView.getTheFrog().getTranslateY() + stepSize);
+                this.theView.getTheFrog().getTranslateY() + STEP_SIZE);
         this.theView.getTheFrog().setRotate(180);
     }
 
     public void updateFrogRightPosition() {
         this.theView.getTheFrog().setTranslateX(
-                this.theView.getTheFrog().getTranslateX() + stepSize);
+                this.theView.getTheFrog().getTranslateX() + STEP_SIZE);
 
         this.theView.getTheFrog().setRotate(90);
     }
 
     public void updateFrogLeftPosition() {
         this.theView.getTheFrog().setTranslateX(
-                this.theView.getTheFrog().getTranslateX() - stepSize);
+                this.theView.getTheFrog().getTranslateX() - STEP_SIZE);
         this.theView.getTheFrog().setRotate(270);
     }
 
@@ -110,12 +110,14 @@ class FroggerController {
     }
 
     public void checkCollisions() {
-        Car[] cars = theView.getTheCars();
+        Car[][] cars = theView.getTheCars();
         Bounds frogBounds = theView.getTheFrog().getBoundsInParent();
-        for (Car car : cars) {
-            if (car.getBoundsInParent().intersects(frogBounds)) {
-                theView.getTheFrog().restartFrog();
-                //theView.resetRoad();
+        for (Car[] carList : cars) {
+            for (Car car : carList) {
+                if (car.getBoundsInParent().intersects(frogBounds)) {
+                    theView.getTheFrog().restartFrog();
+                    //theView.resetRoad();
+                }
             }
         }
     }

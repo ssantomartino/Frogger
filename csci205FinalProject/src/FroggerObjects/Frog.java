@@ -23,12 +23,16 @@ import javafx.scene.image.ImageView;
  */
 public class Frog extends ImageView {
 
-    private static final int STARTING_X_POS = 250;
-    private static final int STARTING_Y_POS = 475;
+    private static final int STARTING_X_POS = 350;
+    private static final int STARTING_Y_POS = 675;
+
+    private static final double width = 25;
+    private static final double height = 25;
+
     private double XLocation;
     private double YLocation;
 
-    public Frog(double width, double height, String fileName, double XLocation,
+    public Frog(String fileName, double XLocation,
                 double YLocation) {
 
         super(fileName);
@@ -55,6 +59,14 @@ public class Frog extends ImageView {
 
     public void setYLocation(double YLocation) {
         this.YLocation = YLocation;
+    }
+
+    public static double getWidth() {
+        return width;
+    }
+
+    public static double getHeight() {
+        return height;
     }
 
     public void restartFrog() {

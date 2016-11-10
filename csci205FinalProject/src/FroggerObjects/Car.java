@@ -33,13 +33,16 @@ public class Car extends ImageView {
     private Path thePath;
     private PathTransition pathTransition;
 
+    private static double height = 25;
+    private static double width = 50;
+
     public Car(String fileName, int startX, int startY, int endX) {
         //this.theCar = new Rectangle(30, 15, Color.RED);
         super(fileName);
-        setFitHeight(40);
-        setFitWidth(50);
+        setFitHeight(height);
+        setFitWidth(width);
         createPath(startX, startY, endX);
-        createPathTransition();
+        createPathTransition(startX, endX);
     }
 
     private void createPath(int startX, int startY, int endX) {
@@ -49,13 +52,13 @@ public class Car extends ImageView {
         this.thePath.setOpacity(0.0);
     }
 
-    private void createPathTransition() {
+    private void createPathTransition(int startX, int endX) {
         this.pathTransition = new PathTransition();
         pathTransition.setPath(thePath);
         pathTransition.setNode(this);
         pathTransition.setCycleCount(Animation.INDEFINITE);
-        pathTransition.setDelay(Duration.seconds(10 * Math.random()));
-        pathTransition.setDuration(Duration.seconds(4));
+        pathTransition.setDuration(
+                Duration.seconds(Math.abs(startX - endX) / 50));
         pathTransition.play();
     }
 
@@ -71,9 +74,14 @@ public class Car extends ImageView {
         pathTransition.play();
     }
 
-//    public Rectangle getTheCar() {
-//        return theCar;
-//    }
+    public double getHeight() {
+        return height;
+    }
+
+    public double getWidth() {
+        return width;
+    }
+
     public Path getThePath() {
         return thePath;
     }
