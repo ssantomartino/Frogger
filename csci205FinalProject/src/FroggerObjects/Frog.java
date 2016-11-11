@@ -40,6 +40,7 @@ public class Frog extends ImageView {
         this.YLocation = YLocation;
         setFitHeight(height);
         setFitWidth(width);
+        setSmooth(true);
         setTranslateX(this.XLocation);
         setTranslateY(this.YLocation);
 

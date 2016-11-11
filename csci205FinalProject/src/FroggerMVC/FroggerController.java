@@ -16,6 +16,9 @@
 package FroggerMVC;
 
 import FroggerObjects.Car;
+import FroggerObjects.CarPath;
+import javafx.application.Platform;
+import javafx.concurrent.Task;
 import javafx.geometry.Bounds;
 
 /**
@@ -26,12 +29,14 @@ class FroggerController {
 
     private FroggerView theView;
     private FroggerModel theModel;
+    private MoveCarsTask theTask;
 
     private static final double STEP_SIZE = 25;
 
     FroggerController(FroggerView theView, FroggerModel theModel) {
         this.theView = theView;
         this.theModel = theModel;
+        this.theTask = null;
 
     }
 
@@ -65,6 +70,7 @@ class FroggerController {
         Bounds frogBounds = theView.getTheFrog().localToScene(
                 theView.getTheFrog().getBoundsInLocal());
         int frogYMax = (int) frogBounds.getMaxY();
+        System.out.println(frogYMax);
         if (yMax - frogYMax < 10) {
             return false;
         } else {
@@ -77,6 +83,7 @@ class FroggerController {
         Bounds frogBounds = theView.getTheFrog().localToScene(
                 theView.getTheFrog().getBoundsInLocal());
         int frogYMin = (int) frogBounds.getMinY();
+        System.out.println(frogYMin);
         if (frogYMin - yMin < 10) {
             return false;
         } else {
@@ -89,7 +96,7 @@ class FroggerController {
         Bounds frogBounds = theView.getTheFrog().localToScene(
                 theView.getTheFrog().getBoundsInLocal());
         int frogXMax = (int) frogBounds.getMaxX();
-        //System.out.println(xMax + "," + frogXMax);
+        System.out.println(xMax + "," + frogXMax);
         if (xMax - frogXMax < 10) {
             return false;
         } else {
@@ -102,6 +109,7 @@ class FroggerController {
         Bounds frogBounds = theView.getTheFrog().localToScene(
                 theView.getTheFrog().getBoundsInLocal());
         int frogXMin = (int) frogBounds.getMinX();
+        System.out.println(frogXMin);
         if (frogXMin - xMin < 10) {
             return false;
         } else {
@@ -109,17 +117,155 @@ class FroggerController {
         }
     }
 
-    public void checkCollisions() {
-        Car[][] cars = theView.getTheCars();
-        Bounds frogBounds = theView.getTheFrog().getBoundsInParent();
-        for (Car[] carList : cars) {
-            for (Car car : carList) {
-                if (car.getBoundsInParent().intersects(frogBounds)) {
-                    theView.getTheFrog().restartFrog();
-                    //theView.resetRoad();
+    public void startCars() {
+        Task<Integer> t = new Task<Integer>() {
+            @Override
+            protected Integer call() throws Exception {
+
+                CarPath[] theRoad = FroggerController.this.theView.getTheRoad();
+                for (CarPath path : theRoad) {
+                    Car[] cars = path.getTheCars();
+                    for (Car car : cars) {
+                        car.moveCar();
+                        Thread.sleep(2000);
+                    }
                 }
+                return 1;
             }
+        };
+        Thread thread = new Thread(t);
+        thread.start();
+    }
+
+    public void startTheCars() {
+        CarPath[] theRoad = this.theView.getTheRoad();
+        for (CarPath path : theRoad) {
+            Car[] cars = path.getTheCars();
+            this.theTask = new MoveCarsTask(cars);
+            Thread th = new Thread(theTask);
+            th.setDaemon(true);
+            th.start();
         }
+    }
+
+    public void moveCars() {
+        Task<Integer> t = new Task<Integer>() {
+            @Override
+            protected Integer call() throws Exception {
+
+                Car[][] carList = FroggerController.this.theView.getTheCars();
+                for (Car[] carPath : carList) {
+                    for (Car car : carPath) {
+                        car.moveCar();
+                        Thread.sleep(2000);
+                    }
+                    //Thread.sleep(2000);
+                }
+                return 1;
+            }
+        };
+        Thread thread = new Thread(t);
+        thread.start();
+    }
+
+    public void checkCollisions() {
+
+        Task<Integer> t = new Task<Integer>() {
+            @Override
+            protected Integer call() throws Exception {
+                Car[][] cars = FroggerController.this.theView.getTheCars();
+                Bounds frogBounds = FroggerController.this.theView.getTheFrog().getBoundsInParent();
+//                Bounds frogBounds = theView.getTheFrog().localToScene(
+//                        theView.getTheFrog().getBoundsInLocal());
+                for (Car[] carList : cars) {
+                    for (Car car : carList) {
+//                        Bounds carBounds = car.localToScene(
+//                                car.getBoundsInLocal());
+                        if (car.getBoundsInParent().intersects(frogBounds)) {
+                            //return 1;
+                            FroggerController.this.theView.getTheFrog().restartFrog();
+                            //theView.resetRoad();
+                        }
+
+//                        if (frogBounds.intersects(carBounds) || carBounds.intersects(
+//                                frogBounds)) {
+//                            //return 1;
+//                            theView.getTheFrog().restartFrog();
+//                            //theView.resetRoad();
+//                        }
+                    }
+                }
+                return -1;
+            }
+
+        };
+        Thread thread = new Thread(t);
+        thread.start();
+    }
+
+    public void checkPathCollisions() {
+
+        Task<Integer> t = new Task<Integer>() {
+            @Override
+            protected Integer call() throws Exception {
+                Car[][] cars = FroggerController.this.theView.getTheCars();
+                Bounds frogBounds = FroggerController.this.theView.getTheFrog().getBoundsInParent();
+//                Bounds frogBounds = theView.getTheFrog().localToScene(
+//                        theView.getTheFrog().getBoundsInLocal());
+                for (Car[] carList : cars) {
+                    for (Car car : carList) {
+//                        Bounds carBounds = car.localToScene(
+//                                car.getBoundsInLocal());
+                        if (car.getBoundsInParent().intersects(frogBounds)) {
+                            //return 1;
+                            FroggerController.this.theView.getTheFrog().restartFrog();
+                            //theView.resetRoad();
+                        }
+
+//                        if (frogBounds.intersects(carBounds) || carBounds.intersects(
+//                                frogBounds)) {
+//                            //return 1;
+//                            theView.getTheFrog().restartFrog();
+//                            //theView.resetRoad();
+//                        }
+                    }
+                }
+                return -1;
+            }
+
+        };
+        Thread thread = new Thread(t);
+        thread.start();
+    }
+
+    class MoveCarsTask extends Task<Integer> {
+
+        private final Car[] cars;
+
+        /**
+         * Construct the task with the model and cars to run through
+         */
+        public MoveCarsTask(Car[] cars) {
+            this.cars = cars;
+        }
+
+        @Override
+        protected Integer call() throws Exception {
+            for (Car car : this.cars) {
+
+                Platform.runLater(new Runnable() {
+                    @Override
+                    public void run() {
+                        car.moveCar();
+
+                    }
+                });
+
+                Thread.sleep(2000);
+            }
+            return 1;
+        }
+
     }
 
 }

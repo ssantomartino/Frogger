@@ -56,6 +56,9 @@ public class FroggerMain extends Application implements EventHandler<KeyEvent> {
         primaryStage.setResizable(false);
         primaryStage.show();
 
+        //this.theController.moveCars();
+        this.theController.startTheCars();
+
         new AnimationTimer() {
             @Override
             public void handle(long now) {

@@ -16,6 +16,7 @@
 package FroggerMVC;
 
 import FroggerObjects.Car;
+import FroggerObjects.CarPath;
 import FroggerObjects.Frog;
 import javafx.scene.Group;
 import javafx.scene.layout.Pane;
@@ -30,6 +31,7 @@ class FroggerView {
     private Pane root;
     private Frog theFrog;
     private Car[][] theCars;
+    private CarPath[] theRoad;
     private Group carGroup;
 
     public FroggerView(FroggerModel theModel) {
@@ -41,9 +43,25 @@ class FroggerView {
 
         this.theFrog = new Frog("basicFrog.png", root.getPrefWidth() / 2,
                                 root.getPrefHeight() - theFrog.getHeight());
+        System.out.println(theFrog.getHeight() + "," + theFrog.getWidth());
 
         root.getChildren().add(theFrog);
-        addCars();
+        //addCars();
+        addPaths();
+
+    }
+
+    private void addPaths() {
+        this.theRoad = theModel.generateCarPaths();
+        this.carGroup = new Group();
+        for (CarPath path : this.theRoad) {
+            Car[] cars = path.getTheCars();
+            for (Car car : cars) {
+                carGroup.getChildren().add(car.getThePath());
+                carGroup.getChildren().add(car);
+            }
+        }
+        root.getChildren().add(carGroup);
     }
 
     private void addCars() {
@@ -93,6 +111,10 @@ class FroggerView {
 
     public Car[][] getTheCars() {
         return this.theCars;
+    }
+
+    public CarPath[] getTheRoad() {
+        return theRoad;
     }
 
 }

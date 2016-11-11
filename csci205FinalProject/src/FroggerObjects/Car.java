@@ -33,7 +33,7 @@ public class Car extends ImageView {
     private Path thePath;
     private PathTransition pathTransition;
 
-    private static double height = 25;
+    private static double height = 50;
     private static double width = 50;
 
     public Car(String fileName, int startX, int startY, int endX) {
@@ -41,6 +41,9 @@ public class Car extends ImageView {
         super(fileName);
         setFitHeight(height);
         setFitWidth(width);
+        //setSmooth(true);
+        setX(startX);
+        setY(startY);
         createPath(startX, startY, endX);
         createPathTransition(startX, endX);
     }
@@ -59,7 +62,7 @@ public class Car extends ImageView {
         pathTransition.setCycleCount(Animation.INDEFINITE);
         pathTransition.setDuration(
                 Duration.seconds(Math.abs(startX - endX) / 50));
-        pathTransition.play();
+//        pathTransition.play();
     }
 
     public void setDuration(int seconds) {
