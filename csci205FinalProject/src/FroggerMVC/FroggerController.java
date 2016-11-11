@@ -27,11 +27,13 @@ class FroggerController {
     private FroggerView theView;
     private FroggerModel theModel;
 
+    private int numLives;
     private static final double STEP_SIZE = 25;
 
     FroggerController(FroggerView theView, FroggerModel theModel) {
         this.theView = theView;
         this.theModel = theModel;
+        this.numLives = FroggerView.getNUM_LIVES();
 
     }
 
@@ -117,9 +119,18 @@ class FroggerController {
                 if (car.getBoundsInParent().intersects(frogBounds)) {
                     theView.getTheFrog().restartFrog();
                     //theView.resetRoad();
+                    this.numLives--;
+                    this.theView.removeNextLife();
+                    if (this.numLives <= 0) {
+                        this.theView.endGame();
+                    }
                 }
             }
         }
+    }
+
+    public int getNumLives() {
+        return this.numLives;
     }
 
 }
