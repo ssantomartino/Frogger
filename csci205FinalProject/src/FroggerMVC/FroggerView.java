@@ -18,8 +18,16 @@ package FroggerMVC;
 import FroggerObjects.Car;
 import FroggerObjects.CarPath;
 import FroggerObjects.Frog;
+import java.util.ArrayList;
+import javafx.animation.FadeTransition;
 import javafx.scene.Group;
+import javafx.scene.control.Label;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
+import javafx.scene.paint.Color;
+import javafx.scene.text.Font;
+import javafx.scene.text.TextAlignment;
+import javafx.util.Duration;
 
 /**
  *
@@ -32,7 +40,9 @@ class FroggerView {
     private Frog theFrog;
     private Car[][] theCars;
     private CarPath[] theRoad;
+    private ArrayList<ImageView> theLives;
     private Group carGroup;
+    private static final int NUM_LIVES = 4;
 
     public FroggerView(FroggerModel theModel) {
         this.theModel = theModel;
@@ -46,9 +56,10 @@ class FroggerView {
         System.out.println(theFrog.getHeight() + "," + theFrog.getWidth());
 
         root.getChildren().add(theFrog);
-        //addCars();
         addPaths();
 
+        this.theLives = new ArrayList<>();
+        addLives();
     }
 
     private void addPaths() {
@@ -62,6 +73,32 @@ class FroggerView {
             }
         }
         root.getChildren().add(carGroup);
+    }
+
+    private void addLives() {
+        for (int x = 0; x < NUM_LIVES; x++) {
+            ImageView life = new ImageView("heart.png");
+            life.setFitHeight(25);
+            life.setFitWidth(25);
+            life.setTranslateX(x * life.getFitWidth());
+            life.setTranslateY(root.getPrefHeight() - life.getFitHeight());
+            this.theLives.add(life);
+            root.getChildren().add(life);
+
+        }
+    }
+
+    public void removeNextLife() {
+        if (this.theLives.size() > 0) {
+            root.getChildren().remove(
+                    this.theLives.get(this.theLives.size() - 1));
+            this.theLives.remove(this.theLives.size() - 1);
+        }
+
+    }
+
+    private void removeCars() {
+        this.root.getChildren().remove(this.carGroup);
     }
 
     public Pane getRootNode() {
@@ -94,6 +131,28 @@ class FroggerView {
 
     public CarPath[] getTheRoad() {
         return theRoad;
+    }
+
+    public static int getNUM_LIVES() {
+        return NUM_LIVES;
+    }
+
+    public void endGame() {
+        root.getChildren().clear();
+        Label endLabel = new Label("Game Over!!!!!!");
+        endLabel.setTranslateX((root.getPrefWidth() / 2) - 100);
+        endLabel.setTranslateY(root.getPrefHeight() / 2);
+        endLabel.setTextFill(Color.AQUA);
+        endLabel.setTextAlignment(TextAlignment.CENTER);
+        endLabel.setFont(Font.font(30));
+        root.getChildren().add(endLabel);
+        FadeTransition ft = new FadeTransition(Duration.millis(1000), endLabel);
+        ft.setFromValue(1.0);
+        ft.setToValue(0.0);
+        ft.setCycleCount(1000);
+        ft.setAutoReverse(true);
+        ft.play();
+
     }
 
 }

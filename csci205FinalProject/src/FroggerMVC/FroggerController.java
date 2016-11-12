@@ -32,14 +32,22 @@ class FroggerController {
     private MoveCarsTask theMoveCarTask;
     private CheckCollisionsTask theCollisionsTask;
 
+    private int numLives;
     private static final double STEP_SIZE = 25;
 
     FroggerController(FroggerView theView, FroggerModel theModel) {
         this.theView = theView;
         this.theModel = theModel;
+
         this.theMoveCarTask = null;
         this.theCollisionsTask = null;
 
+        this.numLives = FroggerView.getNUM_LIVES();
+
+    }
+
+    public int getNumLives() {
+        return this.numLives;
     }
 
     public void updateFrogUpPosition() {
@@ -130,6 +138,25 @@ class FroggerController {
         }
     }
 
+    public void checkCollisions() {
+        Car[][] cars = theView.getTheCars();
+        Bounds frogBounds = theView.getTheFrog().getBoundsInParent();
+        for (Car[] carList : cars) {
+            for (Car car : carList) {
+                if (car.getBoundsInParent().intersects(frogBounds)) {
+                    theView.getTheFrog().restartFrog();
+                    //theView.resetRoad();
+                    this.numLives--;
+                    this.theView.removeNextLife();
+                    if (this.numLives <= 0) {
+                        this.theView.endGame();
+                    }
+                }
+            }
+
+        }
+    }
+
     public void checkCarCollisions() {
         CarPath[] theRoad = this.theView.getTheRoad();
         for (CarPath path : theRoad) {
@@ -202,5 +229,4 @@ class FroggerController {
         }
 
     }
-
 }
