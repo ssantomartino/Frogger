@@ -138,25 +138,6 @@ class FroggerController {
         }
     }
 
-    public void checkCollisions() {
-        Car[][] cars = theView.getTheCars();
-        Bounds frogBounds = theView.getTheFrog().getBoundsInParent();
-        for (Car[] carList : cars) {
-            for (Car car : carList) {
-                if (car.getBoundsInParent().intersects(frogBounds)) {
-                    theView.getTheFrog().restartFrog();
-                    //theView.resetRoad();
-                    this.numLives--;
-                    this.theView.removeNextLife();
-                    if (this.numLives <= 0) {
-                        this.theView.endGame();
-                    }
-                }
-            }
-
-        }
-    }
-
     public void checkCarCollisions() {
         CarPath[] theRoad = this.theView.getTheRoad();
         for (CarPath path : theRoad) {
