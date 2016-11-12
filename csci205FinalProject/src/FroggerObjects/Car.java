@@ -33,7 +33,7 @@ public class Car extends ImageView {
     private Path thePath;
     private PathTransition pathTransition;
 
-    private static double height = 50;
+    private static double height = 25;
     private static double width = 50;
 
     public Car(String fileName, int startX, int startY, int endX) {

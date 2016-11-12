@@ -29,14 +29,16 @@ class FroggerController {
 
     private FroggerView theView;
     private FroggerModel theModel;
-    private MoveCarsTask theTask;
+    private MoveCarsTask theMoveCarTask;
+    private CheckCollisionsTask theCollisionsTask;
 
     private static final double STEP_SIZE = 25;
 
     FroggerController(FroggerView theView, FroggerModel theModel) {
         this.theView = theView;
         this.theModel = theModel;
-        this.theTask = null;
+        this.theMoveCarTask = null;
+        this.theCollisionsTask = null;
 
     }
 
@@ -127,7 +129,7 @@ class FroggerController {
                     Car[] cars = path.getTheCars();
                     for (Car car : cars) {
                         car.moveCar();
-                        Thread.sleep(2000);
+                        Thread.sleep(3000);
                     }
                 }
                 return 1;
@@ -141,8 +143,8 @@ class FroggerController {
         CarPath[] theRoad = this.theView.getTheRoad();
         for (CarPath path : theRoad) {
             Car[] cars = path.getTheCars();
-            this.theTask = new MoveCarsTask(cars);
-            Thread th = new Thread(theTask);
+            this.theMoveCarTask = new MoveCarsTask(cars);
+            Thread th = new Thread(theMoveCarTask);
             th.setDaemon(true);
             th.start();
         }
@@ -203,39 +205,15 @@ class FroggerController {
         thread.start();
     }
 
-    public void checkPathCollisions() {
-
-        Task<Integer> t = new Task<Integer>() {
-            @Override
-            protected Integer call() throws Exception {
-                Car[][] cars = FroggerController.this.theView.getTheCars();
-                Bounds frogBounds = FroggerController.this.theView.getTheFrog().getBoundsInParent();
-//                Bounds frogBounds = theView.getTheFrog().localToScene(
-//                        theView.getTheFrog().getBoundsInLocal());
-                for (Car[] carList : cars) {
-                    for (Car car : carList) {
-//                        Bounds carBounds = car.localToScene(
-//                                car.getBoundsInLocal());
-                        if (car.getBoundsInParent().intersects(frogBounds)) {
-                            //return 1;
-                            FroggerController.this.theView.getTheFrog().restartFrog();
-                            //theView.resetRoad();
-                        }
-
-//                        if (frogBounds.intersects(carBounds) || carBounds.intersects(
-//                                frogBounds)) {
-//                            //return 1;
-//                            theView.getTheFrog().restartFrog();
-//                            //theView.resetRoad();
-//                        }
-                    }
-                }
-                return -1;
-            }
-
-        };
-        Thread thread = new Thread(t);
-        thread.start();
+    public void checkCarCollisions() {
+        CarPath[] theRoad = this.theView.getTheRoad();
+        for (CarPath path : theRoad) {
+            Car[] cars = path.getTheCars();
+            this.theCollisionsTask = new CheckCollisionsTask(cars);
+            Thread th = new Thread(theCollisionsTask);
+            th.setDaemon(true);
+            th.start();
+        }
     }
 
     class MoveCarsTask extends Task<Integer> {
@@ -261,7 +239,39 @@ class FroggerController {
                     }
                 });
 
-                Thread.sleep(2000);
+                Thread.sleep(3000);
+            }
+
+            return 1;
+        }
+
+    }
+
+    class CheckCollisionsTask extends Task<Integer> {
+
+        private final Car[] cars;
+
+        /**
+         * Construct the task with the model and cars to run through
+         */
+        public CheckCollisionsTask(Car[] cars) {
+            this.cars = cars;
+        }
+
+        @Override
+        protected Integer call() throws Exception {
+            Bounds frogBounds = FroggerController.this.theView.getTheFrog().getBoundsInParent();
+            for (Car car : this.cars) {
+                if (car.getBoundsInParent().intersects(frogBounds)) {
+
+                    Platform.runLater(new Runnable() {
+                        @Override
+                        public void run() {
+                            FroggerController.this.theView.getTheFrog().restartFrog();
+                        }
+                    });
+                }
+                Thread.sleep(1);
             }
             return 1;
         }

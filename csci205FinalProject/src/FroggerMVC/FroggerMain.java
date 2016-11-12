@@ -70,7 +70,7 @@ public class FroggerMain extends Application implements EventHandler<KeyEvent> {
     }
 
     private void update() {
-        this.theController.checkCollisions();
+        this.theController.checkCarCollisions();
     }
 
     @Override

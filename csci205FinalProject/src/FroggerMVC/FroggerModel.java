@@ -77,15 +77,16 @@ public class FroggerModel {
 
             if (i % 2 == 1) {
                 startX = -50;
-                startY = 650 - i * 50;
+                startY = 637 - i * 50;
                 endX = 750;
-
+                paths[i] = new CarPath(startX, startY, endX, true);
             } else {
                 startX = 750;
-                startY = 650 - i * 50;
+                startY = 637 - i * 50;
                 endX = -50;
+                paths[i] = new CarPath(startX, startY, endX, false);
             }
-            paths[i] = new CarPath(startX, startY, endX);
+
         }
         return paths;
     }
