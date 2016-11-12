@@ -22,11 +22,15 @@ import FroggerObjects.WaterObject;
 import FroggerObjects.WaterObjectPath;
 import java.util.ArrayList;
 import javafx.animation.FadeTransition;
+import javafx.animation.PathTransition;
 import javafx.scene.Group;
 import javafx.scene.control.Label;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
+import javafx.scene.shape.HLineTo;
+import javafx.scene.shape.MoveTo;
+import javafx.scene.shape.Path;
 import javafx.scene.text.Font;
 import javafx.scene.text.TextAlignment;
 import javafx.util.Duration;
@@ -172,6 +176,28 @@ class FroggerView {
         ft.setAutoReverse(true);
         ft.play();
 
+    }
+
+    void setFrogPath(Path thePath, PathTransition theTransition) {
+        MoveTo moveTo = (MoveTo) thePath.getElements().get(0);
+        HLineTo hLineTo = (HLineTo) thePath.getElements().get(1);
+
+        int startX = (int) moveTo.getX();
+        int endX = (int) hLineTo.getX();
+
+        System.out.printf("The x %f", theFrog.getBoundsInParent().getMaxX());
+        System.out.printf("The y %f", theFrog.getBoundsInParent().getMaxY());
+
+        theFrog.createPath((int) theFrog.getBoundsInParent().getMaxX(),
+                           (int) theFrog.getBoundsInParent().getMaxY(), endX);
+        theFrog.createPathTransition(startX, endX);
+        theFrog.moveFrog();
+        System.out.println("Frog should be moved");
+
+    }
+
+    void setFrogPathNull() {
+        theFrog.setPathNull();
     }
 
 }

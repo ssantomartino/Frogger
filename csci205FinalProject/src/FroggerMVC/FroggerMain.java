@@ -72,6 +72,7 @@ public class FroggerMain extends Application implements EventHandler<KeyEvent> {
 
     private void update() {
         this.theController.checkCarCollisions();
+        this.theController.checkWaterObjectsCollisions();
     }
 
     @Override
@@ -82,12 +83,19 @@ public class FroggerMain extends Application implements EventHandler<KeyEvent> {
 
         if (event.getCode() == KeyCode.UP && theController.checkTopBound()) {
             this.theController.updateFrogUpPosition();
+            this.theView.setFrogPathNull();
         } else if (event.getCode() == KeyCode.RIGHT && theController.checkRightBound()) {
             this.theController.updateFrogRightPosition();
+            this.theView.setFrogPathNull();
+
         } else if (event.getCode() == KeyCode.LEFT && theController.checkLeftBound()) {
             this.theController.updateFrogLeftPosition();
+            this.theView.setFrogPathNull();
+
         } else if (event.getCode() == KeyCode.DOWN && theController.checkBottomBound()) {
             this.theController.updateFrogDownPosition();
+            this.theView.setFrogPathNull();
+
         }
     }
 

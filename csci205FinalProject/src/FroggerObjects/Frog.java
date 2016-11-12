@@ -15,7 +15,12 @@
  */
 package FroggerObjects;
 
+import javafx.animation.PathTransition;
 import javafx.scene.image.ImageView;
+import javafx.scene.shape.HLineTo;
+import javafx.scene.shape.MoveTo;
+import javafx.scene.shape.Path;
+import javafx.util.Duration;
 
 /**
  *
@@ -31,6 +36,8 @@ public class Frog extends ImageView {
 
     private double XLocation;
     private double YLocation;
+    private Path thePath;
+    private PathTransition pathTransition;
 
     public Frog(String fileName, double XLocation,
                 double YLocation) {
@@ -43,7 +50,38 @@ public class Frog extends ImageView {
         setSmooth(true);
         setTranslateX(this.XLocation);
         setTranslateY(this.YLocation);
+    }
 
+    public void createPath(int startX, int startY, int endX) {
+        this.thePath = new Path();
+        this.thePath.getElements().add(new MoveTo(startX, startY));
+        this.thePath.getElements().add(new HLineTo(endX));
+        this.thePath.setOpacity(0.0);
+    }
+
+    public void createPathTransition(int startX, int endX) {
+        this.pathTransition = new PathTransition();
+        pathTransition.setPath(thePath);
+        pathTransition.setNode(this);
+        pathTransition.setCycleCount(1);
+        pathTransition.setDuration(
+                Duration.seconds(Math.abs(startX - endX) / 50));
+    }
+
+    public void setDuration(int seconds) {
+        pathTransition.setDuration(Duration.seconds(seconds));
+    }
+
+    public void setDelay(int seconds) {
+        pathTransition.setDelay(Duration.seconds(seconds));
+    }
+
+    public void moveFrog() {
+        pathTransition.play();
+    }
+
+    public Path getThePath() {
+        return thePath;
     }
 
     public double getXLocation() {
@@ -73,6 +111,11 @@ public class Frog extends ImageView {
     public void restartFrog() {
         setTranslateX(STARTING_X_POS);
         setTranslateY(STARTING_Y_POS);
+    }
+
+    public void setPathNull() {
+        this.thePath = null;
+        this.pathTransition = null;
     }
 
 }

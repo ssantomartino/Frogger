@@ -85,4 +85,8 @@ public class WaterObject extends ImageView {
         return thePath;
     }
 
+    public PathTransition getTheTransition() {
+        return pathTransition;
+    }
+
 }

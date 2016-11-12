@@ -35,7 +35,8 @@ class FroggerController {
     private MoveCarsTask theMoveCarTask;
     private MoveWaterObjectsTask theMoveWaterObjectsTask;
 
-    private CheckCollisionsTask theCollisionsTask;
+    private CheckCarCollisionsTask theCarCollisionsTask;
+    private CheckWaterObjectsCollisionsTask theWaterObjectCollisionsTask;
 
     private int numLives;
     private static final double STEP_SIZE = 25;
@@ -45,7 +46,8 @@ class FroggerController {
         this.theModel = theModel;
 
         this.theMoveCarTask = null;
-        this.theCollisionsTask = null;
+        this.theCarCollisionsTask = null;
+        this.theMoveWaterObjectsTask = null;
 
         this.numLives = FroggerView.getNUM_LIVES();
 
@@ -158,8 +160,20 @@ class FroggerController {
         CarPath[] theRoad = this.theView.getTheRoad();
         for (CarPath path : theRoad) {
             Car[] cars = path.getTheCars();
-            this.theCollisionsTask = new CheckCollisionsTask(cars);
-            Thread th = new Thread(theCollisionsTask);
+            this.theCarCollisionsTask = new CheckCarCollisionsTask(cars);
+            Thread th = new Thread(theCarCollisionsTask);
+            th.setDaemon(true);
+            th.start();
+        }
+    }
+
+    public void checkWaterObjectsCollisions() {
+        WaterObjectPath[] theRiver = this.theView.getTheRiver();
+        for (WaterObjectPath path : theRiver) {
+            WaterObject[] waterObjects = path.getTheObjects();
+            this.theWaterObjectCollisionsTask = new CheckWaterObjectsCollisionsTask(
+                    waterObjects);
+            Thread th = new Thread(theWaterObjectCollisionsTask);
             th.setDaemon(true);
             th.start();
         }
@@ -222,20 +236,22 @@ class FroggerController {
 
     }
 
-    class CheckCollisionsTask extends Task<Integer> {
+    class CheckCarCollisionsTask extends Task<Integer> {
 
         private final Car[] cars;
 
         /**
          * Construct the task with the model and cars to run through
          */
-        public CheckCollisionsTask(Car[] cars) {
+        public CheckCarCollisionsTask(Car[] cars) {
             this.cars = cars;
         }
 
         @Override
         protected Integer call() throws Exception {
+
             Bounds frogBounds = FroggerController.this.theView.getTheFrog().getBoundsInParent();
+
             for (Car car : this.cars) {
                 if (car.getBoundsInParent().intersects(frogBounds)) {
                     //FroggerController.this.numLives--;
@@ -252,6 +268,41 @@ class FroggerController {
                 }
                 Thread.sleep(1);
             }
+            return 1;
+        }
+
+    }
+
+    class CheckWaterObjectsCollisionsTask extends Task<Integer> {
+
+        private final WaterObject[] waterObjects;
+
+        /**
+         * Construct the task with the model and cars to run through
+         */
+        public CheckWaterObjectsCollisionsTask(WaterObject[] waterObjects) {
+            this.waterObjects = waterObjects;
+        }
+
+        @Override
+        protected Integer call() throws Exception {
+
+            Bounds frogBounds = FroggerController.this.theView.getTheFrog().getBoundsInParent();
+
+            for (WaterObject waterObject : this.waterObjects) {
+                if (waterObject.getBoundsInParent().intersects(frogBounds)) {
+                    Platform.runLater(new Runnable() {
+                        @Override
+                        public void run() {
+                            FroggerController.this.theView.setFrogPath(
+                                    waterObject.getThePath(),
+                                    waterObject.getTheTransition());
+                            System.out.println("Withinrunlater");
+                        }
+                    });
+                }
+            }
+
             return 1;
         }
 
