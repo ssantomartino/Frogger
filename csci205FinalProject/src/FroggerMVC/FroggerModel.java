@@ -16,6 +16,7 @@
 package FroggerMVC;
 
 import FroggerObjects.CarPath;
+import FroggerObjects.WaterObjectPath;
 
 /**
  *
@@ -47,6 +48,32 @@ public class FroggerModel {
                 startY = 637 - i * 50;
                 endX = -50;
                 paths[i] = new CarPath(startX, startY, endX, false);
+            }
+
+        }
+        return paths;
+    }
+
+    public WaterObjectPath[] generateWaterObjectPaths() {
+
+        int numRivers = 5;
+        WaterObjectPath[] paths = new WaterObjectPath[numRivers];
+
+        for (int i = 0; i < numRivers; i++) {
+            int startX;
+            int startY;
+            int endX;
+
+            if (i % 2 == 1) {
+                startX = -50;
+                startY = 312 - i * 50;
+                endX = 750;
+                paths[i] = new WaterObjectPath(startX, startY, endX, true);
+            } else {
+                startX = 750;
+                startY = 312 - i * 50;
+                endX = -50;
+                paths[i] = new WaterObjectPath(startX, startY, endX, false);
             }
 
         }

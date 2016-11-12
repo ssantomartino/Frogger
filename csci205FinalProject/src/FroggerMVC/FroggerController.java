@@ -17,6 +17,8 @@ package FroggerMVC;
 
 import FroggerObjects.Car;
 import FroggerObjects.CarPath;
+import FroggerObjects.WaterObject;
+import FroggerObjects.WaterObjectPath;
 import javafx.application.Platform;
 import javafx.concurrent.Task;
 import javafx.geometry.Bounds;
@@ -29,7 +31,10 @@ class FroggerController {
 
     private FroggerView theView;
     private FroggerModel theModel;
+
     private MoveCarsTask theMoveCarTask;
+    private MoveWaterObjectsTask theMoveWaterObjectsTask;
+
     private CheckCollisionsTask theCollisionsTask;
 
     private int numLives;
@@ -138,6 +143,17 @@ class FroggerController {
         }
     }
 
+    public void startTheWaterObjects() {
+        WaterObjectPath[] theRiver = this.theView.getTheRiver();
+        for (WaterObjectPath path : theRiver) {
+            WaterObject[] waterObjects = path.getTheObjects();
+            this.theMoveWaterObjectsTask = new MoveWaterObjectsTask(waterObjects);
+            Thread th = new Thread(theMoveWaterObjectsTask);
+            th.setDaemon(true);
+            th.start();
+        }
+    }
+
     public void checkCarCollisions() {
         CarPath[] theRoad = this.theView.getTheRoad();
         for (CarPath path : theRoad) {
@@ -146,6 +162,32 @@ class FroggerController {
             Thread th = new Thread(theCollisionsTask);
             th.setDaemon(true);
             th.start();
+        }
+    }
+
+    class MoveWaterObjectsTask extends Task<Integer> {
+
+        private final WaterObject[] waterObjects;
+
+        public MoveWaterObjectsTask(WaterObject[] waterObjects) {
+            this.waterObjects = waterObjects;
+        }
+
+        @Override
+        protected Integer call() throws Exception {
+            for (WaterObject waterObject : this.waterObjects) {
+
+                Platform.runLater(new Runnable() {
+                    @Override
+                    public void run() {
+                        waterObject.moveWaterObject();
+                    }
+                });
+
+                Thread.sleep(3000);
+            }
+
+            return 1;
         }
     }
 
@@ -196,7 +238,7 @@ class FroggerController {
             Bounds frogBounds = FroggerController.this.theView.getTheFrog().getBoundsInParent();
             for (Car car : this.cars) {
                 if (car.getBoundsInParent().intersects(frogBounds)) {
-                    FroggerController.this.numLives--;
+                    //FroggerController.this.numLives--;
                     Platform.runLater(new Runnable() {
                         @Override
                         public void run() {

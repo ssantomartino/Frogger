@@ -58,6 +58,7 @@ public class FroggerMain extends Application implements EventHandler<KeyEvent> {
 
         //this.theController.moveCars();
         this.theController.startTheCars();
+        this.theController.startTheWaterObjects();
 
         new AnimationTimer() {
             @Override

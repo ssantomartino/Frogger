@@ -31,16 +31,15 @@ public class WaterObject extends ImageView {
 
     private Path thePath;
     private PathTransition pathTransition;
-    private double height;
-    private double width;
+    private static final double HEIGHT = 25;
+    private static final double WIDTH = 50;
 
-    public WaterObject(String fileName, int startX, int startY, int endX,
-                       double height, double width) {
+    public WaterObject(String fileName, int startX, int startY, int endX) {
         super(fileName);
-        setFitHeight(height);
-        setFitWidth(width);
-        this.height = height;
-        this.width = width;
+        setFitHeight(HEIGHT);
+        setFitWidth(WIDTH);
+        setX(startX);
+        setY(startY);
         createPath(startX, startY, endX);
         createPathTransition(startX, endX);
 
@@ -60,7 +59,6 @@ public class WaterObject extends ImageView {
         pathTransition.setCycleCount(Animation.INDEFINITE);
         pathTransition.setDuration(
                 Duration.seconds(Math.abs(startX - endX) / 50));
-        pathTransition.play();
     }
 
     public void setDuration(int seconds) {
@@ -76,11 +74,11 @@ public class WaterObject extends ImageView {
     }
 
     public double getHeight() {
-        return height;
+        return HEIGHT;
     }
 
     public double getWidth() {
-        return width;
+        return WIDTH;
     }
 
     public Path getThePath() {

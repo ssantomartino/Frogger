@@ -18,6 +18,8 @@ package FroggerMVC;
 import FroggerObjects.Car;
 import FroggerObjects.CarPath;
 import FroggerObjects.Frog;
+import FroggerObjects.WaterObject;
+import FroggerObjects.WaterObjectPath;
 import java.util.ArrayList;
 import javafx.animation.FadeTransition;
 import javafx.scene.Group;
@@ -43,6 +45,8 @@ class FroggerView {
     private ArrayList<ImageView> theLives;
     private Group carGroup;
     private static final int NUM_LIVES = 4;
+    private WaterObjectPath[] theRiver;
+    private Group waterGroup;
 
     public FroggerView(FroggerModel theModel) {
         this.theModel = theModel;
@@ -73,6 +77,17 @@ class FroggerView {
             }
         }
         root.getChildren().add(carGroup);
+
+        this.theRiver = theModel.generateWaterObjectPaths();
+        this.waterGroup = new Group();
+        for (WaterObjectPath path : this.theRiver) {
+            WaterObject[] waterObjects = path.getTheObjects();
+            for (WaterObject waterObject : waterObjects) {
+                waterGroup.getChildren().add(waterObject.getThePath());
+                waterGroup.getChildren().add(waterObject);
+            }
+        }
+        root.getChildren().add(waterGroup);
     }
 
     private void addLives() {
@@ -131,6 +146,10 @@ class FroggerView {
 
     public CarPath[] getTheRoad() {
         return theRoad;
+    }
+
+    public WaterObjectPath[] getTheRiver() {
+        return theRiver;
     }
 
     public static int getNUM_LIVES() {
