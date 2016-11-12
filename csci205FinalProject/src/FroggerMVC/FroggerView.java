@@ -64,27 +64,6 @@ class FroggerView {
         root.getChildren().add(carGroup);
     }
 
-    private void addCars() {
-        this.theCars = theModel.generateCars();
-        this.carGroup = new Group();
-        for (Car[] carList : theCars) {
-            for (Car car : carList) {
-                carGroup.getChildren().add(car.getThePath());
-                carGroup.getChildren().add(car);
-            }
-        }
-        root.getChildren().add(carGroup);
-    }
-
-    private void removeCars() {
-        this.root.getChildren().remove(this.carGroup);
-    }
-
-    public void resetRoad() {
-        this.removeCars();
-        this.addCars();
-    }
-
     public Pane getRootNode() {
         return root;
     }
