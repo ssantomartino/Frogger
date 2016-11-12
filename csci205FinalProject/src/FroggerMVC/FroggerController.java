@@ -215,11 +215,15 @@ class FroggerController {
             Bounds frogBounds = FroggerController.this.theView.getTheFrog().getBoundsInParent();
             for (Car car : this.cars) {
                 if (car.getBoundsInParent().intersects(frogBounds)) {
-
+                    FroggerController.this.numLives--;
                     Platform.runLater(new Runnable() {
                         @Override
                         public void run() {
                             FroggerController.this.theView.getTheFrog().restartFrog();
+                            FroggerController.this.theView.removeNextLife();
+                            if (FroggerController.this.numLives <= 0) {
+                                FroggerController.this.theView.endGame();
+                            }
                         }
                     });
                 }
