@@ -65,12 +65,12 @@ public class FroggerModel {
             int endX;
 
             if (i % 2 == 1) {
-                startX = -50;
+                startX = -70;
                 startY = 312 - i * 50;
                 endX = 750;
                 paths[i] = new WaterObjectPath(startX, startY, endX, true);
             } else {
-                startX = 750;
+                startX = 770;
                 startY = 312 - i * 50;
                 endX = -50;
                 paths[i] = new WaterObjectPath(startX, startY, endX, false);

@@ -32,7 +32,7 @@ public class WaterObject extends ImageView {
     private Path thePath;
     private PathTransition pathTransition;
     private static final double HEIGHT = 25;
-    private static final double WIDTH = 50;
+    private static final double WIDTH = 70;
 
     public WaterObject(String fileName, int startX, int startY, int endX) {
         super(fileName);

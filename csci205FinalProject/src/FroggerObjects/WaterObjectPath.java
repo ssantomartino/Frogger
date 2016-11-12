@@ -43,9 +43,9 @@ public class WaterObjectPath {
 
     private String getObjectType() {
         if (this.faceRight) {
-            return "blackCar.png"; //log
+            return "log.png"; //log
         } else {
-            return "blackCar.png"; //turtle
+            return "turtles.png"; //turtle
         }
     }
 
