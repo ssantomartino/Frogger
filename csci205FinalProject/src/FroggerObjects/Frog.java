@@ -79,10 +79,6 @@ public class Frog extends ImageView {
         setTranslateY(STARTING_Y_POS);
     }
 
-    public boolean hasDrowned() {
-        return this.hasDrowned;
-    }
-
     public void setHasDrowned(boolean hasDrowned) {
         this.hasDrowned = hasDrowned;
     }

@@ -33,7 +33,6 @@ public class FroggerMain extends Application implements EventHandler<KeyEvent> {
     private FroggerModel theModel;
     private FroggerController theController;
 
-    //private AnimationTimer timer;
     @Override
     public void init() throws Exception {
         super.init();

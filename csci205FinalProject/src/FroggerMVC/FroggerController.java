@@ -40,7 +40,6 @@ class FroggerController {
 
     private int numLives;
     private static final double STEP_SIZE = 25;
-    //private static final double STEP_SIZE = 50;
 
     FroggerController(FroggerView theView, FroggerModel theModel) {
         this.theView = theView;
@@ -171,12 +170,8 @@ class FroggerController {
     public void checkFellInWater() {
         this.theView.getTheFrog().setHasDrowned(false);
         WaterObjectPath[] theRiver = this.theView.getTheRiver();
-        int count = 0;
         for (WaterObjectPath path : theRiver) {
-            System.out.println("creating thread for water object path " + count);
-            count++;
-            WaterObject[] objects = path.getTheObjects();
-            this.theDrowningTask = new CheckDrowningTask(objects);
+            this.theDrowningTask = new CheckDrowningTask(path);
             Thread th = new Thread(this.theDrowningTask);
             th.setDaemon(true);
             th.start();
@@ -283,54 +278,34 @@ class FroggerController {
 
     class CheckDrowningTask extends Task<Integer> {
 
-        private final WaterObject[] objects;
+        private final WaterObjectPath waterPath;
 
         /**
-         * Construct the task with the model and cars to run through
+         * Construct the task with the model and the water path to check for
+         * collisions
          */
-        public CheckDrowningTask(WaterObject[] objects) {
-            this.objects = objects;
-
+        public CheckDrowningTask(WaterObjectPath path) {
+            this.waterPath = path;
         }
 
         @Override
         protected Integer call() throws Exception {
-            //System.out.println("check 1");
-            Bounds frogBounds = FroggerController.this.theView.getTheFrog().getBoundsInParent();
-            boolean alreadyDrowned = false;
+
+            Bounds frogBoundsParent = FroggerController.this.theView.getTheFrog().getBoundsInParent();
 
             boolean isOnALog = false;
-            for (WaterObject object : this.objects) {
-                if (object.getBoundsInParent().intersects(frogBounds)) {
+            WaterObject[] waterObjects = this.waterPath.getTheObjects();
+            for (WaterObject waterObject : waterObjects) {
+                if (waterObject.getBoundsInParent().intersects(frogBoundsParent)) {
                     System.out.println("intersecting log/turtle");
                     isOnALog = true;
                 }
 
-//                if ((!(object.getBoundsInParent().intersects(frogBounds))) && (FroggerController.this.theView.getWater().getBoundsInParent().intersects(
-//                                                                               frogBounds)) && (!(alreadyDrowned))) {
-//                    alreadyDrowned = true;
-//                    //FroggerController.this.theView.removeNextLife();
-//                    //FroggerController.this.removeLife();
-//
-//                    //FroggerController.this.numLives--;
-//                    Platform.runLater(new Runnable() {
-//                        @Override
-//                        public void run() {
-//                            FroggerController.this.theView.getTheFrog().restartFrog();
-//                            //FroggerController.this.theView.removeNextLife();
-//                            //FroggerController.this.removeLife();
-//                            if (FroggerController.this.numLives <= 0) {
-//                                FroggerController.this.theView.endGame();
-//                            }
-//                        }
-//                    });
-//                }
-                Thread.sleep(1);
+                //Thread.sleep(1);
             }
-            if ((!(isOnALog)) && (FroggerController.this.theView.getWater().getBoundsInParent().intersects(
-                                  frogBounds)) && (!(FroggerController.this.theView.getTheFrog().hasDrowned()))) {
+            if ((!isOnALog) && this.waterPath.getTheRiver().getBoundsInParent().intersects(
+                    frogBoundsParent)) {
                 System.out.println("check 2");
-                FroggerController.this.theView.getTheFrog().setHasDrowned(true);
 
                 Platform.runLater(new Runnable() {
                     @Override
@@ -343,7 +318,8 @@ class FroggerController {
                         }
                     }
                 });
-                //FroggerController.this.theView.getTheFrog().restartFrog();
+
+                Thread.sleep(1);
             }
 
             return 1;
