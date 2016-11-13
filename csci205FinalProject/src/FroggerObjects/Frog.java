@@ -32,6 +32,8 @@ public class Frog extends ImageView {
     private double XLocation;
     private double YLocation;
 
+    private boolean hasDrowned;
+
     public Frog(String fileName, double XLocation,
                 double YLocation) {
 
@@ -43,6 +45,7 @@ public class Frog extends ImageView {
         setSmooth(true);
         setTranslateX(this.XLocation);
         setTranslateY(this.YLocation);
+        this.hasDrowned = false;
 
     }
 
@@ -71,8 +74,17 @@ public class Frog extends ImageView {
     }
 
     public void restartFrog() {
+        System.out.println("restarting frog");
         setTranslateX(STARTING_X_POS);
         setTranslateY(STARTING_Y_POS);
+    }
+
+    public boolean hasDrowned() {
+        return this.hasDrowned;
+    }
+
+    public void setHasDrowned(boolean hasDrowned) {
+        this.hasDrowned = hasDrowned;
     }
 
 }

@@ -27,6 +27,7 @@ import javafx.scene.control.Label;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
+import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Font;
 import javafx.scene.text.TextAlignment;
 import javafx.util.Duration;
@@ -47,6 +48,7 @@ class FroggerView {
     private static final int NUM_LIVES = 4;
     private WaterObjectPath[] theRiver;
     private Group waterGroup;
+    private Rectangle water;
 
     public FroggerView(FroggerModel theModel) {
         this.theModel = theModel;
@@ -54,6 +56,47 @@ class FroggerView {
 
         root.setPrefWidth(700);
         root.setPrefHeight(700);
+
+        this.water = new Rectangle(root.getPrefWidth(),
+                                   root.getPrefHeight() / 2 - 75, Color.WHITE);
+        //this.water.setX(root.getPrefWidth() / 2);
+        this.water.setX(0);
+        this.water.setY(root.getPrefHeight() - 675);
+        root.getChildren().add(this.water);
+
+        Rectangle water1 = new Rectangle(root.getPrefWidth(),
+                                         root.getPrefHeight() / 7 - 75,
+                                         Color.BLUE);
+        water1.setX(0);
+        water1.setY(root.getPrefHeight() - 450);
+        root.getChildren().add(water1);
+        Rectangle water2 = new Rectangle(root.getPrefWidth(),
+                                         root.getPrefHeight() / 7 - 75,
+                                         Color.BLUE);
+        water2.setX(0);
+        water2.setY(root.getPrefHeight() - 400);
+        root.getChildren().add(water2);
+
+        Rectangle water3 = new Rectangle(root.getPrefWidth(),
+                                         root.getPrefHeight() / 7 - 75,
+                                         Color.BLUE);
+        water3.setX(0);
+        water3.setY(root.getPrefHeight() - 500);
+        root.getChildren().add(water3);
+
+        Rectangle water4 = new Rectangle(root.getPrefWidth(),
+                                         root.getPrefHeight() / 7 - 75,
+                                         Color.BLUE);
+        water4.setX(0);
+        water4.setY(root.getPrefHeight() - 550);
+        root.getChildren().add(water4);
+
+        Rectangle water5 = new Rectangle(root.getPrefWidth(),
+                                         root.getPrefHeight() / 7 - 75,
+                                         Color.BLUE);
+        water5.setX(0);
+        water5.setY(root.getPrefHeight() - 600);
+        root.getChildren().add(water5);
 
         this.theFrog = new Frog("basicFrog.png", root.getPrefWidth() / 2,
                                 root.getPrefHeight() - theFrog.getHeight());
@@ -154,6 +197,10 @@ class FroggerView {
 
     public static int getNUM_LIVES() {
         return NUM_LIVES;
+    }
+
+    public Rectangle getWater() {
+        return water;
     }
 
     public void endGame() {
