@@ -49,7 +49,7 @@ public class WaterObjectPath {
         }
     }
 
-    public void setRiverHeight(double height) {
+    public void setRiverY(double height) {
         this.theRiver.setY(height);
     }
 
