@@ -168,7 +168,6 @@ class FroggerController {
     }
 
     public void checkFellInWater() {
-        this.theView.getTheFrog().setHasDrowned(false);
         WaterObjectPath[] theRiver = this.theView.getTheRiver();
         for (WaterObjectPath path : theRiver) {
             this.theDrowningTask = new CheckDrowningTask(path);
@@ -298,14 +297,14 @@ class FroggerController {
             for (WaterObject waterObject : waterObjects) {
                 if (waterObject.getBoundsInParent().intersects(frogBoundsParent)) {
                     System.out.println("intersecting log/turtle");
-                    isOnALog = true;
+                    return 1;
+
                 }
 
                 //Thread.sleep(1);
             }
             if ((!isOnALog) && this.waterPath.getTheRiver().getBoundsInParent().intersects(
                     frogBoundsParent)) {
-                System.out.println("check 2");
 
                 Platform.runLater(new Runnable() {
                     @Override

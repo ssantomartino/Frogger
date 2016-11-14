@@ -25,7 +25,7 @@ import javafx.scene.shape.Rectangle;
 public class WaterObjectPath {
 
     private static final int NUM_OBJECTS_IN_RIVER = 5;
-    private static final int RIVER_HEIGHT = 25;
+    private static final int RIVER_HEIGHT = 22;
     private static final int RIVER_WIDTH = 700;
     private boolean faceRight;
     private WaterObject[] theObjects;
@@ -37,6 +37,7 @@ public class WaterObjectPath {
         this.addObjects(startX, startY, endX);
         this.theRiver = new Rectangle(RIVER_WIDTH, RIVER_HEIGHT, Color.BLUE);
         this.theRiver.setX(0);
+        this.theRiver.setY(startY - RIVER_HEIGHT / 2);
     }
 
     private void addObjects(int startX, int startY, int endX) {
@@ -47,10 +48,6 @@ public class WaterObjectPath {
                                                       endX);
             this.theObjects[i] = waterObject;
         }
-    }
-
-    public void setRiverY(double height) {
-        this.theRiver.setY(height);
     }
 
     public Rectangle getTheRiver() {
