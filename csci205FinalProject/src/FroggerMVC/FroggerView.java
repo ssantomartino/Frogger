@@ -22,6 +22,7 @@ import FroggerObjects.WaterObject;
 import FroggerObjects.WaterObjectPath;
 import java.util.ArrayList;
 import javafx.animation.FadeTransition;
+import javafx.beans.property.SimpleIntegerProperty;
 import javafx.scene.Group;
 import javafx.scene.control.Label;
 import javafx.scene.image.ImageView;
@@ -47,6 +48,7 @@ class FroggerView {
     private static final int NUM_LIVES = 4;
     private WaterObjectPath[] theRiver;
     private Group waterGroup;
+    private SimpleIntegerProperty score;
 
     public FroggerView(FroggerModel theModel) {
         this.theModel = theModel;
@@ -64,6 +66,9 @@ class FroggerView {
 
         this.theLives = new ArrayList<>();
         addLives();
+
+        score = new SimpleIntegerProperty(0);
+        addScore();
     }
 
     private void addPaths() {
@@ -114,6 +119,17 @@ class FroggerView {
             this.theLives.remove(this.theLives.size() - 1);
         }
 
+    }
+
+    public void addScore() {
+        Label scoreLabel = new Label("0");
+        scoreLabel.textProperty().bind(
+                score.asString());
+        root.getChildren().add(scoreLabel);
+    }
+
+    public void updateScore(int score) {
+        this.score.set(score);
     }
 
     private void removeCars() {

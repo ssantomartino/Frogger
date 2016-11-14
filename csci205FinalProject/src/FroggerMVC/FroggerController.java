@@ -39,6 +39,8 @@ class FroggerController {
     private CheckDrowningTask theDrowningTask;
 
     private int numLives;
+    private int score;
+    private int maxScore;
     private static final double STEP_SIZE = 25;
 
     FroggerController(FroggerView theView, FroggerModel theModel) {
@@ -50,7 +52,8 @@ class FroggerController {
         this.theDrowningTask = null;
 
         this.numLives = FroggerView.getNUM_LIVES();
-
+        this.maxScore = 0;
+        this.score = 0;
     }
 
     public int getNumLives() {
@@ -61,12 +64,14 @@ class FroggerController {
         this.theView.getTheFrog().setTranslateY(
                 this.theView.getTheFrog().getTranslateY() - STEP_SIZE);
         this.theView.getTheFrog().setRotate(0);
+        this.adjustScore(1);
     }
 
     public void updateFrogDownPosition() {
         this.theView.getTheFrog().setTranslateY(
                 this.theView.getTheFrog().getTranslateY() + STEP_SIZE);
         this.theView.getTheFrog().setRotate(180);
+        this.adjustScore(-1);
     }
 
     public void updateFrogRightPosition() {
@@ -181,6 +186,18 @@ class FroggerController {
 
     public void removeLife() {
         this.numLives--;
+    }
+
+    private void adjustScore(int i) {
+        this.score += i * 10;
+        if (this.score > this.maxScore) {
+            this.maxScore = this.score;
+            theView.updateScore(maxScore);
+        }
+    }
+
+    public int getMaxScore() {
+        return maxScore;
     }
 
     class MoveWaterObjectsTask extends Task<Integer> {
