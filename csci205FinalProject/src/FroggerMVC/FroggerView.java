@@ -85,11 +85,11 @@ class FroggerView {
 
         this.theRiver = theModel.generateWaterObjectPaths();
         this.waterGroup = new Group();
-        int riverHeight = 600;
+        int riverY = 600;
         for (WaterObjectPath path : this.theRiver) {
-            path.setRiverHeight(root.getPrefHeight() - riverHeight);
+            path.setRiverY(root.getPrefHeight() - riverY);
             root.getChildren().add(path.getTheRiver());
-            riverHeight = riverHeight - 50;
+            riverY = riverY - 50;
             WaterObject[] waterObjects = path.getTheObjects();
             for (WaterObject waterObject : waterObjects) {
                 waterGroup.getChildren().add(waterObject.getThePath());
