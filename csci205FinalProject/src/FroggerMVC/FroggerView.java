@@ -29,6 +29,7 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
+import javafx.scene.text.FontWeight;
 import javafx.scene.text.TextAlignment;
 import javafx.util.Duration;
 
@@ -173,11 +174,11 @@ class FroggerView {
         return NUM_LIVES;
     }
 
-    public void endGame() {
+    public void endGame(int finalScore, ArrayList<Integer> scores) {
         root.getChildren().clear();
         Label endLabel = new Label("Game Over!!!!!!");
         endLabel.setTranslateX((root.getPrefWidth() / 2) - 100);
-        endLabel.setTranslateY(root.getPrefHeight() / 2);
+        endLabel.setTranslateY(root.getPrefHeight() / 2 - 50);
         endLabel.setTextFill(Color.AQUA);
         endLabel.setTextAlignment(TextAlignment.CENTER);
         endLabel.setFont(Font.font(30));
@@ -188,6 +189,28 @@ class FroggerView {
         ft.setCycleCount(1000);
         ft.setAutoReverse(true);
         ft.play();
+
+        Label yourScore = new Label("Your Score: " + finalScore);
+        yourScore.setTranslateX((root.getPrefWidth() / 2) - 50);
+        yourScore.setTranslateY(root.getPrefHeight() / 2);
+        root.getChildren().add(yourScore);
+
+        Label titleLabel = new Label("High Scores: ");
+        titleLabel.setTranslateX((root.getPrefWidth() / 2) - 40);
+        titleLabel.setTranslateY(root.getPrefHeight() / 2 + 20);
+        root.getChildren().add(titleLabel);
+        boolean alreadyOnList = false;
+        for (int i = 0; i < scores.size(); i++) {
+            Label temp = new Label(
+                    String.format("%2d: %d", i + 1, scores.get(i)));
+            temp.setTranslateX((root.getPrefWidth() / 2) - 30);
+            temp.setTranslateY(root.getPrefHeight() / 2 + (35 + (15 * i)));
+            if ((scores.get(i) == finalScore) && (!alreadyOnList)) {
+                temp.setFont(Font.font("Verdana", FontWeight.BOLD, 14));
+                alreadyOnList = true;
+            }
+            root.getChildren().add(temp);
+        }
 
     }
 

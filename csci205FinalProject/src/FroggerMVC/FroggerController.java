@@ -17,8 +17,10 @@ package FroggerMVC;
 
 import FroggerObjects.Car;
 import FroggerObjects.CarPath;
+import FroggerObjects.HighScores;
 import FroggerObjects.WaterObject;
 import FroggerObjects.WaterObjectPath;
+import java.util.ArrayList;
 import javafx.application.Platform;
 import javafx.concurrent.Task;
 import javafx.geometry.Bounds;
@@ -41,6 +43,12 @@ class FroggerController {
     private int numLives;
     private int score;
     private int maxScore;
+
+    //private static ArrayList<Integer> highScores = new ArrayList<Integer>();
+    private static final int MAX_NUM_SCORES = 10;
+
+    private HighScores highScores;
+
     private static final double STEP_SIZE = 25;
 
     FroggerController(FroggerView theView, FroggerModel theModel) {
@@ -54,6 +62,7 @@ class FroggerController {
         this.numLives = FroggerView.getNUM_LIVES();
         this.maxScore = 0;
         this.score = 0;
+        this.highScores = new HighScores();
     }
 
     public int getNumLives() {
@@ -92,7 +101,7 @@ class FroggerController {
         Bounds frogBounds = theView.getTheFrog().localToScene(
                 theView.getTheFrog().getBoundsInLocal());
         int frogYMax = (int) frogBounds.getMaxY();
-        System.out.println(frogYMax);
+        //System.out.println(frogYMax);
         if (yMax - frogYMax < 10) {
             return false;
         } else {
@@ -105,7 +114,7 @@ class FroggerController {
         Bounds frogBounds = theView.getTheFrog().localToScene(
                 theView.getTheFrog().getBoundsInLocal());
         int frogYMin = (int) frogBounds.getMinY();
-        System.out.println(frogYMin);
+        //System.out.println(frogYMin);
         if (frogYMin - yMin < 10) {
             return false;
         } else {
@@ -118,7 +127,7 @@ class FroggerController {
         Bounds frogBounds = theView.getTheFrog().localToScene(
                 theView.getTheFrog().getBoundsInLocal());
         int frogXMax = (int) frogBounds.getMaxX();
-        System.out.println(xMax + "," + frogXMax);
+        //System.out.println(xMax + "," + frogXMax);
         if (xMax - frogXMax < 10) {
             return false;
         } else {
@@ -131,7 +140,7 @@ class FroggerController {
         Bounds frogBounds = theView.getTheFrog().localToScene(
                 theView.getTheFrog().getBoundsInLocal());
         int frogXMin = (int) frogBounds.getMinX();
-        System.out.println(frogXMin);
+        //System.out.println(frogXMin);
         if (frogXMin - xMin < 10) {
             return false;
         } else {
@@ -185,6 +194,14 @@ class FroggerController {
 
     public void removeLife() {
         this.numLives--;
+    }
+
+    public void endGame() {
+        System.out.println("Final Score: " + this.score);
+        ArrayList<Integer> theScores = this.highScores.insertScore(this.score);
+        this.highScores.saveScores();
+        this.theView.endGame(this.score, theScores);
+
     }
 
     private void adjustScore(int i) {
@@ -280,7 +297,7 @@ class FroggerController {
                             FroggerController.this.theView.removeNextLife();
                             FroggerController.this.removeLife();
                             if (FroggerController.this.numLives <= 0) {
-                                FroggerController.this.theView.endGame();
+                                FroggerController.this.endGame();
                             }
                         }
                     });
@@ -330,7 +347,7 @@ class FroggerController {
                         FroggerController.this.theView.removeNextLife();
                         FroggerController.this.removeLife();
                         if (FroggerController.this.numLives <= 0) {
-                            FroggerController.this.theView.endGame();
+                            FroggerController.this.endGame();
                         }
                     }
                 });
