@@ -39,6 +39,7 @@ class FroggerController {
 
     private CheckCollisionsTask theCollisionsTask;
     private CheckDrowningTask theDrowningTask;
+    private RideTheWaterObjectTask theRidingWaterObjectTask;
 
     private int numLives;
     private int score;
@@ -49,7 +50,9 @@ class FroggerController {
 
     private HighScores highScores;
 
-    private static final double STEP_SIZE = 25;
+    private static final double STEP_SIZE = 50;
+
+    private boolean keyControls = true;
 
     FroggerController(FroggerView theView, FroggerModel theModel) {
         this.theView = theView;
@@ -58,6 +61,7 @@ class FroggerController {
         this.theMoveCarTask = null;
         this.theCollisionsTask = null;
         this.theDrowningTask = null;
+        this.theRidingWaterObjectTask = null;
 
         this.numLives = FroggerView.getNUM_LIVES();
         this.maxScore = 0;
@@ -69,7 +73,15 @@ class FroggerController {
         return this.numLives;
     }
 
+    public void stopRidingWaterObjectTask() {
+        this.keyControls = true;
+        if (this.theRidingWaterObjectTask != null) {
+            this.theRidingWaterObjectTask.stopTask();
+        }
+    }
+
     public void updateFrogUpPosition() {
+        stopRidingWaterObjectTask();
         this.theView.getTheFrog().setTranslateY(
                 this.theView.getTheFrog().getTranslateY() - STEP_SIZE);
         this.theView.getTheFrog().setRotate(0);
@@ -77,6 +89,7 @@ class FroggerController {
     }
 
     public void updateFrogDownPosition() {
+        stopRidingWaterObjectTask();
         this.theView.getTheFrog().setTranslateY(
                 this.theView.getTheFrog().getTranslateY() + STEP_SIZE);
         this.theView.getTheFrog().setRotate(180);
@@ -84,16 +97,22 @@ class FroggerController {
     }
 
     public void updateFrogRightPosition() {
+        stopRidingWaterObjectTask();
+        //this.theRidingWaterObjectTask.pauseTask();
         this.theView.getTheFrog().setTranslateX(
                 this.theView.getTheFrog().getTranslateX() + STEP_SIZE);
 
         this.theView.getTheFrog().setRotate(90);
+        //this.theRidingWaterObjectTask.resumeTask();
     }
 
     public void updateFrogLeftPosition() {
+        stopRidingWaterObjectTask();
+        //this.theRidingWaterObjectTask.pauseTask();
         this.theView.getTheFrog().setTranslateX(
                 this.theView.getTheFrog().getTranslateX() - STEP_SIZE);
         this.theView.getTheFrog().setRotate(270);
+        //this.theRidingWaterObjectTask.resumeTask();
     }
 
     public boolean checkBottomBound() {
@@ -190,6 +209,14 @@ class FroggerController {
             th.start();
 
         }
+    }
+
+    public void setKeyControlsFalse() {
+        this.keyControls = false;
+    }
+
+    public boolean getKeyControls() {
+        return this.keyControls;
     }
 
     public void removeLife() {
@@ -324,12 +351,24 @@ class FroggerController {
         @Override
         protected Integer call() throws Exception {
 
+            if (FroggerController.this.theView.getTheFrog().getisOnWaterObject()) {
+                return 1;
+            }
+
             Bounds frogBoundsParent = FroggerController.this.theView.getTheFrog().getBoundsInParent();
 
             boolean isOnALog = false;
             WaterObject[] waterObjects = this.waterPath.getTheObjects();
             for (WaterObject waterObject : waterObjects) {
                 if (waterObject.getBoundsInParent().intersects(frogBoundsParent)) {
+                    FroggerController.this.setKeyControlsFalse();
+                    FroggerController.this.theView.getTheFrog().setisOnWaterObjectTrue();
+                    FroggerController.this.theRidingWaterObjectTask = new RideTheWaterObjectTask(
+                            waterObject);
+                    Thread th = new Thread(
+                            FroggerController.this.theRidingWaterObjectTask);
+                    th.setDaemon(true);
+                    th.start();
                     System.out.println("intersecting log/turtle");
                     return 1;
 
@@ -339,7 +378,7 @@ class FroggerController {
             }
             if ((!isOnALog) && this.waterPath.getTheRiver().getBoundsInParent().intersects(
                     frogBoundsParent)) {
-
+                System.out.println("Hit water");
                 Platform.runLater(new Runnable() {
                     @Override
                     public void run() {
@@ -358,6 +397,80 @@ class FroggerController {
             return 1;
         }
 
+    }
+
+    class RideTheWaterObjectTask extends Task<Integer> {
+        private final WaterObject theObject;
+        private boolean isPaused;
+
+        /**
+         * Construct the task with the model and the water path to check for
+         * collisions
+         */
+        public RideTheWaterObjectTask(WaterObject theObj) {
+            this.theObject = theObj;
+            this.isPaused = false;
+
+        }
+
+        @Override
+        protected Integer call() throws Exception {
+
+            Bounds frogBounds = FroggerController.this.theView.getTheFrog().localToScene(
+                    FroggerController.this.theView.getTheFrog().getBoundsInLocal());
+            Bounds objectBounds = this.theObject.localToScene(
+                    this.theObject.getBoundsInLocal());
+
+            //double offset = frogBounds.getMaxX() - objectBounds.getMaxX();
+            double offset = objectBounds.getMaxX() - frogBounds.getMaxX();
+
+            while (true && !FroggerController.this.getKeyControls()) {
+
+                while (this.isPaused) {
+                    System.out.println("Paused");
+                    Thread.sleep(250);
+                    if (isCancelled()) {
+                        break;
+                    }
+                }
+
+                Bounds objectPosition = this.theObject.localToScene(
+                        this.theObject.getBoundsInLocal());
+                Platform.runLater(new Runnable() {
+                    @Override
+                    public void run() {
+                        FroggerController.this.theView.getTheFrog().setXTranslation(
+                                objectPosition.getMaxX() - offset);
+                    }
+                });
+                Thread.sleep(1);
+
+                if (isCancelled()) {
+                    break;
+                }
+            }
+            return 1;
+        }
+
+        /**
+         * Pauses the task
+         */
+        public void pauseTask() {
+            this.isPaused = true;
+        }
+
+        /**
+         * Resumes the task
+         */
+        public void resumeTask() {
+            this.isPaused = false;
+        }
+
+        public void stopTask() {
+            //System.out.println("cancelled");
+            FroggerController.this.theView.getTheFrog().setisOnWaterObjectFalse();
+            this.cancel();
+        }
     }
 
 }

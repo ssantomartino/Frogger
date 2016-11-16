@@ -62,8 +62,8 @@ class FroggerView {
                                 root.getPrefHeight() - theFrog.getHeight());
         System.out.println(theFrog.getHeight() + "," + theFrog.getWidth());
 
-        root.getChildren().add(theFrog);
         addPaths();
+        root.getChildren().add(theFrog);
 
         this.theLives = new ArrayList<>();
         addLives();

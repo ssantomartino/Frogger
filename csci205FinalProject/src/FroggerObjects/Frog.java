@@ -15,13 +15,7 @@
  */
 package FroggerObjects;
 
-import javafx.animation.Animation;
-import javafx.animation.PathTransition;
 import javafx.scene.image.ImageView;
-import javafx.scene.shape.HLineTo;
-import javafx.scene.shape.MoveTo;
-import javafx.scene.shape.Path;
-import javafx.util.Duration;
 
 /**
  *
@@ -35,11 +29,10 @@ public class Frog extends ImageView {
     private static final double width = 25;
     private static final double height = 25;
 
-    private Path thePath;
-    private PathTransition pathTransition;
-
     private double XLocation;
     private double YLocation;
+
+    private boolean isOnWaterObject;
 
     public Frog(String fileName, double XLocation,
                 double YLocation) {
@@ -52,6 +45,8 @@ public class Frog extends ImageView {
         setSmooth(true);
         setTranslateX(this.XLocation);
         setTranslateY(this.YLocation);
+
+        this.isOnWaterObject = false;
 
     }
 
@@ -71,6 +66,10 @@ public class Frog extends ImageView {
         this.YLocation = YLocation;
     }
 
+    public void setXTranslation(double Xtranslate) {
+        setTranslateX(Xtranslate);
+    }
+
     public static double getWidth() {
         return width;
     }
@@ -79,38 +78,22 @@ public class Frog extends ImageView {
         return height;
     }
 
+    public boolean getisOnWaterObject() {
+        return this.isOnWaterObject;
+    }
+
+    public void setisOnWaterObjectTrue() {
+        this.isOnWaterObject = true;
+    }
+
+    public void setisOnWaterObjectFalse() {
+        this.isOnWaterObject = false;
+    }
+
     public void restartFrog() {
         System.out.println("restarting frog");
         setTranslateX(STARTING_X_POS);
         setTranslateY(STARTING_Y_POS);
-    }
-
-    private void createPath(int startX, int startY, int endX) {
-        this.thePath = new Path();
-        this.thePath.getElements().add(new MoveTo(startX, startY));
-        this.thePath.getElements().add(new HLineTo(endX));
-        this.thePath.setOpacity(0.0);
-    }
-
-    private void createPathTransition(int startX, int endX) {
-        this.pathTransition = new PathTransition();
-        pathTransition.setPath(thePath);
-        pathTransition.setNode(this);
-        pathTransition.setCycleCount(Animation.INDEFINITE);
-        pathTransition.setDuration(
-                Duration.seconds(Math.abs(startX - endX) / 50));
-    }
-
-    public void setDuration(int seconds) {
-        pathTransition.setDuration(Duration.seconds(seconds));
-    }
-
-    public void setDelay(int seconds) {
-        pathTransition.setDelay(Duration.seconds(seconds));
-    }
-
-    public void moveFrog() {
-        this.pathTransition.play();
     }
 
 }
