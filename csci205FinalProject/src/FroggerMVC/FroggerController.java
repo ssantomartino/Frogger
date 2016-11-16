@@ -44,6 +44,8 @@ class FroggerController {
     private int score;
     private int maxScore;
 
+    private boolean gameOver;
+
     //private static ArrayList<Integer> highScores = new ArrayList<Integer>();
     private static final int MAX_NUM_SCORES = 10;
 
@@ -63,10 +65,15 @@ class FroggerController {
         this.maxScore = 0;
         this.score = 0;
         this.highScores = new HighScores();
+        this.gameOver = false;
     }
 
     public int getNumLives() {
         return this.numLives;
+    }
+
+    public boolean isGameOver() {
+        return this.gameOver;
     }
 
     public void updateFrogUpPosition() {
@@ -200,6 +207,7 @@ class FroggerController {
         System.out.println("Final Score: " + this.score);
         ArrayList<Integer> theScores = this.highScores.insertScore(this.score);
         this.highScores.saveScores();
+        this.gameOver = true;
         this.theView.endGame(this.score, theScores);
 
     }
