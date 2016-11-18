@@ -52,7 +52,8 @@ class FroggerController {
 
     private HighScores highScores;
 
-    private static final double STEP_SIZE = 50;
+    private static final double STEP_SIZE_LR = 25;
+    private static final double STEP_SIZE_UD = 50;
 
     private boolean keyControls = true;
 
@@ -90,7 +91,7 @@ class FroggerController {
     public void updateFrogUpPosition() {
         stopRidingWaterObjectTask();
         this.theView.getTheFrog().setTranslateY(
-                this.theView.getTheFrog().getTranslateY() - STEP_SIZE);
+                this.theView.getTheFrog().getTranslateY() - STEP_SIZE_UD);
         this.theView.getTheFrog().setRotate(0);
         this.adjustScore(1);
     }
@@ -98,7 +99,7 @@ class FroggerController {
     public void updateFrogDownPosition() {
         stopRidingWaterObjectTask();
         this.theView.getTheFrog().setTranslateY(
-                this.theView.getTheFrog().getTranslateY() + STEP_SIZE);
+                this.theView.getTheFrog().getTranslateY() + STEP_SIZE_UD);
         this.theView.getTheFrog().setRotate(180);
         this.adjustScore(-1);
     }
@@ -107,7 +108,7 @@ class FroggerController {
         stopRidingWaterObjectTask();
         //this.theRidingWaterObjectTask.pauseTask();
         this.theView.getTheFrog().setTranslateX(
-                this.theView.getTheFrog().getTranslateX() + STEP_SIZE);
+                this.theView.getTheFrog().getTranslateX() + STEP_SIZE_LR);
 
         this.theView.getTheFrog().setRotate(90);
         //this.theRidingWaterObjectTask.resumeTask();
@@ -117,7 +118,7 @@ class FroggerController {
         stopRidingWaterObjectTask();
         //this.theRidingWaterObjectTask.pauseTask();
         this.theView.getTheFrog().setTranslateX(
-                this.theView.getTheFrog().getTranslateX() - STEP_SIZE);
+                this.theView.getTheFrog().getTranslateX() - STEP_SIZE_LR);
         this.theView.getTheFrog().setRotate(270);
         //this.theRidingWaterObjectTask.resumeTask();
     }
@@ -128,7 +129,7 @@ class FroggerController {
                 theView.getTheFrog().getBoundsInLocal());
         int frogYMax = (int) frogBounds.getMaxY();
         //System.out.println(frogYMax);
-        if (yMax - frogYMax < 10) {
+        if (yMax - frogYMax < 25) {
             return false;
         } else {
             return true;
@@ -141,7 +142,7 @@ class FroggerController {
                 theView.getTheFrog().getBoundsInLocal());
         int frogYMin = (int) frogBounds.getMinY();
         //System.out.println(frogYMin);
-        if (frogYMin - yMin < 10) {
+        if (frogYMin - yMin < 40) {
             return false;
         } else {
             return true;
