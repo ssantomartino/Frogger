@@ -270,7 +270,10 @@ class FroggerController {
                     }
                 });
 
-                Thread.sleep(3000);
+                int base = 3000;
+                double rand = Math.random() * 1000;
+                int sleepTime = (int) (base + rand);
+                Thread.sleep(sleepTime);
             }
 
             return 1;
@@ -299,8 +302,10 @@ class FroggerController {
 
                     }
                 });
-
-                Thread.sleep(3000);
+                int base = 3000;
+                double rand = Math.random() * 1000;
+                int sleepTime = (int) (base + rand);
+                Thread.sleep(sleepTime);
             }
 
             return 1;
