@@ -124,7 +124,7 @@ class FroggerController {
     }
 
     public boolean checkBottomBound() {
-        int yMax = theView.getRootYMax();
+        int yMax = theView.getRootYMax() - 50;
         Bounds frogBounds = theView.getTheFrog().localToScene(
                 theView.getTheFrog().getBoundsInLocal());
         int frogYMax = (int) frogBounds.getMaxY();
@@ -137,7 +137,7 @@ class FroggerController {
     }
 
     public boolean checkTopBound() {
-        int yMin = theView.getRootYMin();
+        int yMin = theView.getRootYMin() + 50;
         Bounds frogBounds = theView.getTheFrog().localToScene(
                 theView.getTheFrog().getBoundsInLocal());
         int frogYMin = (int) frogBounds.getMinY();

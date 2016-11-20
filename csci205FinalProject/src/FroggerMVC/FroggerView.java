@@ -25,7 +25,13 @@ import javafx.animation.FadeTransition;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.scene.Group;
 import javafx.scene.control.Label;
+import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.layout.Background;
+import javafx.scene.layout.BackgroundImage;
+import javafx.scene.layout.BackgroundPosition;
+import javafx.scene.layout.BackgroundRepeat;
+import javafx.scene.layout.BackgroundSize;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
@@ -56,10 +62,17 @@ class FroggerView {
         root = new Pane();
 
         root.setPrefWidth(700);
-        root.setPrefHeight(700);
+        root.setPrefHeight(750);
 
-        this.theFrog = new Frog("basicFrog.png", root.getPrefWidth() / 2,
-                                root.getPrefHeight() - theFrog.getHeight());
+        root.setBackground(new Background(new BackgroundImage(new Image(
+                "Frogger_Background.png"),
+                                                              BackgroundRepeat.NO_REPEAT,
+                                                              BackgroundRepeat.NO_REPEAT,
+                                                              BackgroundPosition.CENTER,
+                                                              BackgroundSize.DEFAULT)));
+
+        this.theFrog = new Frog("basicFrog.png", theFrog.STARTING_X_POS,
+                                theFrog.STARTING_Y_POS);
         System.out.println(theFrog.getHeight() + "," + theFrog.getWidth());
 
         addPaths();

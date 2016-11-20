@@ -23,8 +23,8 @@ import javafx.scene.image.ImageView;
  */
 public class Frog extends ImageView {
 
-    private static final int STARTING_X_POS = 350;
-    private static final int STARTING_Y_POS = 675;
+    public static final int STARTING_X_POS = 350;
+    public static final int STARTING_Y_POS = 675;
 
     private static final double width = 25;
     private static final double height = 25;
