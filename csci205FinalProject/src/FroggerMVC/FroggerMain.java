@@ -15,7 +15,6 @@
  */
 package FroggerMVC;
 
-import javafx.animation.AnimationTimer;
 import javafx.application.Application;
 import javafx.event.EventHandler;
 import javafx.scene.Scene;
@@ -61,24 +60,22 @@ public class FroggerMain extends Application implements EventHandler<KeyEvent> {
         this.theController.startTheCars();
         this.theController.startTheWaterObjects();
 
-        new AnimationTimer() {
-            @Override
-            public void handle(long now) {
-                update();
-            }
-
-        }.start();
-
+//        new AnimationTimer() {
+//            @Override
+//            public void handle(long now) {
+//                //update();
+//            }
+//
+//        }.start();
     }
 
-    private void update() {
-        if (!(this.theController.isGameOver())) {
-            this.theController.checkCarCollisions();
-            this.theController.checkFellInWater();
-        }
-
-    }
-
+//    private void update() {
+//        if (!(this.theController.isGameOver())) {
+//            this.theController.checkCarCollisions();
+//            this.theController.checkWaterObjectCollision();
+//        }
+//
+//    }
     @Override
     /**
      * Handles the Key Pressed Event

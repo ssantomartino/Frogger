@@ -91,7 +91,6 @@ public class Frog extends ImageView {
     }
 
     public void restartFrog() {
-        System.out.println("restarting frog");
         setTranslateX(STARTING_X_POS);
         setTranslateY(STARTING_Y_POS);
     }

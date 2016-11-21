@@ -49,11 +49,11 @@ class FroggerView {
     private Pane root;
     private Frog theFrog;
     private Car[][] theCars;
-    private CarPath[] theRoad;
+    private CarPath[] theRoads;
     private ArrayList<ImageView> theLives;
     private Group carGroup;
     private static final int NUM_LIVES = 4;
-    private WaterObjectPath[] theRiver;
+    private WaterObjectPath[] theRivers;
     private Group waterGroup;
     private SimpleIntegerProperty score;
 
@@ -86,9 +86,9 @@ class FroggerView {
     }
 
     private void addPaths() {
-        this.theRoad = theModel.generateCarPaths();
+        this.theRoads = theModel.generateCarPaths();
         this.carGroup = new Group();
-        for (CarPath path : this.theRoad) {
+        for (CarPath path : this.theRoads) {
             Car[] cars = path.getTheCars();
             for (Car car : cars) {
                 carGroup.getChildren().add(car.getThePath());
@@ -97,10 +97,10 @@ class FroggerView {
         }
         root.getChildren().add(carGroup);
 
-        this.theRiver = theModel.generateWaterObjectPaths();
+        this.theRivers = theModel.generateWaterObjectPaths();
         this.waterGroup = new Group();
-        for (WaterObjectPath path : this.theRiver) {
-            root.getChildren().add(path.getTheRiver());
+        for (WaterObjectPath path : this.theRivers) {
+//            root.getChildren().add(path.getTheRiver());
             WaterObject[] waterObjects = path.getTheObjects();
             for (WaterObject waterObject : waterObjects) {
                 waterGroup.getChildren().add(waterObject.getThePath());
@@ -134,6 +134,7 @@ class FroggerView {
 
     public void addScore() {
         Label scoreLabel = new Label("0");
+        scoreLabel.setTextFill(Color.WHITE);
         scoreLabel.textProperty().bind(
                 score.asString());
         root.getChildren().add(scoreLabel);
@@ -175,12 +176,12 @@ class FroggerView {
         return this.theCars;
     }
 
-    public CarPath[] getTheRoad() {
-        return theRoad;
+    public CarPath[] getTheRoads() {
+        return theRoads;
     }
 
-    public WaterObjectPath[] getTheRiver() {
-        return theRiver;
+    public WaterObjectPath[] getTheRivers() {
+        return theRivers;
     }
 
     public static int getNUM_LIVES() {
@@ -190,8 +191,9 @@ class FroggerView {
     public void endGame(int finalScore, ArrayList<Integer> scores) {
         root.getChildren().clear();
         Label endLabel = new Label("Game Over!!!!!!");
+        endLabel.setFont(new Font("Arial", 50));
         endLabel.setTranslateX((root.getPrefWidth() / 2) - 100);
-        endLabel.setTranslateY(root.getPrefHeight() / 2 - 50);
+        endLabel.setTranslateY(root.getPrefHeight() / 2 - 100);
         endLabel.setTextFill(Color.AQUA);
         endLabel.setTextAlignment(TextAlignment.CENTER);
         endLabel.setFont(Font.font(30));
@@ -204,18 +206,23 @@ class FroggerView {
         ft.play();
 
         Label yourScore = new Label("Your Score: " + finalScore);
+        yourScore.setFont(new Font("Arial", 20));
+        yourScore.setTextFill(Color.WHITE);
         yourScore.setTranslateX((root.getPrefWidth() / 2) - 50);
-        yourScore.setTranslateY(root.getPrefHeight() / 2);
+        yourScore.setTranslateY(root.getPrefHeight() / 2 - 26);
         root.getChildren().add(yourScore);
 
         Label titleLabel = new Label("High Scores: ");
+        titleLabel.setFont(new Font("Arial", 20));
+        titleLabel.setTextFill(Color.WHITE);
         titleLabel.setTranslateX((root.getPrefWidth() / 2) - 40);
-        titleLabel.setTranslateY(root.getPrefHeight() / 2 + 20);
+        titleLabel.setTranslateY(root.getPrefHeight() / 2);
         root.getChildren().add(titleLabel);
         boolean alreadyOnList = false;
         for (int i = 0; i < scores.size(); i++) {
             Label temp = new Label(
                     String.format("%2d: %d", i + 1, scores.get(i)));
+            temp.setTextFill(Color.WHITE);
             temp.setTranslateX((root.getPrefWidth() / 2) - 30);
             temp.setTranslateY(root.getPrefHeight() / 2 + (35 + (15 * i)));
             if ((scores.get(i) == finalScore) && (!alreadyOnList)) {
