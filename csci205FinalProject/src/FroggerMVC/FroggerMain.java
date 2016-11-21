@@ -30,6 +30,7 @@ import javafx.stage.Stage;
 public class FroggerMain extends Application implements EventHandler<KeyEvent> {
 
     private FroggerView theView;
+    private FroggerMainMenu theMainMenu;
     private FroggerModel theModel;
     private FroggerController theController;
 
@@ -55,7 +56,8 @@ public class FroggerMain extends Application implements EventHandler<KeyEvent> {
         primaryStage.setResizable(false);
         primaryStage.show();
 
-        //this.theController.moveCars();
+        this.theMainMenu = new FroggerMainMenu();
+
         this.theController.startTheCars();
         this.theController.startTheWaterObjects();
 
