@@ -16,6 +16,7 @@
 package FroggerMVC;
 
 import FroggerObjects.CarPath;
+import FroggerObjects.LilyPad;
 import FroggerObjects.WaterObjectPath;
 
 /**
@@ -78,6 +79,17 @@ public class FroggerModel {
 
         }
         return paths;
+    }
+
+    public LilyPad[] generateLilyPads() {
+        int numPads = 5;
+        LilyPad[] lilyPads = new LilyPad[numPads];
+
+        for (int i = 0; i < numPads; i++) {
+            double xLocation = (i + 1) * (700 / 6) - 25;
+            lilyPads[i] = new LilyPad(xLocation);
+        }
+        return lilyPads;
     }
 
 }

@@ -18,6 +18,7 @@ package FroggerMVC;
 import FroggerObjects.Car;
 import FroggerObjects.CarPath;
 import FroggerObjects.Frog;
+import FroggerObjects.LilyPad;
 import FroggerObjects.WaterObject;
 import FroggerObjects.WaterObjectPath;
 import java.util.ArrayList;
@@ -56,6 +57,8 @@ class FroggerView {
     private WaterObjectPath[] theRivers;
     private Group waterGroup;
     private SimpleIntegerProperty score;
+    private LilyPad[] theLilyPads;
+    private Group lilyPadGroup;
 
     public FroggerView(FroggerModel theModel) {
         this.theModel = theModel;
@@ -76,6 +79,7 @@ class FroggerView {
         System.out.println(theFrog.getHeight() + "," + theFrog.getWidth());
 
         addPaths();
+        addLilyPads();
         root.getChildren().add(theFrog);
 
         this.theLives = new ArrayList<>();
@@ -108,6 +112,15 @@ class FroggerView {
             }
         }
         root.getChildren().add(waterGroup);
+    }
+
+    private void addLilyPads() {
+        this.theLilyPads = this.theModel.generateLilyPads();
+        this.lilyPadGroup = new Group();
+        for (LilyPad lilyPad : theLilyPads) {
+            lilyPadGroup.getChildren().add(lilyPad);
+        }
+        root.getChildren().add(lilyPadGroup);
     }
 
     private void addLives() {
