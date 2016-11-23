@@ -434,13 +434,17 @@ class FroggerController {
                 for (Car car : this.cars) {
                     if (car.getBoundsInParent().intersects(frogBounds)) {
                         //FroggerController.this.numLives--;
+                        this.stopTask = true;
+                        System.out.println("Hit Car - remove life");
+                        FroggerController.this.restartFrogIndex();
+                        FroggerController.this.removeLife();
                         Platform.runLater(new Runnable() {
                             @Override
                             public void run() {
-                                FroggerController.this.restartFrogIndex();
+
                                 FroggerController.this.theView.getTheFrog().restartFrog();
                                 FroggerController.this.theView.removeNextLife();
-                                FroggerController.this.removeLife();
+
                                 if (FroggerController.this.numLives <= 0) {
                                     FroggerController.this.endGame();
                                 }
@@ -506,15 +510,18 @@ class FroggerController {
                     //Thread.sleep(1);
                 }
                 if (FroggerController.this.frogIndex >= FroggerController.this.maxFrogIndex - FroggerController.this.theView.getTheRivers().length) {
+                    this.stopTask = true;
                     System.out.println(
                             "Hit water" + FroggerController.this.frogIndex);
+                    FroggerController.this.restartFrogIndex();
+                    FroggerController.this.removeLife();
                     Platform.runLater(new Runnable() {
                         @Override
                         public void run() {
-                            FroggerController.this.restartFrogIndex();
+
                             FroggerController.this.theView.getTheFrog().restartFrog();
                             FroggerController.this.theView.removeNextLife();
-                            FroggerController.this.removeLife();
+
                             if (FroggerController.this.numLives <= 0) {
                                 FroggerController.this.endGame();
                             }
