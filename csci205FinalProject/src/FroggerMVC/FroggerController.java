@@ -124,6 +124,8 @@ class FroggerController {
                 checkWaterObjectCollision();
             }
 
+        } else if (this.frogIndex == this.maxFrogIndex) {
+            // check lily pad collision
         }
 
     }
