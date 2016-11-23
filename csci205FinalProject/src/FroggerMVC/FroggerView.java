@@ -148,6 +148,7 @@ class FroggerView {
 
     public void addScore() {
         Label scoreLabel = new Label("0");
+        scoreLabel.setFont(new Font("Vernanda", 20));
         scoreLabel.setTextFill(Color.WHITE);
         scoreLabel.textProperty().bind(
                 score.asString());
@@ -192,6 +193,10 @@ class FroggerView {
 
     public CarPath[] getTheRoads() {
         return theRoads;
+    }
+
+    public LilyPad[] getTheLilyPads() {
+        return theLilyPads;
     }
 
     public WaterObjectPath[] getTheRivers() {

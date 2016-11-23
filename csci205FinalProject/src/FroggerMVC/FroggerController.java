@@ -18,6 +18,7 @@ package FroggerMVC;
 import FroggerObjects.Car;
 import FroggerObjects.CarPath;
 import FroggerObjects.HighScores;
+import FroggerObjects.LilyPad;
 import FroggerObjects.WaterObject;
 import FroggerObjects.WaterObjectPath;
 import java.util.ArrayList;
@@ -37,9 +38,10 @@ class FroggerController {
     private MoveCarsTask theMoveCarTask;
     private MoveWaterObjectsTask theMoveWaterObjectsTask;
 
-    private CarCollisionsTask theCollisionsTask;
-    private WaterObjectCollisionTask theDrowningTask;
-    private RideTheWaterObjectTask theRidingWaterObjectTask;
+    private CarCollisionsTask carCollisionsTask;
+    private WaterObjectCollisionTask waterObjectCollisionsTask;
+    private RideTheWaterObjectTask ridingWaterObjectTask;
+    private LilyPadCollisionsTask lilyPadCollisionsTask;
 
     private int numLives;
     private int score;
@@ -66,9 +68,10 @@ class FroggerController {
         this.theModel = theModel;
 
         this.theMoveCarTask = null;
-        this.theCollisionsTask = null;
-        this.theDrowningTask = null;
-        this.theRidingWaterObjectTask = null;
+        this.carCollisionsTask = null;
+        this.waterObjectCollisionsTask = null;
+        this.ridingWaterObjectTask = null;
+        this.lilyPadCollisionsTask = null;
 
         this.numLives = FroggerView.getNUM_LIVES();
         this.maxScore = 0;
@@ -92,8 +95,8 @@ class FroggerController {
 
     public void stopRidingWaterObjectTask() {
         this.keyControls = true;
-        if (this.theRidingWaterObjectTask != null) {
-            this.theRidingWaterObjectTask.stopTask();
+        if (this.ridingWaterObjectTask != null) {
+            this.ridingWaterObjectTask.stopTask();
         }
     }
 
@@ -108,8 +111,8 @@ class FroggerController {
 
         if (this.frogIndex > this.minFrogIndex && this.frogIndex < this.theView.getTheRivers().length) {
             System.out.println("Check Car Collision");
-            if (this.theCollisionsTask != null) {
-                this.theCollisionsTask.stopTask();
+            if (this.carCollisionsTask != null) {
+                this.carCollisionsTask.stopTask();
             }
             if (!isGameOver()) {
                 checkCarCollisions();
@@ -117,15 +120,15 @@ class FroggerController {
 
         } else if (this.frogIndex > this.theView.getTheRivers().length && this.frogIndex < this.maxFrogIndex) {
             System.out.println("Check Water Collision");
-            if (this.theDrowningTask != null) {
-                this.theDrowningTask.stopTask();
+            if (this.waterObjectCollisionsTask != null) {
+                this.waterObjectCollisionsTask.stopTask();
             }
             if (!isGameOver()) {
                 checkWaterObjectCollision();
             }
 
         } else if (this.frogIndex == this.maxFrogIndex) {
-            // check lily pad collision
+            checkLilyCollisions();
         }
 
     }
@@ -140,8 +143,8 @@ class FroggerController {
 
         if (this.frogIndex > this.minFrogIndex && this.frogIndex < this.theView.getTheRivers().length) {
             System.out.println("Check Car Collision");
-            if (this.theCollisionsTask != null) {
-                this.theCollisionsTask.stopTask();
+            if (this.carCollisionsTask != null) {
+                this.carCollisionsTask.stopTask();
             }
             if (!isGameOver()) {
                 checkCarCollisions();
@@ -149,8 +152,8 @@ class FroggerController {
 
         } else if (this.frogIndex > this.theView.getTheRivers().length && this.frogIndex < this.maxFrogIndex) {
             System.out.println("Check Water Collision");
-            if (this.theDrowningTask != null && !isGameOver()) {
-                this.theDrowningTask.stopTask();
+            if (this.waterObjectCollisionsTask != null && !isGameOver()) {
+                this.waterObjectCollisionsTask.stopTask();
             }
             if (!isGameOver()) {
                 checkWaterObjectCollision();
@@ -161,12 +164,12 @@ class FroggerController {
 
     public void updateFrogRightPosition() {
         //stopRidingWaterObjectTask();
-        if (this.theRidingWaterObjectTask != null) {
-            this.theRidingWaterObjectTask.pauseTask();
+        if (this.ridingWaterObjectTask != null) {
+            this.ridingWaterObjectTask.pauseTask();
             this.theView.getTheFrog().setTranslateX(
                     this.theView.getTheFrog().getTranslateX() + (STEP_SIZE_LR * 2));
 
-            this.theRidingWaterObjectTask.resumeTask();
+            this.ridingWaterObjectTask.resumeTask();
         } else {
             this.theView.getTheFrog().setTranslateX(
                     this.theView.getTheFrog().getTranslateX() + STEP_SIZE_LR);
@@ -178,12 +181,12 @@ class FroggerController {
     public void updateFrogLeftPosition() {
         //stopRidingWaterObjectTask();
         //this.theRidingWaterObjectTask.pauseTask();
-        if (this.theRidingWaterObjectTask != null) {
-            this.theRidingWaterObjectTask.pauseTask();
+        if (this.ridingWaterObjectTask != null) {
+            this.ridingWaterObjectTask.pauseTask();
             this.theView.getTheFrog().setTranslateX(
                     this.theView.getTheFrog().getTranslateX() - (STEP_SIZE_LR * 2));
 
-            this.theRidingWaterObjectTask.resumeTask();
+            this.ridingWaterObjectTask.resumeTask();
         } else {
             this.theView.getTheFrog().setTranslateX(
                     this.theView.getTheFrog().getTranslateX() - STEP_SIZE_LR);
@@ -268,6 +271,17 @@ class FroggerController {
         }
     }
 
+    public void checkLilyCollisions() {
+        LilyPad[] lilyPads = this.theView.getTheLilyPads();
+
+        FroggerController.this.lilyPadCollisionsTask = new LilyPadCollisionsTask(
+                lilyPads);
+        Thread th = new Thread(lilyPadCollisionsTask);
+        th.setDaemon(true);
+        th.start();
+
+    }
+
     public void checkCarCollisions() {
         CarPath[] theRoad = this.theView.getTheRoads();
         CarPath path = theRoad[this.frogIndex];
@@ -281,9 +295,9 @@ class FroggerController {
 //            th.start();
 //        }
 
-        FroggerController.this.theCollisionsTask = new CarCollisionsTask(
+        FroggerController.this.carCollisionsTask = new CarCollisionsTask(
                 theCars);
-        Thread th = new Thread(theCollisionsTask);
+        Thread th = new Thread(carCollisionsTask);
         th.setDaemon(true);
         th.start();
 
@@ -304,8 +318,8 @@ class FroggerController {
         WaterObjectPath[] theRiver = this.theView.getTheRivers();
         WaterObjectPath path = theRiver[theRiver.length - (this.maxFrogIndex - this.frogIndex)];
 
-        this.theDrowningTask = new WaterObjectCollisionTask(path);
-        Thread th = new Thread(this.theDrowningTask);
+        this.waterObjectCollisionsTask = new WaterObjectCollisionTask(path);
+        Thread th = new Thread(this.waterObjectCollisionsTask);
         th.setDaemon(true);
         th.start();
 
@@ -498,10 +512,10 @@ class FroggerController {
                             frogBoundsParent)) {
                         FroggerController.this.setKeyControlsFalse();
                         FroggerController.this.theView.getTheFrog().setisOnWaterObjectTrue();
-                        FroggerController.this.theRidingWaterObjectTask = new RideTheWaterObjectTask(
+                        FroggerController.this.ridingWaterObjectTask = new RideTheWaterObjectTask(
                                 waterObject);
                         Thread th = new Thread(
-                                FroggerController.this.theRidingWaterObjectTask);
+                                FroggerController.this.ridingWaterObjectTask);
                         th.setDaemon(true);
                         th.start();
                         System.out.println("intersecting log/turtle");
@@ -616,6 +630,50 @@ class FroggerController {
             FroggerController.this.theView.getTheFrog().setisOnWaterObjectFalse();
             this.cancel();
         }
+    }
+
+    class LilyPadCollisionsTask extends Task<Integer> {
+
+        private final LilyPad[] lilyPads;
+
+        /**
+         * Construct the task with the model and cars to run through
+         */
+        public LilyPadCollisionsTask(LilyPad[] lilyPads) {
+            this.lilyPads = lilyPads;
+        }
+
+        @Override
+        protected Integer call() throws Exception {
+
+            Bounds frogBounds = FroggerController.this.theView.getTheFrog().getBoundsInParent();
+            for (LilyPad lilyPad : this.lilyPads) {
+                Bounds lilyBounds = lilyPad.getBoundsInParent();
+                if (!(lilyPad.getBoundsInParent().intersects(frogBounds))) {
+
+                    System.out.println("Missed Lily Pad");
+                    FroggerController.this.restartFrogIndex();
+                    FroggerController.this.removeLife();
+                    Platform.runLater(new Runnable() {
+                        @Override
+                        public void run() {
+
+                            FroggerController.this.theView.getTheFrog().restartFrog();
+                            FroggerController.this.theView.removeNextLife();
+
+                            if (FroggerController.this.numLives <= 0) {
+                                FroggerController.this.endGame();
+                            }
+                        }
+                    });
+                }
+                Thread.sleep(1);
+                return 1;
+            }
+
+            return 1;
+        }
+
     }
 
 }
