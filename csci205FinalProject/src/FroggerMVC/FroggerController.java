@@ -111,13 +111,19 @@ class FroggerController {
             if (this.theCollisionsTask != null) {
                 this.theCollisionsTask.stopTask();
             }
-            checkCarCollisions();
+            if (!isGameOver()) {
+                checkCarCollisions();
+            }
+
         } else if (this.frogIndex > this.theView.getTheRivers().length && this.frogIndex < this.maxFrogIndex) {
             System.out.println("Check Water Collision");
             if (this.theDrowningTask != null) {
                 this.theDrowningTask.stopTask();
             }
-            checkWaterObjectCollision();
+            if (!isGameOver()) {
+                checkWaterObjectCollision();
+            }
+
         }
 
     }
@@ -135,13 +141,19 @@ class FroggerController {
             if (this.theCollisionsTask != null) {
                 this.theCollisionsTask.stopTask();
             }
-            checkCarCollisions();
+            if (!isGameOver()) {
+                checkCarCollisions();
+            }
+
         } else if (this.frogIndex > this.theView.getTheRivers().length && this.frogIndex < this.maxFrogIndex) {
             System.out.println("Check Water Collision");
-            if (this.theDrowningTask != null) {
+            if (this.theDrowningTask != null && !isGameOver()) {
                 this.theDrowningTask.stopTask();
             }
-            checkWaterObjectCollision();
+            if (!isGameOver()) {
+                checkWaterObjectCollision();
+            }
+
         }
     }
 
@@ -234,8 +246,9 @@ class FroggerController {
     public void startTheCars() {
         CarPath[] theRoad = this.theView.getTheRoads();
         for (CarPath path : theRoad) {
-            Car[] cars = path.getTheCars();
-            this.theMoveCarTask = new MoveCarsTask(cars);
+            //Car[] cars = path.getTheCars();
+            ArrayList<Car> theCars = path.getCars();
+            this.theMoveCarTask = new MoveCarsTask(theCars);
             Thread th = new Thread(theMoveCarTask);
             th.setDaemon(true);
             th.start();
@@ -256,7 +269,8 @@ class FroggerController {
     public void checkCarCollisions() {
         CarPath[] theRoad = this.theView.getTheRoads();
         CarPath path = theRoad[this.frogIndex];
-        Car[] cars = path.getTheCars();
+        //Car[] cars = path.getTheCars();
+        ArrayList<Car> theCars = path.getCars();
 //        for (CarPath path : theRoad) {
 //            Car[] cars = path.getTheCars();
 //            this.theCollisionsTask = new CheckCollisionsTask(cars);
@@ -266,7 +280,7 @@ class FroggerController {
 //        }
 
         FroggerController.this.theCollisionsTask = new CarCollisionsTask(
-                cars);
+                theCars);
         Thread th = new Thread(theCollisionsTask);
         th.setDaemon(true);
         th.start();
@@ -366,12 +380,13 @@ class FroggerController {
 
     class MoveCarsTask extends Task<Integer> {
 
-        private final Car[] cars;
+        //private final Car[] cars;
+        private final ArrayList<Car> cars;
 
         /**
          * Construct the task with the model and cars to run through
          */
-        public MoveCarsTask(Car[] cars) {
+        public MoveCarsTask(ArrayList<Car> cars) {
             this.cars = cars;
         }
 
@@ -399,13 +414,14 @@ class FroggerController {
 
     class CarCollisionsTask extends Task<Integer> {
 
-        private final Car[] cars;
+        //private final Car[] cars;
+        private final ArrayList<Car> cars;
         private boolean stopTask;
 
         /**
          * Construct the task with the model and cars to run through
          */
-        public CarCollisionsTask(Car[] cars) {
+        public CarCollisionsTask(ArrayList<Car> cars) {
             this.cars = cars;
             this.stopTask = false;
         }

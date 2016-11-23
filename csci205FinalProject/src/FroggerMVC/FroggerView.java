@@ -89,7 +89,8 @@ class FroggerView {
         this.theRoads = theModel.generateCarPaths();
         this.carGroup = new Group();
         for (CarPath path : this.theRoads) {
-            Car[] cars = path.getTheCars();
+            //Car[] cars = path.getTheCars();
+            ArrayList<Car> cars = path.getCars();
             for (Car car : cars) {
                 carGroup.getChildren().add(car.getThePath());
                 carGroup.getChildren().add(car);
