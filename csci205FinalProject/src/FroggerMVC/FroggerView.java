@@ -106,7 +106,8 @@ class FroggerView {
         this.waterGroup = new Group();
         for (WaterObjectPath path : this.theRivers) {
 //            root.getChildren().add(path.getTheRiver());
-            WaterObject[] waterObjects = path.getTheObjects();
+            //WaterObject[] waterObjects = path.getTheObjects();
+            ArrayList<WaterObject> waterObjects = path.getWaterObjects();
             for (WaterObject waterObject : waterObjects) {
                 waterGroup.getChildren().add(waterObject.getThePath());
                 waterGroup.getChildren().add(waterObject);

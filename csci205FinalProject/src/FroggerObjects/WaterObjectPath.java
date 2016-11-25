@@ -15,6 +15,8 @@
  */
 package FroggerObjects;
 
+import java.util.ArrayList;
+
 /**
  *
  * @author jeo008
@@ -22,19 +24,19 @@ package FroggerObjects;
 public class WaterObjectPath {
 
     private static final int NUM_OBJECTS_IN_RIVER = 5;
+    private static final int[] NUM_OBJECTS_IN_RIVER_ARRAY = {5, 4, 3, 2, 2};
     private static final int RIVER_HEIGHT = 22;
     private static final int RIVER_WIDTH = 700;
     private boolean faceRight;
     private WaterObject[] theObjects;
-//    private Rectangle theRiver;
+    private ArrayList<WaterObject> theObjectsArray;
 
     public WaterObjectPath(int startX, int startY, int endX, boolean faceR) {
         this.theObjects = new WaterObject[NUM_OBJECTS_IN_RIVER];
         this.faceRight = faceR;
+        this.theObjectsArray = new ArrayList<WaterObject>();
         this.addObjects(startX, startY, endX);
-//        this.theRiver = new Rectangle(RIVER_WIDTH, RIVER_HEIGHT, Color.BLUE);
-//        this.theRiver.setX(0);
-//        this.theRiver.setY(startY - RIVER_HEIGHT / 2);
+        this.addObjectsArray(startX, startY, endX);
     }
 
     private void addObjects(int startX, int startY, int endX) {
@@ -47,9 +49,32 @@ public class WaterObjectPath {
         }
     }
 
-//    public Rectangle getTheRiver() {
-//        return theRiver;
-//    }
+    private void addObjectsArray(int startX, int startY, int endX) {
+
+        for (int i = 0; i < this.theObjects.length; i++) {
+            String objectType = getObjectType();
+            WaterObject waterObject = new WaterObject(objectType, startX, startY,
+                                                      endX);
+            this.theObjectsArray.add(waterObject);
+        }
+    }
+
+    private void removeWaterObject() {
+        this.theObjectsArray.remove(this.theObjectsArray.size() - 1);
+    }
+
+    private int getCurNumWaterObjectsInRiver() {
+        return this.theObjectsArray.size();
+    }
+
+    public int getNumWaterObjectsInRiverAtLevel(int index) {
+        return NUM_OBJECTS_IN_RIVER_ARRAY[index];
+    }
+
+    public ArrayList<WaterObject> getWaterObjects() {
+        return this.theObjectsArray;
+    }
+
     private String getObjectType() {
         if (this.faceRight) {
             return "log.png"; //log

@@ -163,7 +163,7 @@ class FroggerController {
     }
 
     public void updateFrogRightPosition() {
-        //stopRidingWaterObjectTask();
+
         if (this.ridingWaterObjectTask != null) {
             this.ridingWaterObjectTask.pauseTask();
             this.theView.getTheFrog().setTranslateX(
@@ -179,8 +179,7 @@ class FroggerController {
     }
 
     public void updateFrogLeftPosition() {
-        //stopRidingWaterObjectTask();
-        //this.theRidingWaterObjectTask.pauseTask();
+
         if (this.ridingWaterObjectTask != null) {
             this.ridingWaterObjectTask.pauseTask();
             this.theView.getTheFrog().setTranslateX(
@@ -193,7 +192,7 @@ class FroggerController {
         }
 
         this.theView.getTheFrog().setRotate(270);
-        //this.theRidingWaterObjectTask.resumeTask();
+
     }
 
     public boolean checkBottomBound() {
@@ -263,7 +262,8 @@ class FroggerController {
     public void startTheWaterObjects() {
         WaterObjectPath[] theRiver = this.theView.getTheRivers();
         for (WaterObjectPath path : theRiver) {
-            WaterObject[] waterObjects = path.getTheObjects();
+            //WaterObject[] waterObjects = path.getTheObjects();
+            ArrayList<WaterObject> waterObjects = path.getWaterObjects();
             this.theMoveWaterObjectsTask = new MoveWaterObjectsTask(waterObjects);
             Thread th = new Thread(theMoveWaterObjectsTask);
             th.setDaemon(true);
@@ -287,31 +287,12 @@ class FroggerController {
         CarPath path = theRoad[this.frogIndex];
         //Car[] cars = path.getTheCars();
         ArrayList<Car> theCars = path.getCars();
-//        for (CarPath path : theRoad) {
-//            Car[] cars = path.getTheCars();
-//            this.theCollisionsTask = new CheckCollisionsTask(cars);
-//            Thread th = new Thread(theCollisionsTask);
-//            th.setDaemon(true);
-//            th.start();
-//        }
 
         FroggerController.this.carCollisionsTask = new CarCollisionsTask(
                 theCars);
         Thread th = new Thread(carCollisionsTask);
         th.setDaemon(true);
         th.start();
-
-//        new AnimationTimer() {
-//            @Override
-//            public void handle(long now) {
-//                FroggerController.this.theCollisionsTask = new CarCollisionsTask(
-//                        cars);
-//                Thread th = new Thread(theCollisionsTask);
-//                th.setDaemon(true);
-//                th.start();
-//            }
-//
-//        }.start();
     }
 
     public void checkWaterObjectCollision() {
@@ -322,14 +303,6 @@ class FroggerController {
         Thread th = new Thread(this.waterObjectCollisionsTask);
         th.setDaemon(true);
         th.start();
-
-//        for (WaterObjectPath path : theRiver) {
-//            this.theDrowningTask = new WaterObjectCollisionTask(path);
-//            Thread th = new Thread(this.theDrowningTask);
-//            th.setDaemon(true);
-//            th.start();
-//
-//        }
     }
 
     public void setKeyControlsFalse() {
@@ -367,9 +340,10 @@ class FroggerController {
 
     class MoveWaterObjectsTask extends Task<Integer> {
 
-        private final WaterObject[] waterObjects;
+        //private final WaterObject[] waterObjects;
+        private final ArrayList<WaterObject> waterObjects;
 
-        public MoveWaterObjectsTask(WaterObject[] waterObjects) {
+        public MoveWaterObjectsTask(ArrayList<WaterObject> waterObjects) {
             this.waterObjects = waterObjects;
         }
 
@@ -506,7 +480,8 @@ class FroggerController {
                 Bounds frogBoundsParent = FroggerController.this.theView.getTheFrog().getBoundsInParent();
 
                 boolean isOnALog = false;
-                WaterObject[] waterObjects = this.waterPath.getTheObjects();
+                //WaterObject[] waterObjects = this.waterPath.getTheObjects();
+                ArrayList<WaterObject> waterObjects = this.waterPath.getWaterObjects();
                 for (WaterObject waterObject : waterObjects) {
                     if (waterObject.getBoundsInParent().intersects(
                             frogBoundsParent)) {
@@ -635,38 +610,45 @@ class FroggerController {
     class LilyPadCollisionsTask extends Task<Integer> {
 
         private final LilyPad[] lilyPads;
+        private boolean onPad;
 
         /**
          * Construct the task with the model and cars to run through
          */
         public LilyPadCollisionsTask(LilyPad[] lilyPads) {
             this.lilyPads = lilyPads;
+            this.onPad = false;
         }
 
         @Override
         protected Integer call() throws Exception {
 
+            //System.out.println(this.lilyPads.length);
             Bounds frogBounds = FroggerController.this.theView.getTheFrog().getBoundsInParent();
             for (LilyPad lilyPad : this.lilyPads) {
                 Bounds lilyBounds = lilyPad.getBoundsInParent();
-                if (!(lilyPad.getBoundsInParent().intersects(frogBounds))) {
 
-                    System.out.println("Missed Lily Pad");
-                    FroggerController.this.restartFrogIndex();
-                    FroggerController.this.removeLife();
-                    Platform.runLater(new Runnable() {
-                        @Override
-                        public void run() {
-
-                            FroggerController.this.theView.getTheFrog().restartFrog();
-                            FroggerController.this.theView.removeNextLife();
-
-                            if (FroggerController.this.numLives <= 0) {
-                                FroggerController.this.endGame();
-                            }
-                        }
-                    });
+                if (lilyPad.getBoundsInParent().intersects(frogBounds)) {
+                    System.out.println("On Lilypad");
+                    this.onPad = true;
                 }
+            }
+
+            if (!this.onPad) {
+                System.out.println("Missed Lily Pad");
+                FroggerController.this.restartFrogIndex();
+                FroggerController.this.removeLife();
+                Platform.runLater(new Runnable() {
+                    @Override
+                    public void run() {
+
+                        FroggerController.this.theView.getTheFrog().restartFrog();
+                        FroggerController.this.theView.removeNextLife();
+                        if (FroggerController.this.numLives <= 0) {
+                            FroggerController.this.endGame();
+                        }
+                    }
+                });
                 Thread.sleep(1);
                 return 1;
             }
