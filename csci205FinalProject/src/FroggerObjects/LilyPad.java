@@ -26,7 +26,7 @@ public class LilyPad extends ImageView {
     private static final double HEIGHT = 50;
     private static final double WIDTH = 50;
     private double xLocation;
-    private static final double yLocation = 50;
+    private static final double yLocation = 55;
     private static final String fileName = "lilyPad.jpg";
 
     public LilyPad(double xLocation) {
