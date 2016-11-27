@@ -29,6 +29,15 @@ public class FroggerModel {
     private static final String[] carFilesR = {"Audi.png", "Black_viper.png", "Mini_truck.png"};
 //    private static final String[] carFiles = {"blackCar.png"};
 
+    private int gameMode;
+    private int currentLevel;
+    private static final int MAX_LEVELS = 5;
+
+    public FroggerModel() {
+        this.gameMode = 50;
+        this.currentLevel = 0;
+    }
+
     public CarPath[] generateCarPaths() {
 
         int numRoads = 5;
@@ -43,16 +52,21 @@ public class FroggerModel {
                 startX = -50;
                 startY = 637 - i * 50;
                 endX = 750;
-                paths[i] = new CarPath(startX, startY, endX, true);
+                paths[i] = new CarPath(startX, startY, endX, true, this.gameMode);
             } else {
                 startX = 750;
                 startY = 637 - i * 50;
                 endX = -50;
-                paths[i] = new CarPath(startX, startY, endX, false);
+                paths[i] = new CarPath(startX, startY, endX, false,
+                                       this.gameMode);
             }
 
         }
         return paths;
+    }
+
+    public void setGameMode(int mode) {
+        this.gameMode = mode;
     }
 
     public WaterObjectPath[] generateWaterObjectPaths() {
@@ -69,12 +83,14 @@ public class FroggerModel {
                 startX = -70;
                 startY = 337 - i * 50;
                 endX = 750;
-                paths[i] = new WaterObjectPath(startX, startY, endX, true);
+                paths[i] = new WaterObjectPath(startX, startY, endX, true,
+                                               this.gameMode);
             } else {
                 startX = 770;
                 startY = 337 - i * 50;
                 endX = -50;
-                paths[i] = new WaterObjectPath(startX, startY, endX, false);
+                paths[i] = new WaterObjectPath(startX, startY, endX, false,
+                                               this.gameMode);
             }
 
         }
@@ -90,6 +106,22 @@ public class FroggerModel {
             lilyPads[i] = new LilyPad(xLocation);
         }
         return lilyPads;
+    }
+
+    /**
+     * Method increases the level count for the game checks if the increase in
+     * level is the increase needed to win the game
+     *
+     * @return true if the level is successfully increased, false if the game is
+     * won
+     */
+    public boolean levelUp() {
+        this.currentLevel++;
+        if (this.currentLevel >= MAX_LEVELS) {
+            //POINTS BONUS AND WIN GAME
+            return false;
+        }
+        return true;
     }
 
 }

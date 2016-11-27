@@ -31,11 +31,13 @@ public class CarPath {
     private Car[] theCars;
     private ArrayList<Car> theCarsArray;
     private boolean faceRight;
+    private int gameMode;
 
-    public CarPath(int startX, int startY, int endX, boolean faceR) {
+    public CarPath(int startX, int startY, int endX, boolean faceR, int gameMode) {
         this.theCars = new Car[NUM_CARS_ON_ROAD];
         this.faceRight = faceR;
         this.theCarsArray = new ArrayList<Car>();
+        this.gameMode = gameMode;
         this.addCars(startX, startY, endX);
         this.addCarsArray(startX, startY, endX);
     }
@@ -44,7 +46,7 @@ public class CarPath {
 
         for (int i = 0; i < this.theCars.length; i++) {
             String carType = getCarType();
-            Car car = new Car(carType, startX, startY, endX);
+            Car car = new Car(carType, startX, startY, endX, this.gameMode);
             this.theCars[i] = car;
         }
     }
@@ -53,7 +55,7 @@ public class CarPath {
 
         for (int i = 0; i < NUM_CARS_ON_ROAD_ARRAY[0]; i++) {
             String carType = getCarType();
-            Car car = new Car(carType, startX, startY, endX);
+            Car car = new Car(carType, startX, startY, endX, this.gameMode);
             this.theCarsArray.add(car);
         }
     }

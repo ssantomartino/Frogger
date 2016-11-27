@@ -15,6 +15,7 @@
  */
 package FroggerMVC;
 
+import javafx.animation.AnimationTimer;
 import javafx.application.Application;
 import javafx.event.EventHandler;
 import javafx.scene.Scene;
@@ -38,13 +39,13 @@ public class FroggerMain extends Application implements EventHandler<KeyEvent> {
         super.init();
         this.theModel = new FroggerModel();
         this.theView = new FroggerView(this.theModel);
-
     }
 
     @Override
-    public void start(Stage primaryStage) {
+    public void start(Stage primaryStage) throws InterruptedException {
 
-        this.theController = new FroggerController(this.theView, this.theModel);
+        this.theController = new FroggerController(this.theView, this.theModel,
+                                                   this.theMainMenu);
 
         Scene scene = new Scene(theView.getRootNode());
         scene.setOnKeyPressed(this);
@@ -55,10 +56,23 @@ public class FroggerMain extends Application implements EventHandler<KeyEvent> {
         primaryStage.setResizable(false);
         primaryStage.show();
 
-        this.theMainMenu = new FroggerMainMenu();
+        this.theMainMenu = new FroggerMainMenu(this.theModel);
 
-        this.theController.startTheCars();
-        this.theController.startTheWaterObjects();
+        new AnimationTimer() {
+            @Override
+            public void handle(long now) {
+                if (FroggerMain.this.theMainMenu.getStartGame()) {
+                    FroggerMain.this.theView.addPaths();
+                    FroggerMain.this.theView.addFrog();
+                    FroggerMain.this.theController.startTheCars(
+                            FroggerMain.this.theMainMenu.getGameDelay());
+                    FroggerMain.this.theController.startTheWaterObjects(
+                            FroggerMain.this.theMainMenu.getGameDelay());
+                    this.stop();
+                }
+            }
+
+        }.start();
 
 //        new AnimationTimer() {
 //            @Override
@@ -69,13 +83,6 @@ public class FroggerMain extends Application implements EventHandler<KeyEvent> {
 //        }.start();
     }
 
-//    private void update() {
-//        if (!(this.theController.isGameOver())) {
-//            this.theController.checkCarCollisions();
-//            this.theController.checkWaterObjectCollision();
-//        }
-//
-//    }
     @Override
     /**
      * Handles the Key Pressed Event

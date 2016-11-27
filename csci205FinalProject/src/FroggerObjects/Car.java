@@ -36,9 +36,12 @@ public class Car extends ImageView {
     private static double height = 25;
     private static double width = 50;
 
-    public Car(String fileName, int startX, int startY, int endX) {
+    private int gameMode;
+
+    public Car(String fileName, int startX, int startY, int endX, int gameMode) {
         //this.theCar = new Rectangle(30, 15, Color.RED);
         super(fileName);
+        this.gameMode = gameMode;
         setFitHeight(height);
         setFitWidth(width);
         //setSmooth(true);
@@ -61,12 +64,18 @@ public class Car extends ImageView {
         pathTransition.setNode(this);
         pathTransition.setCycleCount(Animation.INDEFINITE);
         pathTransition.setDuration(
-                Duration.seconds(Math.abs(startX - endX) / 50));
+                Duration.seconds(Math.abs(startX - endX) / gameMode));
 //        pathTransition.play();
     }
 
-    public void setDuration(int seconds) {
-        pathTransition.setDuration(Duration.seconds(seconds));
+    public void setDuration(Duration d) {
+        pathTransition.stop();
+        pathTransition.setDuration(d);
+        pathTransition.play();
+    }
+
+    public Duration getDuration() {
+        return pathTransition.getDuration();
     }
 
     public void setDelay(int seconds) {

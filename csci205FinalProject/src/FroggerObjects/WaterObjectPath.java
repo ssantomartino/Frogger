@@ -30,11 +30,14 @@ public class WaterObjectPath {
     private boolean faceRight;
     private WaterObject[] theObjects;
     private ArrayList<WaterObject> theObjectsArray;
+    private int gameMode;
 
-    public WaterObjectPath(int startX, int startY, int endX, boolean faceR) {
+    public WaterObjectPath(int startX, int startY, int endX, boolean faceR,
+                           int gameMode) {
         this.theObjects = new WaterObject[NUM_OBJECTS_IN_RIVER];
         this.faceRight = faceR;
         this.theObjectsArray = new ArrayList<WaterObject>();
+        this.gameMode = gameMode;
         this.addObjects(startX, startY, endX);
         this.addObjectsArray(startX, startY, endX);
     }
@@ -44,7 +47,7 @@ public class WaterObjectPath {
         for (int i = 0; i < this.theObjects.length; i++) {
             String objectType = getObjectType();
             WaterObject waterObject = new WaterObject(objectType, startX, startY,
-                                                      endX);
+                                                      endX, this.gameMode);
             this.theObjects[i] = waterObject;
         }
     }
@@ -54,7 +57,7 @@ public class WaterObjectPath {
         for (int i = 0; i < this.theObjects.length; i++) {
             String objectType = getObjectType();
             WaterObject waterObject = new WaterObject(objectType, startX, startY,
-                                                      endX);
+                                                      endX, this.gameMode);
             this.theObjectsArray.add(waterObject);
         }
     }

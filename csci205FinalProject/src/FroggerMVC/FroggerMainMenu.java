@@ -26,9 +26,10 @@ import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
-import javafx.scene.control.CheckBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.ProgressBar;
+import javafx.scene.control.RadioButton;
+import javafx.scene.control.ToggleGroup;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
@@ -48,10 +49,12 @@ public class FroggerMainMenu {
     private Button exit;
     private Label title;
     private VBox theVBox;
-    private CheckBox onePlayer;
-    private CheckBox twoPlayer;
-    private CheckBox beginner;
-    private CheckBox expert;
+    private ToggleGroup playerGroup;
+    private ToggleGroup levelGroup;
+    private RadioButton onePlayer;
+    private RadioButton twoPlayer;
+    private RadioButton beginner;
+    private RadioButton expert;
 
     private static final Integer STARTTIME = 7;
     private Timeline timeline;
@@ -61,7 +64,13 @@ public class FroggerMainMenu {
 
     private Stage subStage;
 
-    public FroggerMainMenu() {
+    private FroggerModel theModel;
+
+    private boolean startGame;
+
+    public FroggerMainMenu(FroggerModel theModel) {
+        this.theModel = theModel;
+
         this.subStage = new Stage();
         subStage.setTitle("Main Menu");
 
@@ -74,6 +83,8 @@ public class FroggerMainMenu {
         this.theVBox.setPadding(new Insets(10, 50, 10, 50));
         this.theVBox.setSpacing(50);
         this.theVBox.setAlignment(Pos.CENTER);
+
+        this.startGame = false;
 
         addTitle();
         addPlayerBoxes();
@@ -107,7 +118,6 @@ public class FroggerMainMenu {
         timeline.getKeyFrames().add(
                 new KeyFrame(Duration.seconds(STARTTIME + 1),
                              new KeyValue(timeSeconds, 0)));
-        timeline.playFromStart();
 
         HBox timeContainer = new HBox(20);             // gap between components is 20
         timeContainer.setAlignment(Pos.CENTER);
@@ -117,7 +127,7 @@ public class FroggerMainMenu {
         this.timeline.setOnFinished(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
-                FroggerMainMenu.this.start.setDisable(false);
+                FroggerMainMenu.this.subStage.close();
             }
         });
 
@@ -125,26 +135,38 @@ public class FroggerMainMenu {
 
     public void addPlayerBoxes() {
         HBox playerContainer = new HBox();
+        playerGroup = new ToggleGroup();
         playerContainer.setAlignment(Pos.CENTER);
         playerContainer.setSpacing(10);
-        this.onePlayer = new CheckBox("One Player");
+
+        this.onePlayer = new RadioButton("One Player");
         this.onePlayer.setFont(new Font("Arial", 30));
+        this.onePlayer.setToggleGroup(playerGroup);
         this.onePlayer.setSelected(true);
-        this.twoPlayer = new CheckBox("Two Player");
+
+        this.twoPlayer = new RadioButton("Two Player");
         this.twoPlayer.setFont(new Font("Arial", 30));
+        this.twoPlayer.setToggleGroup(playerGroup);
+
         playerContainer.getChildren().addAll(this.onePlayer, this.twoPlayer);
         this.theVBox.getChildren().add(playerContainer);
     }
 
     public void addLevelOptions() {
         HBox levelContainer = new HBox();
+        levelGroup = new ToggleGroup();
         levelContainer.setAlignment(Pos.CENTER);
         levelContainer.setSpacing(10);
-        this.beginner = new CheckBox("Beginner");
+        this.beginner = new RadioButton("Beginner");
         this.beginner.setFont(new Font("Arial", 30));
+        this.beginner.setToggleGroup(levelGroup);
         this.beginner.setSelected(true);
-        this.expert = new CheckBox("Expert");
+
+        this.expert = new RadioButton("Expert");
         this.expert.setFont(new Font("Arial", 30));
+        this.expert.setToggleGroup(levelGroup);
+        //this.expert.setSelected(true);
+
         levelContainer.getChildren().addAll(this.beginner, this.expert);
         this.theVBox.getChildren().add(levelContainer);
 
@@ -168,11 +190,18 @@ public class FroggerMainMenu {
         this.start.setFont(new Font("Arial", 20));
         this.start.setTextFill(Color.BLUEVIOLET);
         this.start.setPrefSize(100, 50);
-        this.start.setDisable(true);
+        //this.start.setDisable(true);
         this.start.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
-                FroggerMainMenu.this.subStage.close();
+                FroggerMainMenu.this.start.setDisable(true);
+                timeline.playFromStart();
+                FroggerMainMenu.this.startGame = true;
+                if (FroggerMainMenu.this.levelGroup.getSelectedToggle() == FroggerMainMenu.this.beginner) {
+                    FroggerMainMenu.this.theModel.setGameMode(50);
+                } else {
+                    FroggerMainMenu.this.theModel.setGameMode(100);
+                }
             }
         });
 
@@ -190,6 +219,18 @@ public class FroggerMainMenu {
 
         buttonContainer.getChildren().addAll(this.start, this.exit);
         this.theVBox.getChildren().add(buttonContainer);
+    }
+
+    public boolean getStartGame() {
+        return this.startGame;
+    }
+
+    public int getGameDelay() {
+        if (this.levelGroup.getSelectedToggle() == this.beginner) {
+            return 3000;
+        } else {
+            return 1000;
+        }
     }
 
 }

@@ -49,7 +49,6 @@ class FroggerView {
     private FroggerModel theModel;
     private Pane root;
     private Frog theFrog;
-    private Car[][] theCars;
     private CarPath[] theRoads;
     private ArrayList<ImageView> theLives;
     private Group carGroup;
@@ -74,13 +73,12 @@ class FroggerView {
                                                               BackgroundPosition.CENTER,
                                                               BackgroundSize.DEFAULT)));
 
-        this.theFrog = new Frog("basicFrog.png", theFrog.STARTING_X_POS,
-                                theFrog.STARTING_Y_POS);
+        this.theFrog = new Frog("basicFrog.png");
         System.out.println(theFrog.getHeight() + "," + theFrog.getWidth());
 
-        addPaths();
+        //addPaths();
         addLilyPads();
-        root.getChildren().add(theFrog);
+        //root.getChildren().add(theFrog);
 
         this.theLives = new ArrayList<>();
         addLives();
@@ -89,12 +87,16 @@ class FroggerView {
         addScore();
     }
 
-    private void addPaths() {
+    public void addFrog() {
+        root.getChildren().add(theFrog);
+    }
+
+    public void addPaths() {
         this.theRoads = theModel.generateCarPaths();
         this.carGroup = new Group();
         for (CarPath path : this.theRoads) {
-            //Car[] cars = path.getTheCars();
-            ArrayList<Car> cars = path.getCars();
+            Car[] cars = path.getTheCars();
+            //ArrayList<Car> cars = path.getCars();
             for (Car car : cars) {
                 carGroup.getChildren().add(car.getThePath());
                 carGroup.getChildren().add(car);
@@ -106,8 +108,8 @@ class FroggerView {
         this.waterGroup = new Group();
         for (WaterObjectPath path : this.theRivers) {
 //            root.getChildren().add(path.getTheRiver());
-            //WaterObject[] waterObjects = path.getTheObjects();
-            ArrayList<WaterObject> waterObjects = path.getWaterObjects();
+            WaterObject[] waterObjects = path.getTheObjects();
+            //ArrayList<WaterObject> waterObjects = path.getWaterObjects();
             for (WaterObject waterObject : waterObjects) {
                 waterGroup.getChildren().add(waterObject.getThePath());
                 waterGroup.getChildren().add(waterObject);
@@ -188,8 +190,8 @@ class FroggerView {
         return this.theFrog;
     }
 
-    public Car[][] getTheCars() {
-        return this.theCars;
+    public void launchNewFrog() {
+        this.theFrog = new Frog("basicFrog.png");
     }
 
     public CarPath[] getTheRoads() {
@@ -208,22 +210,40 @@ class FroggerView {
         return NUM_LIVES;
     }
 
-    public void endGame(int finalScore, ArrayList<Integer> scores) {
+    public void endGame(int finalScore, ArrayList<Integer> scores,
+                        boolean winGame) {
         root.getChildren().clear();
-        Label endLabel = new Label("Game Over!!!!!!");
-        endLabel.setFont(new Font("Arial", 50));
-        endLabel.setTranslateX((root.getPrefWidth() / 2) - 100);
-        endLabel.setTranslateY(root.getPrefHeight() / 2 - 100);
-        endLabel.setTextFill(Color.AQUA);
-        endLabel.setTextAlignment(TextAlignment.CENTER);
-        endLabel.setFont(Font.font(30));
-        root.getChildren().add(endLabel);
-        FadeTransition ft = new FadeTransition(Duration.millis(1000), endLabel);
-        ft.setFromValue(1.0);
-        ft.setToValue(0.0);
-        ft.setCycleCount(1000);
-        ft.setAutoReverse(true);
-        ft.play();
+        if (winGame) {
+            Label winLbl = new Label("YOU WON!!!!!!");
+            winLbl.setFont(new Font("Arial", 60));
+            winLbl.setTranslateX((root.getPrefWidth() / 2) - 100);
+            winLbl.setTranslateY(root.getPrefHeight() / 2 - 100);
+            winLbl.setTextFill(Color.BLUEVIOLET);
+            winLbl.setTextAlignment(TextAlignment.CENTER);
+            root.getChildren().add(winLbl);
+            FadeTransition ft_Win = new FadeTransition(Duration.millis(1000),
+                                                       winLbl);
+            ft_Win.setFromValue(1.0);
+            ft_Win.setToValue(0.0);
+            ft_Win.setCycleCount(1000);
+            ft_Win.setAutoReverse(true);
+            ft_Win.play();
+        } else {
+            Label endLabel = new Label("Game Over!!!!!!");
+            endLabel.setFont(new Font("Arial", 50));
+            endLabel.setTranslateX((root.getPrefWidth() / 2) - 100);
+            endLabel.setTranslateY(root.getPrefHeight() / 2 - 100);
+            endLabel.setTextFill(Color.AQUA);
+            endLabel.setTextAlignment(TextAlignment.CENTER);
+            root.getChildren().add(endLabel);
+            FadeTransition ft = new FadeTransition(Duration.millis(1000),
+                                                   endLabel);
+            ft.setFromValue(1.0);
+            ft.setToValue(0.0);
+            ft.setCycleCount(1000);
+            ft.setAutoReverse(true);
+            ft.play();
+        }
 
         Label yourScore = new Label("Your Score: " + finalScore);
         yourScore.setFont(new Font("Arial", 20));

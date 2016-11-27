@@ -34,6 +34,7 @@ class FroggerController {
 
     private FroggerView theView;
     private FroggerModel theModel;
+    private FroggerMainMenu theMainMenu;
 
     private MoveCarsTask theMoveCarTask;
     private MoveWaterObjectsTask theMoveWaterObjectsTask;
@@ -63,9 +64,11 @@ class FroggerController {
 
     private boolean keyControls = true;
 
-    FroggerController(FroggerView theView, FroggerModel theModel) {
+    FroggerController(FroggerView theView, FroggerModel theModel,
+                      FroggerMainMenu theMainMenu) {
         this.theView = theView;
         this.theModel = theModel;
+        this.theMainMenu = theMainMenu;
 
         this.theMoveCarTask = null;
         this.carCollisionsTask = null;
@@ -247,24 +250,25 @@ class FroggerController {
         }
     }
 
-    public void startTheCars() {
+    public void startTheCars(int delay) {
         CarPath[] theRoad = this.theView.getTheRoads();
         for (CarPath path : theRoad) {
-            //Car[] cars = path.getTheCars();
-            ArrayList<Car> theCars = path.getCars();
-            this.theMoveCarTask = new MoveCarsTask(theCars);
+            Car[] cars = path.getTheCars();
+            //ArrayList<Car> theCars = path.getCars();
+            this.theMoveCarTask = new MoveCarsTask(cars, delay);
             Thread th = new Thread(theMoveCarTask);
             th.setDaemon(true);
             th.start();
         }
     }
 
-    public void startTheWaterObjects() {
+    public void startTheWaterObjects(int delay) {
         WaterObjectPath[] theRiver = this.theView.getTheRivers();
         for (WaterObjectPath path : theRiver) {
-            //WaterObject[] waterObjects = path.getTheObjects();
-            ArrayList<WaterObject> waterObjects = path.getWaterObjects();
-            this.theMoveWaterObjectsTask = new MoveWaterObjectsTask(waterObjects);
+            WaterObject[] waterObjects = path.getTheObjects();
+            //ArrayList<WaterObject> waterObjects = path.getWaterObjects();
+            this.theMoveWaterObjectsTask = new MoveWaterObjectsTask(waterObjects,
+                                                                    delay);
             Thread th = new Thread(theMoveWaterObjectsTask);
             th.setDaemon(true);
             th.start();
@@ -285,11 +289,11 @@ class FroggerController {
     public void checkCarCollisions() {
         CarPath[] theRoad = this.theView.getTheRoads();
         CarPath path = theRoad[this.frogIndex];
-        //Car[] cars = path.getTheCars();
-        ArrayList<Car> theCars = path.getCars();
+        Car[] cars = path.getTheCars();
+        //ArrayList<Car> theCars = path.getCars();
 
         FroggerController.this.carCollisionsTask = new CarCollisionsTask(
-                theCars);
+                cars);
         Thread th = new Thread(carCollisionsTask);
         th.setDaemon(true);
         th.start();
@@ -317,12 +321,15 @@ class FroggerController {
         this.numLives--;
     }
 
-    public void endGame() {
+    public void endGame(boolean winGame) {
+        if (winGame) {
+            this.score += 500;
+        }
         System.out.println("Final Score: " + this.score);
         ArrayList<Integer> theScores = this.highScores.insertScore(this.score);
         this.highScores.saveScores();
         this.gameOver = true;
-        this.theView.endGame(this.score, theScores);
+        this.theView.endGame(this.score, theScores, true);
 
     }
 
@@ -340,11 +347,14 @@ class FroggerController {
 
     class MoveWaterObjectsTask extends Task<Integer> {
 
-        //private final WaterObject[] waterObjects;
-        private final ArrayList<WaterObject> waterObjects;
+        private final WaterObject[] waterObjects;
+        //private final ArrayList<WaterObject> waterObjects;
+        private int baseDelay;
 
-        public MoveWaterObjectsTask(ArrayList<WaterObject> waterObjects) {
+        public MoveWaterObjectsTask(WaterObject[] waterObjects,
+                                    int delay) {
             this.waterObjects = waterObjects;
+            this.baseDelay = delay;
         }
 
         @Override
@@ -358,9 +368,8 @@ class FroggerController {
                     }
                 });
 
-                int base = 3000;
                 double rand = Math.random() * 1000;
-                int sleepTime = (int) (base + rand);
+                int sleepTime = (int) (this.baseDelay + rand);
                 Thread.sleep(sleepTime);
             }
 
@@ -370,14 +379,16 @@ class FroggerController {
 
     class MoveCarsTask extends Task<Integer> {
 
-        //private final Car[] cars;
-        private final ArrayList<Car> cars;
+        private final Car[] cars;
+        //private final ArrayList<Car> cars;
+        private int baseDelay;
 
         /**
          * Construct the task with the model and cars to run through
          */
-        public MoveCarsTask(ArrayList<Car> cars) {
+        public MoveCarsTask(Car[] cars, int delay) {
             this.cars = cars;
+            this.baseDelay = delay;
         }
 
         @Override
@@ -391,9 +402,9 @@ class FroggerController {
 
                     }
                 });
-                int base = 3000;
+
                 double rand = Math.random() * 1000;
-                int sleepTime = (int) (base + rand);
+                int sleepTime = (int) (this.baseDelay + rand);
                 Thread.sleep(sleepTime);
             }
 
@@ -404,14 +415,14 @@ class FroggerController {
 
     class CarCollisionsTask extends Task<Integer> {
 
-        //private final Car[] cars;
-        private final ArrayList<Car> cars;
+        private final Car[] cars;
+        //private final ArrayList<Car> cars;
         private boolean stopTask;
 
         /**
          * Construct the task with the model and cars to run through
          */
-        public CarCollisionsTask(ArrayList<Car> cars) {
+        public CarCollisionsTask(Car[] cars) {
             this.cars = cars;
             this.stopTask = false;
         }
@@ -436,7 +447,7 @@ class FroggerController {
                                 FroggerController.this.theView.removeNextLife();
 
                                 if (FroggerController.this.numLives <= 0) {
-                                    FroggerController.this.endGame();
+                                    FroggerController.this.endGame(false);
                                 }
                             }
                         });
@@ -480,8 +491,8 @@ class FroggerController {
                 Bounds frogBoundsParent = FroggerController.this.theView.getTheFrog().getBoundsInParent();
 
                 boolean isOnALog = false;
-                //WaterObject[] waterObjects = this.waterPath.getTheObjects();
-                ArrayList<WaterObject> waterObjects = this.waterPath.getWaterObjects();
+                WaterObject[] waterObjects = this.waterPath.getTheObjects();
+                //ArrayList<WaterObject> waterObjects = this.waterPath.getWaterObjects();
                 for (WaterObject waterObject : waterObjects) {
                     if (waterObject.getBoundsInParent().intersects(
                             frogBoundsParent)) {
@@ -514,7 +525,7 @@ class FroggerController {
                             FroggerController.this.theView.removeNextLife();
 
                             if (FroggerController.this.numLives <= 0) {
-                                FroggerController.this.endGame();
+                                FroggerController.this.endGame(false);
                             }
                         }
                     });
@@ -623,14 +634,42 @@ class FroggerController {
         @Override
         protected Integer call() throws Exception {
 
-            //System.out.println(this.lilyPads.length);
             Bounds frogBounds = FroggerController.this.theView.getTheFrog().getBoundsInParent();
             for (LilyPad lilyPad : this.lilyPads) {
                 Bounds lilyBounds = lilyPad.getBoundsInParent();
 
                 if (lilyPad.getBoundsInParent().intersects(frogBounds)) {
+                    if (lilyPad.getIsOccupied()) {
+                        break;
+                    }
                     System.out.println("On Lilypad");
+                    boolean levelUp = FroggerController.this.theModel.levelUp();
+                    lilyPad.setOccupied();
+
+                    if (levelUp) {
+                        FroggerController.this.restartFrogIndex();
+                        Platform.runLater(new Runnable() {
+                            @Override
+                            public void run() {
+                                FroggerController.this.theView.launchNewFrog();
+                                FroggerController.this.theView.addFrog();
+                            }
+                        });
+                        Thread.sleep(1);
+
+                    } else {
+                        Thread.sleep(500);
+                        Platform.runLater(new Runnable() {
+                            @Override
+                            public void run() {
+                                FroggerController.this.endGame(true);
+                            }
+                        });
+                        Thread.sleep(1);
+                    }
+
                     this.onPad = true;
+                    return 1;
                 }
             }
 
@@ -645,14 +684,14 @@ class FroggerController {
                         FroggerController.this.theView.getTheFrog().restartFrog();
                         FroggerController.this.theView.removeNextLife();
                         if (FroggerController.this.numLives <= 0) {
-                            FroggerController.this.endGame();
+                            FroggerController.this.endGame(false);
                         }
+
                     }
                 });
                 Thread.sleep(1);
                 return 1;
             }
-
             return 1;
         }
 

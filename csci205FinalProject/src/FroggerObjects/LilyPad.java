@@ -28,6 +28,7 @@ public class LilyPad extends ImageView {
     private double xLocation;
     private static final double yLocation = 55;
     private static final String fileName = "lilyPad.jpg";
+    private boolean isOccupied;
 
     public LilyPad(double xLocation) {
         super(fileName);
@@ -35,6 +36,7 @@ public class LilyPad extends ImageView {
         setFitWidth(WIDTH);
         this.xLocation = xLocation;
         setPosition();
+        this.isOccupied = false;
     }
 
     private void setPosition() {
@@ -52,6 +54,14 @@ public class LilyPad extends ImageView {
 
     public double getyLocation() {
         return yLocation;
+    }
+
+    public boolean getIsOccupied() {
+        return this.isOccupied;
+    }
+
+    public void setOccupied() {
+        this.isOccupied = true;
     }
 
 }

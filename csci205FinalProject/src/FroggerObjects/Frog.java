@@ -29,20 +29,16 @@ public class Frog extends ImageView {
     private static final double width = 25;
     private static final double height = 25;
 
-    private int currentLevel;
-    private final int maxLevel = 5;
-
     private double XLocation;
     private double YLocation;
 
     private boolean isOnWaterObject;
 
-    public Frog(String fileName, double XLocation,
-                double YLocation) {
+    public Frog(String fileName) {
 
         super(fileName);
-        this.XLocation = XLocation;
-        this.YLocation = YLocation;
+        this.XLocation = STARTING_X_POS;
+        this.YLocation = STARTING_Y_POS;
         setFitHeight(height);
         setFitWidth(width);
         setSmooth(true);
@@ -50,7 +46,6 @@ public class Frog extends ImageView {
         setTranslateY(this.YLocation);
 
         this.isOnWaterObject = false;
-        this.currentLevel = 1;
 
     }
 
@@ -97,15 +92,6 @@ public class Frog extends ImageView {
     public void restartFrog() {
         setTranslateX(STARTING_X_POS);
         setTranslateY(STARTING_Y_POS);
-    }
-
-    public int getCurrentLevel() {
-        return this.currentLevel;
-    }
-
-    public void levelUp() {
-        this.currentLevel++;
-        restartFrog();
     }
 
 }
