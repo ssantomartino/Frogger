@@ -51,8 +51,8 @@ public class FroggerMainMenu {
     private VBox theVBox;
     private ToggleGroup playerGroup;
     private ToggleGroup levelGroup;
-    private RadioButton onePlayer;
-    private RadioButton twoPlayer;
+//    private RadioButton onePlayer;
+//    private RadioButton twoPlayer;
     private RadioButton beginner;
     private RadioButton expert;
 
@@ -87,7 +87,7 @@ public class FroggerMainMenu {
         this.startGame = false;
 
         addTitle();
-        addPlayerBoxes();
+//        addPlayerBoxes();
         addLevelOptions();
         addButtons();
         addProgressBar();
@@ -133,25 +133,24 @@ public class FroggerMainMenu {
 
     }
 
-    public void addPlayerBoxes() {
-        HBox playerContainer = new HBox();
-        playerGroup = new ToggleGroup();
-        playerContainer.setAlignment(Pos.CENTER);
-        playerContainer.setSpacing(10);
-
-        this.onePlayer = new RadioButton("One Player");
-        this.onePlayer.setFont(new Font("Arial", 30));
-        this.onePlayer.setToggleGroup(playerGroup);
-        this.onePlayer.setSelected(true);
-
-        this.twoPlayer = new RadioButton("Two Player");
-        this.twoPlayer.setFont(new Font("Arial", 30));
-        this.twoPlayer.setToggleGroup(playerGroup);
-
-        playerContainer.getChildren().addAll(this.onePlayer, this.twoPlayer);
-        this.theVBox.getChildren().add(playerContainer);
-    }
-
+//    public void addPlayerBoxes() {
+//        HBox playerContainer = new HBox();
+//        playerGroup = new ToggleGroup();
+//        playerContainer.setAlignment(Pos.CENTER);
+//        playerContainer.setSpacing(10);
+//
+//        this.onePlayer = new RadioButton("One Player");
+//        this.onePlayer.setFont(new Font("Arial", 30));
+//        this.onePlayer.setToggleGroup(playerGroup);
+//        this.onePlayer.setSelected(true);
+//
+//        this.twoPlayer = new RadioButton("Two Player");
+//        this.twoPlayer.setFont(new Font("Arial", 30));
+//        this.twoPlayer.setToggleGroup(playerGroup);
+//
+//        playerContainer.getChildren().addAll(this.onePlayer, this.twoPlayer);
+//        this.theVBox.getChildren().add(playerContainer);
+//    }
     public void addLevelOptions() {
         HBox levelContainer = new HBox();
         levelGroup = new ToggleGroup();
