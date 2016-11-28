@@ -33,7 +33,7 @@ public class HighScores {
 
     public HighScores() {
         this.scores = getScores();
-        printScores();
+        //printScores();
 
     }
 
