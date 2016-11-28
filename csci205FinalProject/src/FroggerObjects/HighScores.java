@@ -101,11 +101,10 @@ public class HighScores {
         }
     }
 
-    public static void main(String[] args) {
-        HighScores myH = new HighScores();
-        ArrayList<Integer> testing = myH.insertScore(137);
-        myH.printScores();
-        myH.saveScores();
-    }
-
+//    public static void main(String[] args) {
+//        HighScores myH = new HighScores();
+//        ArrayList<Integer> testing = myH.insertScore(137);
+//        //myH.printScores();
+//        myH.saveScores();
+//    }
 }

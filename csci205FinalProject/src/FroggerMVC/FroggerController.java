@@ -329,7 +329,7 @@ class FroggerController {
         ArrayList<Integer> theScores = this.highScores.insertScore(this.score);
         this.highScores.saveScores();
         this.gameOver = true;
-        this.theView.endGame(this.score, theScores, true);
+        this.theView.endGame(this.score, theScores, winGame);
 
     }
 
