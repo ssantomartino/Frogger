@@ -3,13 +3,13 @@
 * Fall 2016
 *
 * Name: Sam Santomartino, Grace Cook, and John O'Brien
-* Date: Nov 11, 2016
-* Time: 2:42:36 PM
+* Date: Nov 7, 2016
+* Time: 10:10:47 AM
 *
 * Project: csci205FinalProject
 * Package: FroggerObjects
-* File: WaterObject
-* Description: Represents a Water Object - either a Turtle or Log - in a River
+* File: MovingObject
+* Description: Represents one Frogger Object (MovingObject, Log, or Turtle) on either a Road or River
 *
 * ****************************************
  */
@@ -24,28 +24,26 @@ import javafx.scene.shape.Path;
 import javafx.util.Duration;
 
 /**
- * Represents a Water Object - either a Turtle or Log - in a River
+ * Represents one Frogger Object (MovingObject, Log, or Turtle) on either a
+ Road or River
  *
  * @author jeo008, sms063, gmc017
  */
-public class WaterObject extends ImageView {
+public class MovingObject extends ImageView {
 
     /*
-    the path that the water object will follow
+    the path that the object will follow
      */
     private Path thePath;
     /*
-    the path transistion that animates the water object across the path
+    the path transistion that animates the object across the path
      */
     private PathTransition pathTransition;
+
     /*
-    constant height of water object image
+    constant height of the object's image
      */
     private static final double HEIGHT = 25;
-    /*
-    constant width of water object image
-     */
-    private static final double WIDTH = 70;
 
     /*
     int representing the game level being played at - beginner(50) or expert(100)
@@ -55,28 +53,33 @@ public class WaterObject extends ImageView {
 
     /**
      * Constructor initializes instance variables and sets the path that the
-     * water object will follow
+     * object either a car, turtle, or log, will follow
      *
-     * @param fileName name of the image file for the water object
-     * @param startX starting X position for water object path
-     * @param startY starting Y position for the water object path
-     * @param endX ending X position for the water object path
+     * @param fileName name of the image file for the object
+     * @param startX starting X position for object path
+     * @param startY starting Y position for the object path
+     * @param endX ending X position for the object path
      * @param gameMode designated game mode
      */
-    public WaterObject(String fileName, int startX, int startY, int endX,
-                       int gameMode) {
+    public MovingObject(String fileName, int startX, int startY, int endX,
+                         int gameMode) {
+
         super(fileName);
         this.gameMode = gameMode;
         setFitHeight(HEIGHT);
-        setFitWidth(WIDTH);
+//        setFitWidth(WIDTH);
         setX(startX);
         setY(startY);
         createPath(startX, startY, endX);
         createPathTransition(startX, endX);
     }
 
+    public void setWidth(int width) {
+        setFitWidth(width);
+    }
+
     /**
-     * Initializes the Path that the Water Object will follow
+     * Initializes the Path that the Frogger Object will follow
      *
      * @param startX starting X position for the path
      * @param startY starting Y position for the path
@@ -90,8 +93,8 @@ public class WaterObject extends ImageView {
     }
 
     /**
-     * Initializes the Path Transition that will run the Water Object along the
-     * Path
+     * Initializes the Path Transition that will run the Frogger Object along
+     * the Path
      *
      * @param startX starting X position
      * @param endX ending X position
@@ -102,18 +105,18 @@ public class WaterObject extends ImageView {
         pathTransition.setNode(this);
         pathTransition.setCycleCount(Animation.INDEFINITE);
         pathTransition.setDuration(
-                Duration.seconds(Math.abs(startX - endX) / this.gameMode));
+                Duration.seconds(Math.abs(startX - endX) / gameMode));
     }
 
     /**
-     * Plays the Path Transition that animates the Water Object
+     * Plays the Path Transition that animates the Frogger Object
      */
-    public void moveWaterObject() {
+    public void moveFroggerObject() {
         pathTransition.play();
     }
 
     /**
-     * Returns the Path that the Water Object follows
+     * Returns the Path that the Frogger Object follows
      *
      * @return Path
      */

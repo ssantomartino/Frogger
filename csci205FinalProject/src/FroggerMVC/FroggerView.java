@@ -15,11 +15,10 @@
  */
 package FroggerMVC;
 
-import FroggerObjects.Car;
+import FroggerObjects.MovingObject;
 import FroggerObjects.CarPath;
 import FroggerObjects.Frog;
 import FroggerObjects.LilyPad;
-import FroggerObjects.WaterObject;
 import FroggerObjects.WaterObjectPath;
 import java.util.ArrayList;
 import javafx.animation.FadeTransition;
@@ -132,16 +131,16 @@ class FroggerView {
     }
 
     /**
-     * Adds the Car and Water Objects along with their transition paths to the
-     * Scene
+     * Adds the MovingObject and Water Objects along with their transition
+ paths to the Scene
      */
     public void addPaths() {
         this.theRoads = theModel.generateCarPaths();
         this.carGroup = new Group();
         for (CarPath path : this.theRoads) {
-            Car[] cars = path.getTheCars();
+            MovingObject[] cars = path.getTheCars();
 
-            for (Car car : cars) {
+            for (MovingObject car : cars) {
                 carGroup.getChildren().add(car.getThePath());
                 carGroup.getChildren().add(car);
             }
@@ -152,9 +151,9 @@ class FroggerView {
         this.waterGroup = new Group();
         for (WaterObjectPath path : this.theRivers) {
 
-            WaterObject[] waterObjects = path.getTheObjects();
+            MovingObject[] waterObjects = path.getTheObjects();
 
-            for (WaterObject waterObject : waterObjects) {
+            for (MovingObject waterObject : waterObjects) {
                 waterGroup.getChildren().add(waterObject.getThePath());
                 waterGroup.getChildren().add(waterObject);
             }

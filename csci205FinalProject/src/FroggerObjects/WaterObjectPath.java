@@ -9,14 +9,14 @@
 * Project: csci205FinalProject
 * Package: FroggerMVC
 * File: WaterObjectPath
-* Description: Represents a River that Holds Multiple Water Objects (turtles/logs)
+* Description: Represents a River that Holds Multiple Water Objects (logs/turtles)
 *
 * ****************************************
  */
 package FroggerObjects;
 
 /**
- * Represents a River that Holds Multiple Water Objects (turtles/logs)
+ * Represents a River that Holds Multiple Water Objects (logs/turtles)
  *
  * @author jeo008, sms063, gmc017
  */
@@ -28,14 +28,18 @@ public class WaterObjectPath {
     private static final int NUM_OBJECTS_IN_RIVER = 5;
 
     /*
-    Flag indicating if these Cars will be moving right and be logs or
-    moving left and be turtles
+    Flag indicating if these Water Objects will be logs (true) or turtles (false)
      */
-    private boolean faceRight;
+    private boolean logs;
     /*
     Array containing the Water Objects
      */
-    private WaterObject[] theObjects;
+    private MovingObject[] theWaterObjects;
+
+    /*
+    constant width of water object image
+     */
+    private static final int WIDTH = 70;
 
     /*
     int representing the game level being played at - beginner(50) or expert(100)
@@ -51,13 +55,13 @@ public class WaterObjectPath {
      * @param startY starting Y position for the first water object path
      * @param endX ending X position for the first water object path
      * @param gameMode designated game mode
-     * @param faceR boolean indicates if the water object on the road are logs
-     * right (true) or turtles (false)
+     * @param logs boolean indicates if the water object on the river are logs
+     * (true) or turtles (false)
      */
-    public WaterObjectPath(int startX, int startY, int endX, boolean faceR,
+    public WaterObjectPath(int startX, int startY, int endX, boolean logs,
                            int gameMode) {
-        this.theObjects = new WaterObject[NUM_OBJECTS_IN_RIVER];
-        this.faceRight = faceR;
+        this.theWaterObjects = new MovingObject[NUM_OBJECTS_IN_RIVER];
+        this.logs = logs;
 
         this.gameMode = gameMode;
         this.addObjects(startX, startY, endX);
@@ -72,22 +76,25 @@ public class WaterObjectPath {
      */
     private void addObjects(int startX, int startY, int endX) {
 
-        for (int i = 0; i < this.theObjects.length; i++) {
-            String objectType = getObjectType();
-            WaterObject waterObject = new WaterObject(objectType, startX, startY,
-                                                      endX, this.gameMode);
-            this.theObjects[i] = waterObject;
+        for (int i = 0; i < this.theWaterObjects.length; i++) {
+            String objectType = getWaterObjectType();
+            MovingObject waterObject = new MovingObject(objectType, startX,
+                                                        startY,
+                                                        endX, this.gameMode);
+            waterObject.setWidth(WIDTH);
+            this.theWaterObjects[i] = waterObject;
         }
     }
 
     /**
-     * Determines which image file to return depending on the faceRight flag if
-     * true, returns log file name, otherwise returns turtle file name
+     * Determines which image file to return depending on the "logs" flag
+     * variable; if true, returns log file name, otherwise returns turtle file
+     * name
      *
      * @return String of image file name
      */
-    private String getObjectType() {
-        if (this.faceRight) {
+    private String getWaterObjectType() {
+        if (this.logs) {
             return "log.png"; //log
         } else {
             return "turtles.png"; //turtle
@@ -99,8 +106,8 @@ public class WaterObjectPath {
      *
      * @return WaterObject[]
      */
-    public WaterObject[] getTheObjects() {
-        return theObjects;
+    public MovingObject[] getTheObjects() {
+        return theWaterObjects;
     }
 
 }

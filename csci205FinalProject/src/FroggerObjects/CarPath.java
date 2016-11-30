@@ -39,11 +39,17 @@ public class CarPath {
     /*
     Array containing the Cars
      */
-    private Car[] theCars;
+    private MovingObject[] theCars;
     /*
     Flag indicating if these Cars will be facing right (true) or left (false)
      */
     private boolean faceRight;
+
+    /*
+    constant width of water object image
+     */
+    private static final int WIDTH = 50;
+
     /*
     int representing the game level being played at - beginner(50) or expert(100)
     to be set by the Main Menu Options
@@ -61,7 +67,7 @@ public class CarPath {
      * (true) or not (false)
      */
     public CarPath(int startX, int startY, int endX, boolean faceR, int gameMode) {
-        this.theCars = new Car[NUM_CARS_ON_ROAD];
+        this.theCars = new MovingObject[NUM_CARS_ON_ROAD];
         this.faceRight = faceR;
         this.gameMode = gameMode;
         this.addCars(startX, startY, endX);
@@ -78,14 +84,16 @@ public class CarPath {
 
         for (int i = 0; i < this.theCars.length; i++) {
             String carType = getCarType();
-            Car car = new Car(carType, startX, startY, endX, this.gameMode);
+            MovingObject car = new MovingObject(carType, startX, startY, endX,
+                                                  this.gameMode);
+            car.setWidth(WIDTH);
             this.theCars[i] = car;
         }
     }
 
     /**
-     * Determines which image file array to pull a random Car image from,
-     * depending on if the cars should be facing right or not
+     * Determines which image file array to pull a random MovingObject image
+ from, depending on if the cars should be facing right or not
      *
      * @return String of image file name
      */
@@ -102,9 +110,9 @@ public class CarPath {
     /**
      * returns the array of Cars
      *
-     * @return Car[]
+     * @return MovingObject[]
      */
-    public Car[] getTheCars() {
+    public MovingObject[] getTheCars() {
         return theCars;
     }
 
