@@ -9,7 +9,7 @@
 * Project: csci205FinalProject
 * Package:
 * File: FroggerMain
-* Description:
+* Description: Main Class controls and runs the MVC classes
 *
 * ****************************************
  */
@@ -24,8 +24,9 @@ import javafx.scene.input.KeyEvent;
 import javafx.stage.Stage;
 
 /**
+ * Main Class controls and runs the MVC classes
  *
- * @author sms063
+ * @author jeo008, sms063, gmc017
  */
 public class FroggerMain extends Application implements EventHandler<KeyEvent> {
 
@@ -34,6 +35,11 @@ public class FroggerMain extends Application implements EventHandler<KeyEvent> {
     private FroggerModel theModel;
     private FroggerController theController;
 
+    /**
+     * initializes the model and view for the application
+     *
+     * @throws Exception
+     */
     @Override
     public void init() throws Exception {
         super.init();
@@ -58,6 +64,10 @@ public class FroggerMain extends Application implements EventHandler<KeyEvent> {
 
         this.theMainMenu = new FroggerMainMenu(this.theModel);
 
+        /*
+        continually checks the main menu screen to see if the start button has been clicked, once clicked,
+        the cars and water objects are started according to the designated gammer level (beginner vs expert)
+         */
         new AnimationTimer() {
             @Override
             public void handle(long now) {
@@ -74,18 +84,13 @@ public class FroggerMain extends Application implements EventHandler<KeyEvent> {
 
         }.start();
 
-//        new AnimationTimer() {
-//            @Override
-//            public void handle(long now) {
-//                //update();
-//            }
-//
-//        }.start();
     }
 
     @Override
     /**
-     * Handles the Key Pressed Event
+     * Handles the Key Pressed Event for arrow keys and moves the frog
+     * accordingly - note: this event handler is in main because the action
+     * listener is on the scene of the game
      */
     public void handle(KeyEvent event) {
 

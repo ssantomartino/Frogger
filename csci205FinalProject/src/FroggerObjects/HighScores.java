@@ -9,7 +9,7 @@
 * Project: csci205FinalProject
 * Package: FroggerObjects
 * File: HighScores
-* Description:
+* Description: Keeps Track of the High Scores From all Plays of the Frogger Game
 *
 * ****************************************
  */
@@ -24,19 +24,30 @@ import java.io.IOException;
 import java.util.ArrayList;
 
 /**
+ * Keeps Track of the High Scores From all Plays of the Frogger Game
  *
- * @author gmc017
+ * @author jeo008, sms063, gmc017
  */
 public class HighScores {
 
+    /*
+    ArrayList of scores
+     */
     private ArrayList<Integer> scores;
 
+    /**
+     * Constructor initializes instance variables
+     */
     public HighScores() {
         this.scores = getScores();
-        //printScores();
-
     }
 
+    /**
+     * Inserts a new score into the ArrayList
+     *
+     * @param score the new score to add
+     * @return the ArrayList of scores
+     */
     public ArrayList<Integer> insertScore(int score) {
         for (int i = 0; i < this.scores.size(); i++) {
             if (score > this.scores.get(i)) {
@@ -48,6 +59,9 @@ public class HighScores {
         return this.scores;
     }
 
+    /**
+     * Saves the scores to an output files
+     */
     public void saveScores() {
 
         BufferedWriter bufOutput = null;
@@ -68,6 +82,11 @@ public class HighScores {
 
     }
 
+    /**
+     * Returns the Scores
+     *
+     * @return ArrayList of the scores
+     */
     public ArrayList<Integer> getScores() {
         BufferedReader bufInput;
         ArrayList<Integer> myScores = new ArrayList<>();
@@ -95,16 +114,13 @@ public class HighScores {
         return myScores;
     }
 
+    /**
+     * Prints the scores in the list
+     */
     public void printScores() {
         for (int i = 0; i < this.scores.size(); i++) {
             System.out.println(this.scores.get(i));
         }
     }
 
-//    public static void main(String[] args) {
-//        HighScores myH = new HighScores();
-//        ArrayList<Integer> testing = myH.insertScore(137);
-//        //myH.printScores();
-//        myH.saveScores();
-//    }
 }

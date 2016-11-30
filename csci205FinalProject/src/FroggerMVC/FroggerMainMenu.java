@@ -9,7 +9,7 @@
 * Project: csci205FinalProject
 * Package: FroggerMVC
 * File: FroggerMainMenu
-* Description:
+* Description: Main Menu class displays start screen to gather game parameters
 *
 * ****************************************
  */
@@ -40,34 +40,76 @@ import javafx.stage.WindowEvent;
 import javafx.util.Duration;
 
 /**
+ * Main Menu class displays start screen to gather game parameters
  *
- * @author samanthasantomartino
+ * @author jeo008, sms063, gmc017
  */
 public class FroggerMainMenu {
+    /*
+    Main Pane of Main Menu
+     */
     private StackPane root;
+
+    /*
+    Start Button
+     */
     private Button start;
+    /*
+    Exit Button
+     */
     private Button exit;
+    /*
+    Title Label
+     */
     private Label title;
+    /*
+    VBox houses items on Stack Pane
+     */
     private VBox theVBox;
-    private ToggleGroup playerGroup;
+    /*
+    Toggle Group contains beginner and expert options
+     */
     private ToggleGroup levelGroup;
-//    private RadioButton onePlayer;
-//    private RadioButton twoPlayer;
+    /*
+    radio option for beginner level
+     */
     private RadioButton beginner;
+    /*
+    radio option for expert level
+     */
     private RadioButton expert;
 
-    private static final Integer STARTTIME = 7;
+    /*
+    the amount of time required for game to load after start is selected
+     */
+    private static final Integer LOADTIME = 7;
+    /*
+    the timeline that counts down the time left in progress bar
+     */
     private Timeline timeline;
-    private Label timerLabel = new Label();
+    /*
+    the seconds countdown of progress bar
+     */
     private IntegerProperty timeSeconds = new SimpleIntegerProperty(
-            STARTTIME * 100);
+            LOADTIME * 100);
 
+    /*
+    SubStage of game to display before main game
+     */
     private Stage subStage;
 
     private FroggerModel theModel;
 
+    /*
+    Flag returns true if the start button has been clicked, false otherwise
+     */
     private boolean startGame;
 
+    /**
+     * Constructor initializes instance variables and adds features to substage
+     *
+     * @param theModel
+     */
     public FroggerMainMenu(FroggerModel theModel) {
         this.theModel = theModel;
 
@@ -87,7 +129,6 @@ public class FroggerMainMenu {
         this.startGame = false;
 
         addTitle();
-//        addPlayerBoxes();
         addLevelOptions();
         addButtons();
         addProgressBar();
@@ -99,7 +140,7 @@ public class FroggerMainMenu {
         subStage.setResizable(false);
         subStage.show();
 
-        // if main menu screen is closd, the whole program closes
+        // if main menu screen is closed, the whole program closes
         subStage.setOnCloseRequest(new EventHandler<WindowEvent>() {
             public void handle(WindowEvent ev) {
                 System.exit(0);
@@ -107,23 +148,30 @@ public class FroggerMainMenu {
         });
     }
 
+    /**
+     * Adds the Progress Bar to the SubStage that will fill up over the
+     * designated time the start button is clicked
+     */
     public void addProgressBar() {
 
         ProgressBar progressBar = new ProgressBar();
         progressBar.progressProperty().bind(
-                timeSeconds.divide(STARTTIME * 100.0).subtract(1).multiply(-1));
+                timeSeconds.divide(LOADTIME * 100.0).subtract(1).multiply(-1));
 
-        timeSeconds.set((STARTTIME + 1) * 100);
+        timeSeconds.set((LOADTIME + 1) * 100);
         timeline = new Timeline();
-        timeline.getKeyFrames().add(
-                new KeyFrame(Duration.seconds(STARTTIME + 1),
-                             new KeyValue(timeSeconds, 0)));
+        timeline.getKeyFrames().add(new KeyFrame(Duration.seconds(LOADTIME + 1),
+                                                 new KeyValue(timeSeconds, 0)));
 
         HBox timeContainer = new HBox(20);             // gap between components is 20
         timeContainer.setAlignment(Pos.CENTER);
         timeContainer.getChildren().addAll(progressBar);
         this.theVBox.getChildren().add(timeContainer);
 
+        /*
+        Action listener closes the substage when the progress bar is finished filling up,
+        thus indicating the game is ready to begin
+         */
         this.timeline.setOnFinished(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
@@ -133,24 +181,10 @@ public class FroggerMainMenu {
 
     }
 
-//    public void addPlayerBoxes() {
-//        HBox playerContainer = new HBox();
-//        playerGroup = new ToggleGroup();
-//        playerContainer.setAlignment(Pos.CENTER);
-//        playerContainer.setSpacing(10);
-//
-//        this.onePlayer = new RadioButton("One Player");
-//        this.onePlayer.setFont(new Font("Arial", 30));
-//        this.onePlayer.setToggleGroup(playerGroup);
-//        this.onePlayer.setSelected(true);
-//
-//        this.twoPlayer = new RadioButton("Two Player");
-//        this.twoPlayer.setFont(new Font("Arial", 30));
-//        this.twoPlayer.setToggleGroup(playerGroup);
-//
-//        playerContainer.getChildren().addAll(this.onePlayer, this.twoPlayer);
-//        this.theVBox.getChildren().add(playerContainer);
-//    }
+    /**
+     * Adds the radio group options to choose Beginner or Expert level of game
+     * play
+     */
     public void addLevelOptions() {
         HBox levelContainer = new HBox();
         levelGroup = new ToggleGroup();
@@ -171,6 +205,9 @@ public class FroggerMainMenu {
 
     }
 
+    /**
+     * Adds the title Label to the top of the screen
+     */
     public void addTitle() {
         this.title = new Label("Welcome to FROGGER!");
         title.setFont(new Font("Arial", 50));
@@ -179,6 +216,9 @@ public class FroggerMainMenu {
         this.theVBox.getChildren().add(this.title);
     }
 
+    /**
+     * Adds the start and exit buttons to the screen
+     */
     public void addButtons() {
 
         HBox buttonContainer = new HBox();
@@ -190,6 +230,12 @@ public class FroggerMainMenu {
         this.start.setTextFill(Color.BLUEVIOLET);
         this.start.setPrefSize(100, 50);
         //this.start.setDisable(true);
+
+        /*
+        Action listener - handles the event when the start button is clicked,
+        the desired game level is sent into the controller and
+        the progress bar begins to load
+         */
         this.start.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
@@ -209,6 +255,9 @@ public class FroggerMainMenu {
         this.exit.setTextFill(Color.GREEN);
         this.exit.setPrefSize(100, 50);
 
+        /*
+        Action Listener - handles the event when the exit button is clicked
+         */
         this.exit.setOnAction(new EventHandler<ActionEvent>() {
             @Override
             public void handle(ActionEvent event) {
@@ -220,10 +269,22 @@ public class FroggerMainMenu {
         this.theVBox.getChildren().add(buttonContainer);
     }
 
+    /**
+     * Returns the status of the start button flag returns true if the start
+     * button has been clicked, false otherwise
+     *
+     * @return boolean
+     */
     public boolean getStartGame() {
         return this.startGame;
     }
 
+    /**
+     * Returns the appropriate amount of time delay between objects depending on
+     * the selected game level
+     *
+     * @return int representing a time delay between cars or water objects
+     */
     public int getGameDelay() {
         if (this.levelGroup.getSelectedToggle() == this.beginner) {
             return 3000;

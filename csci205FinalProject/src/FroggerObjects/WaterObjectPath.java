@@ -9,39 +9,67 @@
 * Project: csci205FinalProject
 * Package: FroggerMVC
 * File: WaterObjectPath
-* Description:
+* Description: Represents a River that Holds Multiple Water Objects (turtles/logs)
 *
 * ****************************************
  */
 package FroggerObjects;
 
-import java.util.ArrayList;
-
 /**
+ * Represents a River that Holds Multiple Water Objects (turtles/logs)
  *
- * @author jeo008
+ * @author jeo008, sms063, gmc017
  */
 public class WaterObjectPath {
 
+    /*
+    Constant Maximum number of Water Objects in the River at a time
+     */
     private static final int NUM_OBJECTS_IN_RIVER = 5;
-    private static final int[] NUM_OBJECTS_IN_RIVER_ARRAY = {5, 4, 3, 2, 2};
-    private static final int RIVER_HEIGHT = 22;
-    private static final int RIVER_WIDTH = 700;
+
+    /*
+    Flag indicating if these Cars will be moving right and be logs or
+    moving left and be turtles
+     */
     private boolean faceRight;
+    /*
+    Array containing the Water Objects
+     */
     private WaterObject[] theObjects;
-    private ArrayList<WaterObject> theObjectsArray;
+
+    /*
+    int representing the game level being played at - beginner(50) or expert(100)
+    to be set by the Main Menu Options
+     */
     private int gameMode;
 
+    /**
+     * Constructor initializes instance variables and adds the water object to
+     * the River
+     *
+     * @param startX starting X position for the first water object path
+     * @param startY starting Y position for the first water object path
+     * @param endX ending X position for the first water object path
+     * @param gameMode designated game mode
+     * @param faceR boolean indicates if the water object on the road are logs
+     * right (true) or turtles (false)
+     */
     public WaterObjectPath(int startX, int startY, int endX, boolean faceR,
                            int gameMode) {
         this.theObjects = new WaterObject[NUM_OBJECTS_IN_RIVER];
         this.faceRight = faceR;
-        this.theObjectsArray = new ArrayList<WaterObject>();
+
         this.gameMode = gameMode;
         this.addObjects(startX, startY, endX);
-        this.addObjectsArray(startX, startY, endX);
     }
 
+    /**
+     * Creates and adds water object to the Array
+     *
+     * @param startX starting X position for the first water object path
+     * @param startY starting Y position for the first water object path
+     * @param endX ending X position for the first water object path
+     */
     private void addObjects(int startX, int startY, int endX) {
 
         for (int i = 0; i < this.theObjects.length; i++) {
@@ -52,32 +80,12 @@ public class WaterObjectPath {
         }
     }
 
-    private void addObjectsArray(int startX, int startY, int endX) {
-
-        for (int i = 0; i < this.theObjects.length; i++) {
-            String objectType = getObjectType();
-            WaterObject waterObject = new WaterObject(objectType, startX, startY,
-                                                      endX, this.gameMode);
-            this.theObjectsArray.add(waterObject);
-        }
-    }
-
-    private void removeWaterObject() {
-        this.theObjectsArray.remove(this.theObjectsArray.size() - 1);
-    }
-
-    private int getCurNumWaterObjectsInRiver() {
-        return this.theObjectsArray.size();
-    }
-
-    public int getNumWaterObjectsInRiverAtLevel(int index) {
-        return NUM_OBJECTS_IN_RIVER_ARRAY[index];
-    }
-
-    public ArrayList<WaterObject> getWaterObjects() {
-        return this.theObjectsArray;
-    }
-
+    /**
+     * Determines which image file to return depending on the faceRight flag if
+     * true, returns log file name, otherwise returns turtle file name
+     *
+     * @return String of image file name
+     */
     private String getObjectType() {
         if (this.faceRight) {
             return "log.png"; //log
@@ -86,6 +94,11 @@ public class WaterObjectPath {
         }
     }
 
+    /**
+     * returns the array of Water Objects
+     *
+     * @return WaterObject[]
+     */
     public WaterObject[] getTheObjects() {
         return theObjects;
     }

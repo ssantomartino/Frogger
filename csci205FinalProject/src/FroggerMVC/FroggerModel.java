@@ -9,7 +9,7 @@
 * Project: csci205FinalProject
 * Package: FroggerMVC
 * File: FroggerModel
-* Description:
+* Description: Model class of MVC model
 *
 * ****************************************
  */
@@ -20,24 +20,40 @@ import FroggerObjects.LilyPad;
 import FroggerObjects.WaterObjectPath;
 
 /**
+ * Model class of MVC model
  *
- * @author sms063
+ * @author jeo008, sms063, gmc017
  */
 public class FroggerModel {
 
-    private static final String[] carFilesL = {"Car.png", "Police.png", "taxi.png"};
-    private static final String[] carFilesR = {"Audi.png", "Black_viper.png", "Mini_truck.png"};
-//    private static final String[] carFiles = {"blackCar.png"};
-
+    /*
+    int representing the game level being played at - beginner(50) or expert(100)
+    to be set by the Main Menu Options
+     */
     private int gameMode;
+    /*
+    the current level of the game that the frog is playing
+     */
     private int currentLevel;
+    /*
+    the max amount of levels before winning
+     */
     private static final int MAX_LEVELS = 5;
 
+    /**
+     * Constructor initializes necessary instance variables
+     */
     public FroggerModel() {
-        this.gameMode = 50;
+        this.gameMode = 50; // arbitrary initialization - will be set by Main Menu before actually used
         this.currentLevel = 0;
     }
 
+    /**
+     * Generates 5 new CarPaths with the correct spacing on the screen and
+     * returns an array of the CarPaths
+     *
+     * @return CarPath[] array of CarPaths
+     */
     public CarPath[] generateCarPaths() {
 
         int numRoads = 5;
@@ -48,6 +64,7 @@ public class FroggerModel {
             int startY;
             int endX;
 
+            // changes the direction of every other path
             if (i % 2 == 1) {
                 startX = -50;
                 startY = 637 - i * 50;
@@ -65,10 +82,22 @@ public class FroggerModel {
         return paths;
     }
 
+    /**
+     * sets the type of game play given by an int either 50 (beginner) or 100
+     * (expert) set by the Main Menu
+     *
+     * @param mode int beginner or expert
+     */
     public void setGameMode(int mode) {
         this.gameMode = mode;
     }
 
+    /**
+     * Generates 5 new WaterObjectPaths with the correct spacing on the screen
+     * and returns an array of the WaterObjectPaths
+     *
+     * @return WaterObjectPath[] array of WaterObjectPaths
+     */
     public WaterObjectPath[] generateWaterObjectPaths() {
 
         int numRivers = 5;
@@ -79,6 +108,7 @@ public class FroggerModel {
             int startY;
             int endX;
 
+            // changes the direction of every other path
             if (i % 2 == 1) {
                 startX = -70;
                 startY = 337 - i * 50;
@@ -97,6 +127,12 @@ public class FroggerModel {
         return paths;
     }
 
+    /**
+     * Generates the top level of 5 lily pads at the correct location on the
+     * board
+     *
+     * @return LilyPad[] an array of LilyPads
+     */
     public LilyPad[] generateLilyPads() {
         int numPads = 5;
         LilyPad[] lilyPads = new LilyPad[numPads];

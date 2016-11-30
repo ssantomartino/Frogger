@@ -9,39 +9,71 @@
 * Project: csci205FinalProject
 * Package: FroggerObjects
 * File: CarPath
-* Description:
+* Description: Represents a Road that Holds Multiple Cars
 *
 * ****************************************
  */
 package FroggerObjects;
 
-import java.util.ArrayList;
 import java.util.Random;
 
 /**
+ * Represents a Road that Holds Multiple Cars
  *
- * @author sms063
+ * @author jeo008, sms063, gmc017
  */
 public class CarPath {
 
+    /*
+    Constant Maximum number of Cars on the Road at a time
+     */
     private static final int NUM_CARS_ON_ROAD = 5;
-    private static final int[] NUM_CARS_ON_ROAD_ARRAY = {5, 4, 3, 2, 2};
+    /*
+    Constant array of image file names for cars facing to the left
+     */
     private static final String[] carFilesL = {"Car.png", "Audi.png", "taxi.png"};
+    /*
+    Constant array of image file names for cars facing to the right
+     */
     private static final String[] carFilesR = {"Police.png", "Black_viper.png", "Mini_truck.png"};
+    /*
+    Array containing the Cars
+     */
     private Car[] theCars;
-    private ArrayList<Car> theCarsArray;
+    /*
+    Flag indicating if these Cars will be facing right (true) or left (false)
+     */
     private boolean faceRight;
+    /*
+    int representing the game level being played at - beginner(50) or expert(100)
+    to be set by the Main Menu Options
+     */
     private int gameMode;
 
+    /**
+     * Constructor initializes instance variables and adds the Cars to the Road
+     *
+     * @param startX starting X position for the first car path
+     * @param startY starting Y position for the first car path
+     * @param endX ending X position for the first car path
+     * @param gameMode designated game mode
+     * @param faceR boolean indicates if the cars on the road are facing right
+     * (true) or not (false)
+     */
     public CarPath(int startX, int startY, int endX, boolean faceR, int gameMode) {
         this.theCars = new Car[NUM_CARS_ON_ROAD];
         this.faceRight = faceR;
-        this.theCarsArray = new ArrayList<Car>();
         this.gameMode = gameMode;
         this.addCars(startX, startY, endX);
-        this.addCarsArray(startX, startY, endX);
     }
 
+    /**
+     * Creates and adds Cars to the Array
+     *
+     * @param startX starting X position for the first car path
+     * @param startY starting Y position for the first car path
+     * @param endX ending X position for the first car path
+     */
     private void addCars(int startX, int startY, int endX) {
 
         for (int i = 0; i < this.theCars.length; i++) {
@@ -51,31 +83,12 @@ public class CarPath {
         }
     }
 
-    private void addCarsArray(int startX, int startY, int endX) {
-
-        for (int i = 0; i < NUM_CARS_ON_ROAD_ARRAY[0]; i++) {
-            String carType = getCarType();
-            Car car = new Car(carType, startX, startY, endX, this.gameMode);
-            this.theCarsArray.add(car);
-        }
-    }
-
-    public void removeCar() {
-        this.theCarsArray.remove(this.theCarsArray.size() - 1);
-    }
-
-    public int getCurrentNumCarsOnRoad() {
-        return this.theCarsArray.size();
-    }
-
-    public int getNumCarsOnRoadAtLevel(int index) {
-        return NUM_CARS_ON_ROAD_ARRAY[index];
-    }
-
-    public ArrayList<Car> getCars() {
-        return this.theCarsArray;
-    }
-
+    /**
+     * Determines which image file array to pull a random Car image from,
+     * depending on if the cars should be facing right or not
+     *
+     * @return String of image file name
+     */
     private String getCarType() {
         if (this.faceRight) {
             return this.carFilesR[new Random().nextInt(
@@ -86,6 +99,11 @@ public class CarPath {
         }
     }
 
+    /**
+     * returns the array of Cars
+     *
+     * @return Car[]
+     */
     public Car[] getTheCars() {
         return theCars;
     }

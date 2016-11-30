@@ -9,7 +9,7 @@
 * Project: csci205FinalProject
 * Package: FroggerObjects
 * File: Car
-* Description:
+* Description: Represents one Car in a Road
 *
 * ****************************************
  */
@@ -24,33 +24,66 @@ import javafx.scene.shape.Path;
 import javafx.util.Duration;
 
 /**
+ * Represents one Car in a Road
  *
- * @author sms063
+ * @author jeo008, sms063, gmc017
  */
 public class Car extends ImageView {
 
-    //private Rectangle theCar;
+    /*
+    the path that the car will follow
+     */
     private Path thePath;
+    /*
+    the path transistion that animates the car across the path
+     */
     private PathTransition pathTransition;
 
-    private static double height = 25;
-    private static double width = 50;
+    /*
+    constant height of car image
+     */
+    private static final double HEIGHT = 25;
+    /*
+    constant width of car image
+     */
+    private static final double WIDTH = 50;
 
+    /*
+    int representing the game level being played at - beginner(50) or expert(100)
+    to be set by the Main Menu Options
+     */
     private int gameMode;
 
+    /**
+     * Constructor initializes instance variables and sets the path that the car
+     * will follow
+     *
+     * @param fileName name of the image file for the car
+     * @param startX starting X position for car path
+     * @param startY starting Y position for the car path
+     * @param endX ending X position for the car path
+     * @param gameMode designated game mode
+     */
     public Car(String fileName, int startX, int startY, int endX, int gameMode) {
-        //this.theCar = new Rectangle(30, 15, Color.RED);
+
         super(fileName);
         this.gameMode = gameMode;
-        setFitHeight(height);
-        setFitWidth(width);
-        //setSmooth(true);
+        setFitHeight(HEIGHT);
+        setFitWidth(WIDTH);
+
         setX(startX);
         setY(startY);
         createPath(startX, startY, endX);
         createPathTransition(startX, endX);
     }
 
+    /**
+     * Initializes the Path that the Car will follow
+     *
+     * @param startX starting X position for the path
+     * @param startY starting Y position for the path
+     * @param endX ending X position for the path
+     */
     private void createPath(int startX, int startY, int endX) {
         this.thePath = new Path();
         this.thePath.getElements().add(new MoveTo(startX, startY));
@@ -58,6 +91,12 @@ public class Car extends ImageView {
         this.thePath.setOpacity(0.0);
     }
 
+    /**
+     * Initializes the Path Transition that will run the Car along the Path
+     *
+     * @param startX starting X position
+     * @param endX ending X position
+     */
     private void createPathTransition(int startX, int endX) {
         this.pathTransition = new PathTransition();
         pathTransition.setPath(thePath);
@@ -65,35 +104,20 @@ public class Car extends ImageView {
         pathTransition.setCycleCount(Animation.INDEFINITE);
         pathTransition.setDuration(
                 Duration.seconds(Math.abs(startX - endX) / gameMode));
-//        pathTransition.play();
     }
 
-    public void setDuration(Duration d) {
-        pathTransition.stop();
-        pathTransition.setDuration(d);
-        pathTransition.play();
-    }
-
-    public Duration getDuration() {
-        return pathTransition.getDuration();
-    }
-
-    public void setDelay(int seconds) {
-        pathTransition.setDelay(Duration.seconds(seconds));
-    }
-
+    /**
+     * Plays the Path Transition that animates the Car
+     */
     public void moveCar() {
         pathTransition.play();
     }
 
-    public double getHeight() {
-        return height;
-    }
-
-    public double getWidth() {
-        return width;
-    }
-
+    /**
+     * Returns the Path that the Car follows
+     *
+     * @return Path
+     */
     public Path getThePath() {
         return thePath;
     }

@@ -9,7 +9,7 @@
 * Project: csci205FinalProject
 * Package: FroggerMVC
 * File: Frog
-* Description:
+* Description: Represents the Frog object in the Game
 *
 * ****************************************
  */
@@ -18,77 +18,107 @@ package FroggerObjects;
 import javafx.scene.image.ImageView;
 
 /**
+ * Represents the Frog object in the Game
  *
- * @author gmc017
+ * @author jeo008, sms063, gmc017
  */
 public class Frog extends ImageView {
 
+    /*
+    Constant Starting X Position of the Frog
+     */
     public static final int STARTING_X_POS = 350;
+    /*
+    Constant Starting Y Position of the Frog
+     */
     public static final int STARTING_Y_POS = 675;
 
+    /*
+    constant width of frog image
+     */
     private static final double width = 25;
+    /*
+    constant height of frog image
+     */
     private static final double height = 25;
 
-    private double XLocation;
-    private double YLocation;
-
+    /*
+    Flag is true if the Frog is currently on a Water Object, false otherwise
+     */
     private boolean isOnWaterObject;
 
+    /**
+     * Initializes Frog variables and position
+     *
+     * @param fileName the frog image file name
+     */
     public Frog(String fileName) {
 
         super(fileName);
-        this.XLocation = STARTING_X_POS;
-        this.YLocation = STARTING_Y_POS;
         setFitHeight(height);
         setFitWidth(width);
         setSmooth(true);
-        setTranslateX(this.XLocation);
-        setTranslateY(this.YLocation);
+        setTranslateX(STARTING_X_POS);
+        setTranslateY(STARTING_Y_POS);
 
         this.isOnWaterObject = false;
 
     }
 
-    public double getXLocation() {
-        return this.XLocation;
-    }
-
-    public double getYLocation() {
-        return this.YLocation;
-    }
-
-    public void setXLocation(double XLocation) {
-        this.XLocation = XLocation;
-    }
-
-    public void setYLocation(double YLocation) {
-        this.YLocation = YLocation;
-    }
-
+    /**
+     * Sets the X Translation of the Frog Object within the Scene
+     *
+     * @param Xtranslate the distance to translate
+     */
     public void setXTranslation(double Xtranslate) {
         setTranslateX(Xtranslate);
     }
 
+    /**
+     * Getter returns the width of the Frog image
+     *
+     * @return double width
+     */
     public static double getWidth() {
         return width;
     }
 
+    /**
+     * Getter returns the height of the Frog image
+     *
+     * @return double height
+     */
     public static double getHeight() {
         return height;
     }
 
+    /**
+     * Getter returns the status of the flag returns true if th frog is on the
+     * water object, false otherwise
+     *
+     * @return boolean is on water object
+     */
     public boolean getisOnWaterObject() {
         return this.isOnWaterObject;
     }
 
+    /**
+     * Sets the isOnWaterObject Flag to true
+     */
     public void setisOnWaterObjectTrue() {
         this.isOnWaterObject = true;
     }
 
+    /**
+     * Sets the isOnWaterObject Flag to false
+     */
     public void setisOnWaterObjectFalse() {
         this.isOnWaterObject = false;
     }
 
+    /**
+     * Restarts the Frog position to the starting position
+     */
     public void restartFrog() {
         setTranslateX(STARTING_X_POS);
         setTranslateY(STARTING_Y_POS);
