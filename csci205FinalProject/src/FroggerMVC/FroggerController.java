@@ -16,9 +16,9 @@
 package FroggerMVC;
 
 import FroggerObjects.CarPath;
-import FroggerObjects.MovingObject;
 import FroggerObjects.HighScores;
 import FroggerObjects.LilyPad;
+import FroggerObjects.MovingObject;
 import FroggerObjects.WaterObjectPath;
 import java.util.ArrayList;
 import javafx.application.Platform;
@@ -112,9 +112,13 @@ class FroggerController {
      */
     private static final double STEP_SIZE_LR = 25;
     /*
+    how much the score increments with each step forward
+     */
+    private static final int SCORE_INCREMENT = 50;
+    /*
     up and down arrow key step size
      */
-    private static final double STEP_SIZE_UD = 50;
+    private static final double STEP_SIZE_UD = SCORE_INCREMENT;
 
     /*
     Flag varibale is true when the user is controlling the frog with
@@ -313,7 +317,7 @@ class FroggerController {
      * @return boolean
      */
     public boolean checkBottomBound() {
-        int yMax = theView.getRootYMax() - 50;
+        int yMax = theView.getRootYMax() - SCORE_INCREMENT;
         Bounds frogBounds = theView.getTheFrog().localToScene(
                 theView.getTheFrog().getBoundsInLocal());
         int frogYMax = (int) frogBounds.getMaxY();
@@ -333,7 +337,7 @@ class FroggerController {
      * @return boolean
      */
     public boolean checkTopBound() {
-        int yMin = theView.getRootYMin() + 50;
+        int yMin = theView.getRootYMin() + SCORE_INCREMENT;
         Bounds frogBounds = theView.getTheFrog().localToScene(
                 theView.getTheFrog().getBoundsInLocal());
         int frogYMin = (int) frogBounds.getMinY();
@@ -501,7 +505,7 @@ class FroggerController {
      */
     public void endGame(boolean winGame) {
         if (winGame) {
-            adjustScore(50);
+            adjustScore(SCORE_INCREMENT);
         }
         System.out.println("Final Score: " + this.score);
         ArrayList<Integer> theScores = this.highScores.insertScore(this.score);
@@ -575,7 +579,7 @@ class FroggerController {
 
                 // randomly generates the delay time between each water object
                 // given the original base delay time
-                double rand = Math.random() * 1000;
+                double rand = Math.random() * sleepTimeFactor;
                 int sleepTime = (int) (this.baseDelay + rand);
                 Thread.sleep(sleepTime);
             }
@@ -583,6 +587,7 @@ class FroggerController {
             return 1;
         }
     }
+    private static final int sleepTimeFactor = 1000;
 
     /**
      * Creates a Task for moving the Cars across the screen
@@ -624,7 +629,7 @@ class FroggerController {
 
                 // randomly generates the delay time between each water object
                 // given the original base delay time
-                double rand = Math.random() * 1000;
+                double rand = Math.random() * sleepTimeFactor;
                 int sleepTime = (int) (this.baseDelay + rand);
                 Thread.sleep(sleepTime);
             }
