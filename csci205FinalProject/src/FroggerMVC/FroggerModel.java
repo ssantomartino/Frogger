@@ -39,12 +39,32 @@ public class FroggerModel {
     the max amount of levels before winning
      */
     private static final int MAX_LEVELS = 5;
+    /*
+    how large each horizontal row is
+     */
+    private static final int INDEX_INCREMENT = 50;
+    /*
+    Height at which river objects start
+     */
+    private static final int RIVER_START_Y = 337;
+    /*
+    index where object is offscreen to the right
+     */
+    private static final int OFFSCREEN_RIGHT = 770;
+    /*
+    index where object is offscreen to the left
+     */
+    private static final int OFFSCREEN_LEFT = -70;
+    /*
+    width of the pane
+     */
+    private int PANE_WIDTH = 700;
 
     /**
      * Constructor initializes necessary instance variables
      */
     public FroggerModel() {
-        this.gameMode = 50; // arbitrary initialization - will be set by Main Menu before actually used
+        this.gameMode = INDEX_INCREMENT; // arbitrary initialization - will be set by Main Menu before actually used
         this.currentLevel = 0;
     }
 
@@ -66,14 +86,14 @@ public class FroggerModel {
 
             // changes the direction of every other path
             if (i % 2 == 1) {
-                startX = -50;
-                startY = 637 - i * 50;
-                endX = 750;
+                startX = OFFSCREEN_LEFT;
+                startY = CAR_START_Y - i * INDEX_INCREMENT;
+                endX = OFFSCREEN_RIGHT;
                 paths[i] = new CarPath(startX, startY, endX, true, this.gameMode);
             } else {
-                startX = 750;
-                startY = 637 - i * 50;
-                endX = -50;
+                startX = OFFSCREEN_RIGHT;
+                startY = CAR_START_Y - i * INDEX_INCREMENT;
+                endX = OFFSCREEN_LEFT;
                 paths[i] = new CarPath(startX, startY, endX, false,
                                        this.gameMode);
             }
@@ -81,6 +101,7 @@ public class FroggerModel {
         }
         return paths;
     }
+    private static final int CAR_START_Y = 637;
 
     /**
      * sets the type of game play given by an int either 50 (beginner) or 100
@@ -110,15 +131,15 @@ public class FroggerModel {
 
             // changes the direction of every other path
             if (i % 2 == 1) {
-                startX = -70;
-                startY = 337 - i * 50;
-                endX = 750;
+                startX = OFFSCREEN_LEFT;
+                startY = RIVER_START_Y - i * INDEX_INCREMENT;
+                endX = OFFSCREEN_RIGHT;
                 paths[i] = new WaterObjectPath(startX, startY, endX, true,
                                                this.gameMode);
             } else {
-                startX = 770;
-                startY = 337 - i * 50;
-                endX = -50;
+                startX = OFFSCREEN_RIGHT;
+                startY = RIVER_START_Y - i * INDEX_INCREMENT;
+                endX = OFFSCREEN_LEFT;
                 paths[i] = new WaterObjectPath(startX, startY, endX, false,
                                                this.gameMode);
             }
@@ -136,9 +157,10 @@ public class FroggerModel {
     public LilyPad[] generateLilyPads() {
         int numPads = 5;
         LilyPad[] lilyPads = new LilyPad[numPads];
+        int lilyPadWidth = 50;
 
         for (int i = 0; i < numPads; i++) {
-            double xLocation = (i + 1) * (700 / 6) - 25;
+            double xLocation = (i + 1) * (PANE_WIDTH / (numPads + 1)) - lilyPadWidth / 2;
             lilyPads[i] = new LilyPad(xLocation);
         }
         return lilyPads;
