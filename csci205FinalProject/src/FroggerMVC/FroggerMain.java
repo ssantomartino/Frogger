@@ -92,6 +92,7 @@ public class FroggerMain extends Application implements EventHandler<KeyEvent> {
      * accordingly - note: this event handler is in main because the action
      * listener is on the scene of the game
      */
+
     public void handle(KeyEvent event) {
 
         if (event.getCode() == KeyCode.UP && theController.checkTopBound()) {

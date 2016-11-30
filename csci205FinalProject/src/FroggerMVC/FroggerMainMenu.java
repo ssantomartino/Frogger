@@ -15,6 +15,7 @@
  */
 package FroggerMVC;
 
+import java.io.File;
 import javafx.animation.KeyFrame;
 import javafx.animation.KeyValue;
 import javafx.animation.Timeline;
@@ -33,6 +34,8 @@ import javafx.scene.control.ToggleGroup;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
+import javafx.scene.media.Media;
+import javafx.scene.media.MediaPlayer;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
 import javafx.stage.Stage;
@@ -105,6 +108,8 @@ public class FroggerMainMenu {
      */
     private boolean startGame;
 
+    MediaPlayer mediaPlayer;
+
     /**
      * Constructor initializes instance variables and adds features to substage
      *
@@ -140,12 +145,18 @@ public class FroggerMainMenu {
         subStage.setResizable(false);
         subStage.show();
 
+        File file = new File("CrazyFrog.m4a");
+        Media musicFile = new Media(file.toURI().toString());
+        this.mediaPlayer = new MediaPlayer(musicFile);
+        this.mediaPlayer.setAutoPlay(true);
+
         // if main menu screen is closed, the whole program closes
         subStage.setOnCloseRequest(new EventHandler<WindowEvent>() {
             public void handle(WindowEvent ev) {
                 System.exit(0);
             }
         });
+
     }
 
     /**
