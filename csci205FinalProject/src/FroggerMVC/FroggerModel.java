@@ -182,4 +182,11 @@ public class FroggerModel {
         return true;
     }
 
+    /**
+     * Resets the level counter to 0
+     */
+    public void resetLevels() {
+        this.currentLevel = 0;
+    }
+
 }

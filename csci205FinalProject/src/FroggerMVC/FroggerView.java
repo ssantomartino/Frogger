@@ -92,6 +92,11 @@ class FroggerView {
      */
     private Group lilyPadGroup;
 
+    /*
+    Holds all the safe Frogs during one level of play
+     */
+    private ArrayList<Frog> safeFrogs;
+
     /**
      * Constructor sets the stage for the game board
      *
@@ -121,6 +126,8 @@ class FroggerView {
 
         score = new SimpleIntegerProperty(0);
         addScore();
+
+        this.safeFrogs = new ArrayList<Frog>();
     }
 
     /**
@@ -193,6 +200,7 @@ class FroggerView {
      * Removes a life from the array of imageviews
      */
     public void removeNextLife() {
+        this.theFrog.restartFrog();
         if (this.theLives.size() > 0) {
             root.getChildren().remove(
                     this.theLives.get(this.theLives.size() - 1));
@@ -281,7 +289,33 @@ class FroggerView {
      * Launches a new Frog Object into play
      */
     public void launchNewFrog() {
+        this.safeFrogs.add(this.theFrog);
         this.theFrog = new Frog("basicFrog.png");
+        this.addFrog();
+    }
+
+    /**
+     * Removes all the Frogs from the List and the Scene
+     */
+    private void clearFrogs() {
+        System.out.println(this.safeFrogs.size());
+        this.safeFrogs.add(this.theFrog);
+
+        for (int i = 0; i < this.theLilyPads.length; i++) {
+            this.root.getChildren().remove(this.safeFrogs.get(0));
+            this.safeFrogs.remove(0);
+            this.theLilyPads[i].setOccupiedFalse();
+        }
+    }
+
+    /**
+     * Clears all Frogs currently on the screen and launches a brand new Frog
+     * indicating a new level has been started
+     */
+    public void levelUp() {
+        this.clearFrogs();
+        this.theFrog = new Frog("basicFrog.png");
+        this.addFrog();
     }
 
     /**

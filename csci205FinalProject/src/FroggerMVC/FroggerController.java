@@ -681,7 +681,7 @@ class FroggerController {
                             @Override
                             public void run() {
 
-                                FroggerController.this.theView.getTheFrog().restartFrog();
+                                //FroggerController.this.theView.getTheFrog().restartFrog();
                                 FroggerController.this.theView.removeNextLife();
 
                                 if (FroggerController.this.numLives <= 0) {
@@ -777,7 +777,7 @@ class FroggerController {
                         @Override
                         public void run() {
 
-                            FroggerController.this.theView.getTheFrog().restartFrog();
+                            //FroggerController.this.theView.getTheFrog().restartFrog();
                             FroggerController.this.theView.removeNextLife();
 
                             if (FroggerController.this.numLives <= 0) {
@@ -935,7 +935,7 @@ class FroggerController {
                     }
                     //System.out.println("On Lilypad");
                     boolean levelUp = FroggerController.this.theModel.levelUp();
-                    lilyPad.setOccupied();
+                    lilyPad.setOccupiedTrue();
 
                     if (levelUp) {
                         FroggerController.this.restartFrogIndex();
@@ -943,19 +943,22 @@ class FroggerController {
                             @Override
                             public void run() {
                                 FroggerController.this.theView.launchNewFrog();
-                                FroggerController.this.theView.addFrog();
+
                             }
                         });
                         Thread.sleep(1);
 
                     } else {
+                        FroggerController.this.restartFrogIndex();
+                        FroggerController.this.theModel.resetLevels();
                         //each time all 5 frogs get to the top, there is a 500 point bonus
                         Thread.sleep(500);
                         Platform.runLater(new Runnable() {
                             @Override
                             public void run() {
                                 FroggerController.this.adjustScore(50);
-                                //remove all 5 frogs and restart
+                                //remove all 5 frogs and restart frog
+                                FroggerController.this.theView.levelUp();
                             }
                         });
                         Thread.sleep(1);
@@ -974,7 +977,7 @@ class FroggerController {
                     @Override
                     public void run() {
 
-                        FroggerController.this.theView.getTheFrog().restartFrog();
+                        //FroggerController.this.theView.getTheFrog().restartFrog();
                         FroggerController.this.theView.removeNextLife();
                         if (FroggerController.this.numLives <= 0) {
                             FroggerController.this.endGame();

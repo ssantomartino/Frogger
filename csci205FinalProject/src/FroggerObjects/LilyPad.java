@@ -102,8 +102,15 @@ public class LilyPad extends ImageView {
     /**
      * sets the isOccupied flag variable to true
      */
-    public void setOccupied() {
+    public void setOccupiedTrue() {
         this.isOccupied = true;
+    }
+
+    /**
+     * sets the isOccupied flag variable to false
+     */
+    public void setOccupiedFalse() {
+        this.isOccupied = false;
     }
 
 }
