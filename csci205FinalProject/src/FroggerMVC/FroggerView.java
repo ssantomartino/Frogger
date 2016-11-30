@@ -15,10 +15,10 @@
  */
 package FroggerMVC;
 
-import FroggerObjects.MovingObject;
 import FroggerObjects.CarPath;
 import FroggerObjects.Frog;
 import FroggerObjects.LilyPad;
+import FroggerObjects.MovingObject;
 import FroggerObjects.WaterObjectPath;
 import java.util.ArrayList;
 import javafx.animation.FadeTransition;
@@ -131,8 +131,8 @@ class FroggerView {
     }
 
     /**
-     * Adds the MovingObject and Water Objects along with their transition
- paths to the Scene
+     * Adds the MovingObject and Water Objects along with their transition paths
+     * to the Scene
      */
     public void addPaths() {
         this.theRoads = theModel.generateCarPaths();
@@ -329,41 +329,24 @@ class FroggerView {
      * @param winGame boolean true if the game has been won, false if the game
      * has been lost from losing all lives
      */
-    public void endGame(int finalScore, ArrayList<Integer> scores,
-                        boolean winGame) {
+    public void endGame(int finalScore, ArrayList<Integer> scores) {
         root.getChildren().clear();
         // determines which label to display
-        if (winGame) {
-            Label winLbl = new Label("YOU WON!!!!!!");
-            winLbl.setFont(new Font("Arial", 60));
-            winLbl.setTranslateX((root.getPrefWidth() / 2) - 100);
-            winLbl.setTranslateY(root.getPrefHeight() / 2 - 100);
-            winLbl.setTextFill(Color.BLUEVIOLET);
-            winLbl.setTextAlignment(TextAlignment.CENTER);
-            root.getChildren().add(winLbl);
-            FadeTransition ft_Win = new FadeTransition(Duration.millis(1000),
-                                                       winLbl);
-            ft_Win.setFromValue(1.0);
-            ft_Win.setToValue(0.0);
-            ft_Win.setCycleCount(1000);
-            ft_Win.setAutoReverse(true);
-            ft_Win.play();
-        } else {
-            Label endLabel = new Label("Game Over!!!!!!");
-            endLabel.setFont(new Font("Arial", 50));
-            endLabel.setTranslateX((root.getPrefWidth() / 2) - 100);
-            endLabel.setTranslateY(root.getPrefHeight() / 2 - 100);
-            endLabel.setTextFill(Color.AQUA);
-            endLabel.setTextAlignment(TextAlignment.CENTER);
-            root.getChildren().add(endLabel);
-            FadeTransition ft = new FadeTransition(Duration.millis(1000),
-                                                   endLabel);
-            ft.setFromValue(1.0);
-            ft.setToValue(0.0);
-            ft.setCycleCount(1000);
-            ft.setAutoReverse(true);
-            ft.play();
-        }
+
+        Label endLabel = new Label("Game Over!!!!!!");
+        endLabel.setFont(new Font("Arial", 50));
+        endLabel.setTranslateX((root.getPrefWidth() / 2) - 100);
+        endLabel.setTranslateY(root.getPrefHeight() / 2 - 100);
+        endLabel.setTextFill(Color.AQUA);
+        endLabel.setTextAlignment(TextAlignment.CENTER);
+        root.getChildren().add(endLabel);
+        FadeTransition ft = new FadeTransition(Duration.millis(1000),
+                                               endLabel);
+        ft.setFromValue(1.0);
+        ft.setToValue(0.0);
+        ft.setCycleCount(1000);
+        ft.setAutoReverse(true);
+        ft.play();
 
         // displays your score form the game
         Label yourScore = new Label("Your Score: " + finalScore);

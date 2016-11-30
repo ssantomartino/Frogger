@@ -503,15 +503,12 @@ class FroggerController {
      *
      * @param winGame boolean true if the game is won
      */
-    public void endGame(boolean winGame) {
-        if (winGame) {
-            adjustScore(SCORE_INCREMENT);
-        }
+    public void endGame() {
         System.out.println("Final Score: " + this.score);
         ArrayList<Integer> theScores = this.highScores.insertScore(this.score);
         this.highScores.saveScores();
         this.gameOver = true;
-        this.theView.endGame(this.score, theScores, winGame);
+        this.theView.endGame(this.score, theScores);
 
     }
 
@@ -688,7 +685,7 @@ class FroggerController {
                                 FroggerController.this.theView.removeNextLife();
 
                                 if (FroggerController.this.numLives <= 0) {
-                                    FroggerController.this.endGame(false);
+                                    FroggerController.this.endGame();
                                 }
                             }
                         });
@@ -784,7 +781,7 @@ class FroggerController {
                             FroggerController.this.theView.removeNextLife();
 
                             if (FroggerController.this.numLives <= 0) {
-                                FroggerController.this.endGame(false);
+                                FroggerController.this.endGame();
                             }
                         }
                     });
@@ -952,11 +949,13 @@ class FroggerController {
                         Thread.sleep(1);
 
                     } else {
+                        //each time all 5 frogs get to the top, there is a 500 point bonus
                         Thread.sleep(500);
                         Platform.runLater(new Runnable() {
                             @Override
                             public void run() {
-                                FroggerController.this.endGame(true);
+                                FroggerController.this.adjustScore(50);
+                                //remove all 5 frogs and restart
                             }
                         });
                         Thread.sleep(1);
@@ -978,7 +977,7 @@ class FroggerController {
                         FroggerController.this.theView.getTheFrog().restartFrog();
                         FroggerController.this.theView.removeNextLife();
                         if (FroggerController.this.numLives <= 0) {
-                            FroggerController.this.endGame(false);
+                            FroggerController.this.endGame();
                         }
 
                     }
