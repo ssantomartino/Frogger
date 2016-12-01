@@ -8,7 +8,7 @@
 *
 * Project: csci205FinalProject
 * Package: FroggerMVC
-* File: WaterObjectPath
+* File: River
 * Description: Represents a River that Holds Multiple Water Objects (logs/turtles)
 *
 * ****************************************
@@ -20,7 +20,7 @@ package FroggerObjects;
  *
  * @author jeo008, sms063, gmc017
  */
-public class WaterObjectPath {
+public class River {
 
     /*
     Constant Maximum number of Water Objects in the River at a time
@@ -58,7 +58,7 @@ public class WaterObjectPath {
      * @param logs boolean indicates if the water object on the river are logs
      * (true) or turtles (false)
      */
-    public WaterObjectPath(int startX, int startY, int endX, boolean logs,
+    public River(int startX, int startY, int endX, boolean logs,
                            int gameMode) {
         this.theWaterObjects = new MovingObject[NUM_OBJECTS_IN_RIVER];
         this.logs = logs;

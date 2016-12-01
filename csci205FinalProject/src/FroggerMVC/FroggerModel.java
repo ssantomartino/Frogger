@@ -15,9 +15,9 @@
  */
 package FroggerMVC;
 
-import FroggerObjects.CarPath;
+import FroggerObjects.Road;
 import FroggerObjects.LilyPad;
-import FroggerObjects.WaterObjectPath;
+import FroggerObjects.River;
 
 /**
  * Model class of MVC model
@@ -72,12 +72,12 @@ public class FroggerModel {
      * Generates 5 new CarPaths with the correct spacing on the screen and
      * returns an array of the CarPaths
      *
-     * @return CarPath[] array of CarPaths
+     * @return Road[] array of CarPaths
      */
-    public CarPath[] generateCarPaths() {
+    public Road[] generateCarPaths() {
 
         int numRoads = 5;
-        CarPath[] paths = new CarPath[numRoads];
+        Road[] paths = new Road[numRoads];
 
         for (int i = 0; i < numRoads; i++) {
             int startX;
@@ -89,12 +89,12 @@ public class FroggerModel {
                 startX = OFFSCREEN_LEFT;
                 startY = CAR_START_Y - i * INDEX_INCREMENT;
                 endX = OFFSCREEN_RIGHT;
-                paths[i] = new CarPath(startX, startY, endX, true, this.gameMode);
+                paths[i] = new Road(startX, startY, endX, true, this.gameMode);
             } else {
                 startX = OFFSCREEN_RIGHT;
                 startY = CAR_START_Y - i * INDEX_INCREMENT;
                 endX = OFFSCREEN_LEFT;
-                paths[i] = new CarPath(startX, startY, endX, false,
+                paths[i] = new Road(startX, startY, endX, false,
                                        this.gameMode);
             }
 
@@ -117,12 +117,12 @@ public class FroggerModel {
      * Generates 5 new WaterObjectPaths with the correct spacing on the screen
      * and returns an array of the WaterObjectPaths
      *
-     * @return WaterObjectPath[] array of WaterObjectPaths
+     * @return River[] array of WaterObjectPaths
      */
-    public WaterObjectPath[] generateWaterObjectPaths() {
+    public River[] generateWaterObjectPaths() {
 
         int numRivers = 5;
-        WaterObjectPath[] paths = new WaterObjectPath[numRivers];
+        River[] paths = new River[numRivers];
 
         for (int i = 0; i < numRivers; i++) {
             int startX;
@@ -134,13 +134,13 @@ public class FroggerModel {
                 startX = OFFSCREEN_LEFT;
                 startY = RIVER_START_Y - i * INDEX_INCREMENT;
                 endX = OFFSCREEN_RIGHT;
-                paths[i] = new WaterObjectPath(startX, startY, endX, true,
+                paths[i] = new River(startX, startY, endX, true,
                                                this.gameMode);
             } else {
                 startX = OFFSCREEN_RIGHT;
                 startY = RIVER_START_Y - i * INDEX_INCREMENT;
                 endX = OFFSCREEN_LEFT;
-                paths[i] = new WaterObjectPath(startX, startY, endX, false,
+                paths[i] = new River(startX, startY, endX, false,
                                                this.gameMode);
             }
 

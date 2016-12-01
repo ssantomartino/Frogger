@@ -8,7 +8,7 @@
 *
 * Project: csci205FinalProject
 * Package: FroggerObjects
-* File: CarPath
+* File: Road
 * Description: Represents a Road that Holds Multiple Cars
 *
 * ****************************************
@@ -22,7 +22,7 @@ import java.util.Random;
  *
  * @author jeo008, sms063, gmc017
  */
-public class CarPath {
+public class Road {
 
     /*
     Constant Maximum number of Cars on the Road at a time
@@ -66,7 +66,7 @@ public class CarPath {
      * @param faceR boolean indicates if the cars on the road are facing right
      * (true) or not (false)
      */
-    public CarPath(int startX, int startY, int endX, boolean faceR, int gameMode) {
+    public Road(int startX, int startY, int endX, boolean faceR, int gameMode) {
         this.theCars = new MovingObject[NUM_CARS_ON_ROAD];
         this.faceRight = faceR;
         this.gameMode = gameMode;

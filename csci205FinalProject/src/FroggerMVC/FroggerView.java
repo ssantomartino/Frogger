@@ -15,11 +15,11 @@
  */
 package FroggerMVC;
 
-import FroggerObjects.CarPath;
+import FroggerObjects.Road;
 import FroggerObjects.Frog;
 import FroggerObjects.LilyPad;
 import FroggerObjects.MovingObject;
-import FroggerObjects.WaterObjectPath;
+import FroggerObjects.River;
 import java.util.ArrayList;
 import javafx.animation.FadeTransition;
 import javafx.beans.property.SimpleIntegerProperty;
@@ -58,7 +58,7 @@ class FroggerView {
     /*
     Array of CarPaths tracks all the roads of the game
      */
-    private CarPath[] theRoads;
+    private Road[] theRoads;
     /*
     List of Images of Hearts representing the number of lives left in a play
      */
@@ -74,7 +74,7 @@ class FroggerView {
     /*
     Array of WaterObjectPaths tracks all rivers of the game
      */
-    private WaterObjectPath[] theRivers;
+    private River[] theRivers;
     /*
     Group housing the water objects
      */
@@ -144,7 +144,7 @@ class FroggerView {
     public void addPaths() {
         this.theRoads = theModel.generateCarPaths();
         this.carGroup = new Group();
-        for (CarPath path : this.theRoads) {
+        for (Road path : this.theRoads) {
             MovingObject[] cars = path.getTheCars();
 
             for (MovingObject car : cars) {
@@ -156,7 +156,7 @@ class FroggerView {
 
         this.theRivers = theModel.generateWaterObjectPaths();
         this.waterGroup = new Group();
-        for (WaterObjectPath path : this.theRivers) {
+        for (River path : this.theRivers) {
 
             MovingObject[] waterObjects = path.getTheObjects();
 
@@ -321,9 +321,9 @@ class FroggerView {
     /**
      * Returns the CarPaths array
      *
-     * @return CarPath[]
+     * @return Road[]
      */
-    public CarPath[] getTheRoads() {
+    public Road[] getTheRoads() {
         return theRoads;
     }
 
@@ -339,9 +339,9 @@ class FroggerView {
     /**
      * Returns the WaterObjectPaths array
      *
-     * @return WaterObjectPath[]
+     * @return River[]
      */
-    public WaterObjectPath[] getTheRivers() {
+    public River[] getTheRivers() {
         return theRivers;
     }
 

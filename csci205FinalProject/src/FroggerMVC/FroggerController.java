@@ -15,11 +15,11 @@
  */
 package FroggerMVC;
 
-import FroggerObjects.CarPath;
+import FroggerObjects.Road;
 import FroggerObjects.HighScores;
 import FroggerObjects.LilyPad;
 import FroggerObjects.MovingObject;
-import FroggerObjects.WaterObjectPath;
+import FroggerObjects.River;
 import java.util.ArrayList;
 import javafx.application.Platform;
 import javafx.concurrent.Task;
@@ -396,8 +396,8 @@ class FroggerController {
      * @param delay int - the delay between each car gives the spacing
      */
     public void startTheCars(int delay) {
-        CarPath[] theRoad = this.theView.getTheRoads();
-        for (CarPath path : theRoad) {
+        Road[] theRoad = this.theView.getTheRoads();
+        for (Road path : theRoad) {
             MovingObject[] cars = path.getTheCars();
             //ArrayList<Car> theCars = path.getCars();
             this.theMoveCarTask = new MoveCarsTask(cars, delay);
@@ -414,8 +414,8 @@ class FroggerController {
      * @param delay int - the delay between each water object gives the spacing
      */
     public void startTheWaterObjects(int delay) {
-        WaterObjectPath[] theRiver = this.theView.getTheRivers();
-        for (WaterObjectPath path : theRiver) {
+        River[] theRiver = this.theView.getTheRivers();
+        for (River path : theRiver) {
             MovingObject[] waterObjects = path.getTheObjects();
             //ArrayList<WaterObject> waterObjects = path.getWaterObjects();
             this.theMoveWaterObjectsTask = new MoveWaterObjectsTask(waterObjects,
@@ -446,8 +446,8 @@ class FroggerController {
      * current row that the frog is currently located
      */
     public void checkCarCollisions() {
-        CarPath[] theRoad = this.theView.getTheRoads();
-        CarPath path = theRoad[this.frogIndex];
+        Road[] theRoad = this.theView.getTheRoads();
+        Road path = theRoad[this.frogIndex];
         MovingObject[] cars = path.getTheCars();
         //ArrayList<Car> theCars = path.getCars();
 
@@ -463,8 +463,8 @@ class FroggerController {
      * the current row that the frog is currently located
      */
     public void checkWaterObjectCollision() {
-        WaterObjectPath[] theRiver = this.theView.getTheRivers();
-        WaterObjectPath path = theRiver[theRiver.length - (this.maxFrogIndex - this.frogIndex)];
+        River[] theRiver = this.theView.getTheRivers();
+        River path = theRiver[theRiver.length - (this.maxFrogIndex - this.frogIndex)];
 
         this.waterObjectCollisionsTask = new WaterObjectCollisionTask(path);
         Thread th = new Thread(this.waterObjectCollisionsTask);
@@ -713,7 +713,7 @@ class FroggerController {
      */
     class WaterObjectCollisionTask extends Task<Integer> {
 
-        private final WaterObjectPath waterPath;
+        private final River waterPath;
         private boolean stopTask;
 
         /**
@@ -722,7 +722,7 @@ class FroggerController {
          *
          * @param path array of water objects to check for collisions
          */
-        public WaterObjectCollisionTask(WaterObjectPath path) {
+        public WaterObjectCollisionTask(River path) {
             this.waterPath = path;
             this.stopTask = false;
         }
