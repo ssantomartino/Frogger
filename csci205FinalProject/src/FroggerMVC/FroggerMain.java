@@ -47,6 +47,13 @@ public class FroggerMain extends Application implements EventHandler<KeyEvent> {
         this.theView = new FroggerView(this.theModel);
     }
 
+    /**
+     * Source: Using an Animation Timer
+     * http://blog.netopyr.com/2012/06/14/using-the-javafx-animationtimer/
+     *
+     * @param primaryStage the primary stage associated with the application
+     * @throws InterruptedException
+     */
     @Override
     public void start(Stage primaryStage) throws InterruptedException {
 

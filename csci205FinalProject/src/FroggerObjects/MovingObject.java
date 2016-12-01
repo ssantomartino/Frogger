@@ -24,8 +24,8 @@ import javafx.scene.shape.Path;
 import javafx.util.Duration;
 
 /**
- * Represents one Frogger Object (MovingObject, Log, or Turtle) on either a
- Road or River
+ * Represents one Frogger Object (MovingObject, Log, or Turtle) on either a Road
+ * or River
  *
  * @author jeo008, sms063, gmc017
  */
@@ -62,7 +62,7 @@ public class MovingObject extends ImageView {
      * @param gameMode designated game mode
      */
     public MovingObject(String fileName, int startX, int startY, int endX,
-                         int gameMode) {
+                        int gameMode) {
 
         super(fileName);
         this.gameMode = gameMode;
@@ -81,6 +81,9 @@ public class MovingObject extends ImageView {
     /**
      * Initializes the Path that the Frogger Object will follow
      *
+     * Source: creating a Path
+     * http://docs.oracle.com/javafx/2/animations/basics.htm#CJAJJAGI
+     *
      * @param startX starting X position for the path
      * @param startY starting Y position for the path
      * @param endX ending X position for the path
@@ -95,6 +98,9 @@ public class MovingObject extends ImageView {
     /**
      * Initializes the Path Transition that will run the Frogger Object along
      * the Path
+     *
+     * Source: creating Path Transitions and Animations
+     * http://www.javaworld.com/article/2074529/core-java/javafx-2-animation--path-transitions.html
      *
      * @param startX starting X position
      * @param endX ending X position

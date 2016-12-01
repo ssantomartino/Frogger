@@ -15,11 +15,11 @@
  */
 package FroggerMVC;
 
-import FroggerObjects.Road;
 import FroggerObjects.Frog;
 import FroggerObjects.LilyPad;
 import FroggerObjects.MovingObject;
 import FroggerObjects.River;
+import FroggerObjects.Road;
 import java.util.ArrayList;
 import javafx.animation.FadeTransition;
 import javafx.beans.property.SimpleIntegerProperty;
@@ -116,7 +116,7 @@ class FroggerView {
                                                               BackgroundPosition.CENTER,
                                                               BackgroundSize.DEFAULT)));
 
-        this.theFrog = new Frog("basicFrog.png");
+        this.theFrog = new Frog();
         System.out.println(theFrog.getHeight() + "," + theFrog.getWidth());
 
         addLilyPads();
@@ -290,7 +290,7 @@ class FroggerView {
      */
     public void launchNewFrog() {
         this.safeFrogs.add(this.theFrog);
-        this.theFrog = new Frog("basicFrog.png");
+        this.theFrog = new Frog();
         this.addFrog();
     }
 
@@ -314,7 +314,7 @@ class FroggerView {
      */
     public void levelUp() {
         this.clearFrogs();
-        this.theFrog = new Frog("basicFrog.png");
+        this.theFrog = new Frog();
         this.addFrog();
     }
 
