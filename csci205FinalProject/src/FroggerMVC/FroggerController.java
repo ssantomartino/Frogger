@@ -323,6 +323,10 @@ class FroggerController {
      * violated the boundary, returns true if the frog can successfully move to
      * the designated location, false if the frog will be out of bounds
      *
+     * Source: getting the bounds of an object in the scene
+     * http://stackoverflow.com/questions/31807329/get-screen-coordinates-of-a-node-in-javafx-8
+     *
+     *
      * @return boolean
      */
     public boolean checkBottomBound() {
@@ -342,6 +346,9 @@ class FroggerController {
      * Checks the top bound of the game board to make sure the frog has not
      * violated the boundary, returns true if the frog can successfully move to
      * the designated location, false if the frog will be out of bounds
+     *
+     * Source: getting the bounds of an object in the scene
+     * http://stackoverflow.com/questions/31807329/get-screen-coordinates-of-a-node-in-javafx-8
      *
      * @return boolean
      */
@@ -363,6 +370,9 @@ class FroggerController {
      * violated the boundary, returns true if the frog can successfully move to
      * the designated location, false if the frog will be out of bounds
      *
+     * Source: getting the bounds of an object in the scene
+     * http://stackoverflow.com/questions/31807329/get-screen-coordinates-of-a-node-in-javafx-8
+     *
      * @return boolean
      */
     public boolean checkRightBound() {
@@ -382,6 +392,9 @@ class FroggerController {
      * Checks the left bound of the game board to make sure the frog has not
      * violated the boundary, returns true if the frog can successfully move to
      * the designated location, false if the frog will be out of bounds
+     *
+     * Source: getting the bounds of an object in the scene
+     * http://stackoverflow.com/questions/31807329/get-screen-coordinates-of-a-node-in-javafx-8
      *
      * @return boolean
      */

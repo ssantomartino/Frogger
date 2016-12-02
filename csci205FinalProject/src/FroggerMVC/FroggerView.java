@@ -120,7 +120,7 @@ class FroggerView {
                                                               BackgroundPosition.CENTER,
                                                               BackgroundSize.DEFAULT)));
 
-        this.theFrog = new Frog("basicFrog.png");
+        this.theFrog = new Frog();
         System.out.println(theFrog.getHeight() + "," + theFrog.getWidth());
 
         addLilyPads();
@@ -294,7 +294,7 @@ class FroggerView {
      */
     public void launchNewFrog() {
         this.safeFrogs.add(this.theFrog);
-        this.theFrog = new Frog("basicFrog.png");
+        this.theFrog = new Frog();
         this.addFrog();
     }
 
@@ -318,7 +318,7 @@ class FroggerView {
      */
     public void levelUp() {
         this.clearFrogs();
-        this.theFrog = new Frog("basicFrog.png");
+        this.theFrog = new Frog();
         this.addFrog();
     }
 

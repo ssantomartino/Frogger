@@ -26,6 +26,12 @@ import java.util.ArrayList;
 /**
  * Keeps Track of the High Scores From all Plays of the Frogger Game
  *
+ * Source: making a simple high scores system
+ * http://forum.codecall.net/topic/50071-making-a-simple-high-score-system/
+ *
+ * Source: Example tutorial of a HighScores class
+ * https://docs.oracle.com/javase/tutorial/security/userperm/examples/com/scoredev/scores/HighScore.java
+ *
  * @author jeo008, sms063, gmc017
  */
 public class HighScores {
@@ -61,6 +67,10 @@ public class HighScores {
 
     /**
      * Saves the scores to an output files
+     *
+     * Source: saving high scores to a file
+     * http://stackoverflow.com/questions/22339123/adding-highscores-to-java-game-from-console-to-jpanel-saving-highscore-in-en
+     *
      */
     public void saveScores() {
 

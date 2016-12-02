@@ -25,6 +25,14 @@ import javafx.scene.image.ImageView;
 public class Frog extends ImageView {
 
     /*
+    Source: got the Frog Image From the following Website:
+    https://www.spriters-resource.com/search/?q=frogger
+
+    Constant image file name
+     */
+    public static final String fileName = "basicFrog.png";
+
+    /*
     Constant Starting X Position of the Frog
      */
     public static final int STARTING_X_POS = 350;
@@ -52,7 +60,7 @@ public class Frog extends ImageView {
      *
      * @param fileName the frog image file name
      */
-    public Frog(String fileName) {
+    public Frog() {
 
         super(fileName);
         setFitHeight(height);
