@@ -440,7 +440,7 @@ class FroggerView {
     public void restartGame(FroggerController froggerController) {
         root.getChildren().clear();
 
-        this.theFrog = new Frog("basicFrog.png");
+        this.theFrog = new Frog();
         addLilyPads();
 
         this.theLives = new ArrayList<>();
