@@ -182,6 +182,15 @@ class FroggerController {
     }
 
     /**
+     * sets whether game is over or not
+     *
+     * @param gameOver , boolean of whether game is going on
+     */
+    public void setGameOver(boolean gameOver) {
+        this.gameOver = gameOver;
+    }
+
+    /**
      * If the frog is currently riding a water object, the task is stopped
      * regardless of riding status, the boolean controlled by keys is now true,
      * indicating that either the up or down arrow key has been pressed and the
@@ -509,6 +518,9 @@ class FroggerController {
         this.highScores.saveScores();
         this.gameOver = true;
         this.theView.endGame(this.score, theScores, this);
+        this.score = 0;
+        this.maxScore = 0;
+        this.numLives = 4;
 
     }
 
@@ -992,9 +1004,4 @@ class FroggerController {
         }
 
     }
-
-    public void restartGame() {
-
-    }
-
 }

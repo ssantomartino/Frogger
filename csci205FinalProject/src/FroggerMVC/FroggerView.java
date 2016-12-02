@@ -432,6 +432,11 @@ class FroggerView {
 
     }
 
+    /**
+     * resets the game so that the user can play again
+     *
+     * @param froggerController the controller
+     */
     public void restartGame(FroggerController froggerController) {
         root.getChildren().clear();
 
@@ -447,6 +452,10 @@ class FroggerView {
         this.safeFrogs = new ArrayList<Frog>();
 
         FroggerMainMenu mainMenu = new FroggerMainMenu(theModel);
+
+        froggerController.restartFrogIndex();
+
+        froggerController.setGameOver(false);
 
         /*
         continually checks the main menu screen to see if the start button has been clicked, once clicked,
