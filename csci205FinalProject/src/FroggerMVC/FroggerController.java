@@ -15,11 +15,11 @@
  */
 package FroggerMVC;
 
-import FroggerObjects.Road;
 import FroggerObjects.HighScores;
 import FroggerObjects.LilyPad;
 import FroggerObjects.MovingObject;
 import FroggerObjects.River;
+import FroggerObjects.Road;
 import java.util.ArrayList;
 import javafx.application.Platform;
 import javafx.concurrent.Task;
@@ -508,7 +508,7 @@ class FroggerController {
         ArrayList<Integer> theScores = this.highScores.insertScore(this.score);
         this.highScores.saveScores();
         this.gameOver = true;
-        this.theView.endGame(this.score, theScores);
+        this.theView.endGame(this.score, theScores, this);
 
     }
 
@@ -990,6 +990,10 @@ class FroggerController {
             }
             return 1;
         }
+
+    }
+
+    public void restartGame() {
 
     }
 

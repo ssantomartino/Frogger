@@ -15,15 +15,19 @@
  */
 package FroggerMVC;
 
-import FroggerObjects.Road;
 import FroggerObjects.Frog;
 import FroggerObjects.LilyPad;
 import FroggerObjects.MovingObject;
 import FroggerObjects.River;
+import FroggerObjects.Road;
 import java.util.ArrayList;
+import javafx.animation.AnimationTimer;
 import javafx.animation.FadeTransition;
 import javafx.beans.property.SimpleIntegerProperty;
+import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.scene.Group;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -363,9 +367,24 @@ class FroggerView {
      * @param winGame boolean true if the game has been won, false if the game
      * has been lost from losing all lives
      */
-    public void endGame(int finalScore, ArrayList<Integer> scores) {
+    public void endGame(int finalScore, ArrayList<Integer> scores,
+                        FroggerController froggerController) {
         root.getChildren().clear();
         // determines which label to display
+
+        Button playAgain = new Button("Play Again?");
+        playAgain.setFont(new Font("Arial", 20));
+        playAgain.setTextFill(Color.BLUEVIOLET);
+        playAgain.setPrefSize(300, 50);
+        playAgain.setTranslateX((root.getPrefWidth() / 2) - 150);
+        playAgain.setTranslateY((root.getPrefWidth() / 4));
+        playAgain.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent e) {
+                restartGame(froggerController);
+            }
+        });
+        root.getChildren().add(playAgain);
 
         Label endLabel = new Label("Game Over!!!!!!");
         endLabel.setFont(new Font("Arial", 50));
@@ -410,6 +429,44 @@ class FroggerView {
             }
             root.getChildren().add(temp);
         }
+
+    }
+
+    public void restartGame(FroggerController froggerController) {
+        root.getChildren().clear();
+
+        this.theFrog = new Frog("basicFrog.png");
+        addLilyPads();
+
+        this.theLives = new ArrayList<>();
+        addLives();
+
+        score = new SimpleIntegerProperty(0);
+        addScore();
+
+        this.safeFrogs = new ArrayList<Frog>();
+
+        FroggerMainMenu mainMenu = new FroggerMainMenu(theModel);
+
+        /*
+        continually checks the main menu screen to see if the start button has been clicked, once clicked,
+        the cars and water objects are started according to the designated gammer level (beginner vs expert)
+         */
+        new AnimationTimer() {
+            @Override
+            public void handle(long now) {
+                if (mainMenu.getStartGame()) {
+                    addPaths();
+                    addFrog();
+                    froggerController.startTheCars(
+                            mainMenu.getGameDelay());
+                    froggerController.startTheWaterObjects(
+                            mainMenu.getGameDelay());
+                    this.stop();
+                }
+            }
+
+        }.start();
 
     }
 
