@@ -15,12 +15,15 @@
  */
 package FroggerMVC;
 
+import java.io.File;
 import javafx.animation.AnimationTimer;
 import javafx.application.Application;
 import javafx.event.EventHandler;
 import javafx.scene.Scene;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
+import javafx.scene.media.Media;
+import javafx.scene.media.MediaPlayer;
 import javafx.stage.Stage;
 
 /**
@@ -34,6 +37,11 @@ public class FroggerMain extends Application implements EventHandler<KeyEvent> {
     private FroggerMainMenu theMainMenu;
     private FroggerModel theModel;
     private FroggerController theController;
+
+    /*
+    MediaPLayer Allows for sound capabilities
+     */
+    MediaPlayer mediaPlayer;
 
     /**
      * initializes the model and view for the application
@@ -68,6 +76,12 @@ public class FroggerMain extends Application implements EventHandler<KeyEvent> {
         primaryStage.sizeToScene();
         primaryStage.setResizable(false);
         primaryStage.show();
+
+        File file = new File("CrazyFrog.m4a");
+        Media musicFile = new Media(file.toURI().toString());
+        this.mediaPlayer = new MediaPlayer(musicFile);
+        this.mediaPlayer.setAutoPlay(true);
+        this.mediaPlayer.setCycleCount(MediaPlayer.INDEFINITE);
 
         this.theMainMenu = new FroggerMainMenu(this.theModel);
 
