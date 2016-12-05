@@ -70,7 +70,6 @@ public class FroggerMain extends Application implements EventHandler<KeyEvent> {
 
         Scene scene = new Scene(theView.getRootNode());
         scene.setOnKeyPressed(this);
-        System.out.println("Started");
         primaryStage.setTitle("Frogger");
         primaryStage.setScene(scene);
         primaryStage.sizeToScene();

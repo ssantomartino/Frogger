@@ -531,7 +531,6 @@ class FroggerController {
      * @param winGame boolean true if the game is won
      */
     public void endGame() {
-        System.out.println("Final Score: " + this.score);
         ArrayList<Integer> theScores = this.highScores.insertScore(this.score);
         this.highScores.saveScores();
         this.gameOver = true;
@@ -872,7 +871,6 @@ class FroggerController {
             while (true && !FroggerController.this.getControlledByKeys()) {
 
                 while (this.isPaused) {
-                    System.out.println("Paused");
                     Thread.sleep(250);
                     //Thread.yield();
                     if (isCancelled()) {
@@ -999,7 +997,6 @@ class FroggerController {
             }
 
             if (!this.onPad) {
-                System.out.println("Missed Lily Pad");
                 FroggerController.this.restartFrogIndex();
                 FroggerController.this.removeLife();
                 Platform.runLater(new Runnable() {

@@ -121,7 +121,6 @@ class FroggerView {
                                                               BackgroundSize.DEFAULT)));
 
         this.theFrog = new Frog();
-        System.out.println(theFrog.getHeight() + "," + theFrog.getWidth());
 
         addLilyPads();
 
