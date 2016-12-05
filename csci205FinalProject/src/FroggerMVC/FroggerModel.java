@@ -15,9 +15,9 @@
  */
 package FroggerMVC;
 
-import FroggerObjects.Road;
 import FroggerObjects.LilyPad;
 import FroggerObjects.River;
+import FroggerObjects.Road;
 
 /**
  * Model class of MVC model
@@ -58,7 +58,7 @@ public class FroggerModel {
     /*
     width of the pane
      */
-    private int PANE_WIDTH = 700;
+    private static final int PANE_WIDTH = 700;
 
     /**
      * Constructor initializes necessary instance variables
@@ -95,7 +95,7 @@ public class FroggerModel {
                 startY = CAR_START_Y - i * INDEX_INCREMENT;
                 endX = OFFSCREEN_LEFT;
                 paths[i] = new Road(startX, startY, endX, false,
-                                       this.gameMode);
+                                    this.gameMode);
             }
 
         }
@@ -135,13 +135,13 @@ public class FroggerModel {
                 startY = RIVER_START_Y - i * INDEX_INCREMENT;
                 endX = OFFSCREEN_RIGHT;
                 paths[i] = new River(startX, startY, endX, true,
-                                               this.gameMode);
+                                     this.gameMode);
             } else {
                 startX = OFFSCREEN_RIGHT;
                 startY = RIVER_START_Y - i * INDEX_INCREMENT;
                 endX = OFFSCREEN_LEFT;
                 paths[i] = new River(startX, startY, endX, false,
-                                               this.gameMode);
+                                     this.gameMode);
             }
 
         }

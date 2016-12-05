@@ -126,6 +126,11 @@ class FroggerController {
      */
     private boolean controlledByKeys = true;
 
+    /*
+    Constant amount of time to sleep in between moving the objects tasks
+     */
+    private static final int sleepTimeFactor = 1000;
+
     /**
      * Controller Constructor initializes the objects of the class
      *
@@ -609,7 +614,6 @@ class FroggerController {
             return 1;
         }
     }
-    private static final int sleepTimeFactor = 1000;
 
     /**
      * Creates a Task for moving the Cars across the screen

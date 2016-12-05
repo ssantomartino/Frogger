@@ -30,16 +30,16 @@ public class Frog extends ImageView {
 
     Constant image file name
      */
-    public static final String fileName = "basicFrog.png";
+    private static final String fileName = "basicFrog.png";
 
     /*
     Constant Starting X Position of the Frog
      */
-    public static final int STARTING_X_POS = 350;
+    private static final int STARTING_X_POS = 350;
     /*
     Constant Starting Y Position of the Frog
      */
-    public static final int STARTING_Y_POS = 675;
+    private static final int STARTING_Y_POS = 675;
 
     /*
     constant width of frog image

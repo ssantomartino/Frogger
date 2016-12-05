@@ -153,7 +153,7 @@ public class FroggerMainMenu {
      * Adds the Progress Bar to the SubStage that will fill up over the
      * designated time the start button is clicked
      */
-    public void addProgressBar() {
+    private void addProgressBar() {
 
         ProgressBar progressBar = new ProgressBar();
         progressBar.progressProperty().bind(
@@ -186,7 +186,7 @@ public class FroggerMainMenu {
      * Adds the radio group options to choose Beginner or Expert level of game
      * play
      */
-    public void addLevelOptions() {
+    private void addLevelOptions() {
         HBox levelContainer = new HBox();
         levelGroup = new ToggleGroup();
         levelContainer.setAlignment(Pos.CENTER);
@@ -209,7 +209,7 @@ public class FroggerMainMenu {
     /**
      * Adds the title Label to the top of the screen
      */
-    public void addTitle() {
+    private void addTitle() {
         this.title = new Label("Welcome to FROGGER!");
         title.setFont(new Font("Arial", 50));
         title.setTextFill(Color.BLUEVIOLET);
@@ -220,7 +220,7 @@ public class FroggerMainMenu {
     /**
      * Adds the start and exit buttons to the screen
      */
-    public void addButtons() {
+    private void addButtons() {
 
         HBox buttonContainer = new HBox();
         buttonContainer.setAlignment(Pos.CENTER);
