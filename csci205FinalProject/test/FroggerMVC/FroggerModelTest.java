@@ -15,11 +15,7 @@
  */
 package FroggerMVC;
 
-import FroggerObjects.LilyPad;
-import FroggerObjects.River;
-import FroggerObjects.Road;
 import junit.framework.TestCase;
-import static org.junit.Assert.assertArrayEquals;
 import org.junit.Test;
 
 /**
@@ -43,84 +39,23 @@ public class FroggerModelTest extends TestCase {
     }
 
     /**
-     * Test of generateCarPaths method, of class FroggerModel.
-     */
-    @Test
-    public void testGenerateCarPaths() {
-        System.out.println("generateCarPaths");
-        FroggerModel instance = new FroggerModel();
-        Road[] expResult = null;
-        Road[] result = instance.generateCarPaths();
-        assertArrayEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
-    }
-
-    /**
-     * Test of setGameMode method, of class FroggerModel.
-     */
-    @Test
-    public void testSetGameMode() {
-        System.out.println("setGameMode");
-        int mode = 0;
-        FroggerModel instance = new FroggerModel();
-        instance.setGameMode(mode);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
-    }
-
-    /**
-     * Test of generateWaterObjectPaths method, of class FroggerModel.
-     */
-    @Test
-    public void testGenerateWaterObjectPaths() {
-        System.out.println("generateWaterObjectPaths");
-        FroggerModel instance = new FroggerModel();
-        River[] expResult = null;
-        River[] result = instance.generateWaterObjectPaths();
-        assertArrayEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
-    }
-
-    /**
-     * Test of generateLilyPads method, of class FroggerModel.
-     */
-    @Test
-    public void testGenerateLilyPads() {
-        System.out.println("generateLilyPads");
-        FroggerModel instance = new FroggerModel();
-        LilyPad[] expResult = null;
-        LilyPad[] result = instance.generateLilyPads();
-        assertArrayEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
-    }
-
-    /**
      * Test of levelUp method, of class FroggerModel.
      */
     @Test
     public void testLevelUp() {
         System.out.println("levelUp");
         FroggerModel instance = new FroggerModel();
-        boolean expResult = false;
-        boolean result = instance.levelUp();
-        assertEquals(expResult, result);
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
-    }
+        boolean expResult = true;
 
-    /**
-     * Test of resetLevels method, of class FroggerModel.
-     */
-    @Test
-    public void testResetLevels() {
-        System.out.println("resetLevels");
-        FroggerModel instance = new FroggerModel();
-        instance.resetLevels();
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
+        // while less than max levels, level up should return true
+        int MAX_LEVELS = 5;
+        for (int i = 1; i < MAX_LEVELS; i++) {
+            assertEquals(expResult, instance.levelUp());
+        }
+        // once >= max levels, level up should return false
+        expResult = false;
+        assertEquals(expResult, instance.levelUp());
+
     }
 
 }
