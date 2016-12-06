@@ -126,6 +126,10 @@ public class FroggerMain extends Application implements EventHandler<KeyEvent> {
         }
     }
 
+    public FroggerController getTheController() {
+        return this.theController;
+    }
+
     /**
      * @param args the command line arguments
      */

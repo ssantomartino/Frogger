@@ -15,6 +15,7 @@
  */
 package FroggerMVC;
 
+import FroggerObjects.Frog;
 import FroggerObjects.HighScores;
 import FroggerObjects.LilyPad;
 import FroggerObjects.MovingObject;
@@ -156,6 +157,7 @@ class FroggerController {
         this.frogIndex = -1;
         this.highScores = new HighScores();
         this.gameOver = false;
+
     }
 
     /**
@@ -174,6 +176,24 @@ class FroggerController {
      */
     public void restartFrogIndex() {
         this.frogIndex = -1;
+    }
+
+    /**
+     * getter method for frog index
+     *
+     * @return int frog index
+     */
+    public int getFrogIndex() {
+        return frogIndex;
+    }
+
+    /**
+     * returns the frog for the game
+     *
+     * @return Frog the frog
+     */
+    public Frog getTheFrog() {
+        return this.theView.getTheFrog();
     }
 
     /**
